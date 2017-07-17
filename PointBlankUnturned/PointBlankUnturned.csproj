@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3512BF06-E439-4E04-8ACA-DE92B0AABF24}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PointBlank</RootNamespace>
+    <AssemblyName>PointBlankUnturned</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\Libraries\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\Libraries\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>..\Libraries\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>..\Libraries\I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>..\Libraries\I18N.West.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Libraries\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PointBlank">
+      <HintPath>..\Libraries\PointBlank.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\Libraries\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\Implements\Unturned.cs" />
+    <Compile Include="API\ServerInfo.cs" />
+    <Compile Include="API\Unturned\Barricade\BarricadeEvents.cs" />
+    <Compile Include="API\Unturned\Barricade\UnturnedBarricade.cs" />
+    <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
+    <Compile Include="API\Unturned\Chat\UnturnedChat.cs" />
+    <Compile Include="API\Unturned\Item\UnturnedItem.cs" />
+    <Compile Include="API\Unturned\Item\UnturnedStoredItem.cs" />
+    <Compile Include="API\Unturned\OwnershipTool.cs" />
+    <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
+    <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
+    <Compile Include="API\Unturned\Server\ServerEvents.cs" />
+    <Compile Include="API\Unturned\Server\UnturnedServer.cs" />
+    <Compile Include="API\Unturned\Skills\ESkills.cs" />
+    <Compile Include="API\Unturned\Skills\ESkillset.cs" />
+    <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
+    <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
+    <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
+    <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
+    <Compile Include="Commands\CommandAdmin.cs" />
+    <Compile Include="Commands\CommandAdmins.cs" />
+    <Compile Include="Commands\CommandAirdrop.cs" />
+    <Compile Include="Commands\CommandBan.cs" />
+    <Compile Include="Commands\CommandBans.cs" />
+    <Compile Include="Commands\CommandBind.cs" />
+    <Compile Include="Commands\CommandCamera.cs" />
+    <Compile Include="Commands\CommandChatrate.cs" />
+    <Compile Include="Commands\CommandCheats.cs" />
+    <Compile Include="Commands\CommandCycle.cs" />
+    <Compile Include="Commands\CommandDay.cs" />
+    <Compile Include="Commands\CommandDebug.cs" />
+    <Compile Include="Commands\CommandExperience.cs" />
+    <Compile Include="Commands\CommandFilter.cs" />
+    <Compile Include="Commands\CommandFlag.cs" />
+    <Compile Include="Commands\CommandGameMode.cs" />
+    <Compile Include="Commands\CommandGold.cs" />
+    <Compile Include="Commands\CommandGroup.cs" />
+    <Compile Include="Commands\CommandHelp.cs" />
+    <Compile Include="Commands\CommandHideAdmins.cs" />
+    <Compile Include="Commands\CommandItem.cs" />
+    <Compile Include="Commands\CommandKick.cs" />
+    <Compile Include="Commands\CommandKill.cs" />
+    <Compile Include="Commands\CommandLog.cs" />
+    <Compile Include="Commands\CommandMap.cs" />
+    <Compile Include="Commands\CommandMaxPlayers.cs" />
+    <Compile Include="Commands\CommandMode.cs" />
+    <Compile Include="Commands\CommandModules.cs" />
+    <Compile Include="Commands\CommandName.cs" />
+    <Compile Include="Commands\CommandNight.cs" />
+    <Compile Include="Commands\CommandOwner.cs" />
+    <Compile Include="Commands\CommandPassword.cs" />
+    <Compile Include="Commands\CommandPermissions.cs" />
+    <Compile Include="Commands\CommandPermit.cs" />
+    <Compile Include="Commands\CommandPermits.cs" />
+    <Compile Include="Commands\CommandPlayer.cs" />
+    <Compile Include="Commands\CommandPointBlank.cs" />
+    <Compile Include="Commands\CommandPort.cs" />
+    <Compile Include="Commands\CommandPvE.cs" />
+    <Compile Include="Commands\CommandQuest.cs" />
+    <Compile Include="Commands\CommandQueue.cs" />
+    <Compile Include="Commands\CommandReputation.cs" />
+    <Compile Include="Commands\CommandResetConfig.cs" />
+    <Compile Include="Commands\CommandSave.cs" />
+    <Compile Include="Commands\CommandSay.cs" />
+    <Compile Include="Commands\CommandShutdown.cs" />
+    <Compile Include="Commands\CommandSlay.cs" />
+    <Compile Include="Commands\CommandSpy.cs" />
+    <Compile Include="Commands\CommandStorm.cs" />
+    <Compile Include="Commands\CommandSync.cs" />
+    <Compile Include="Commands\CommandTeleport.cs" />
+    <Compile Include="Commands\CommandTime.cs" />
+    <Compile Include="Commands\CommandTimeout.cs" />
+    <Compile Include="Commands\CommandUnadmin.cs" />
+    <Compile Include="Commands\CommandUnban.cs" />
+    <Compile Include="Commands\CommandUnpermit.cs" />
+    <Compile Include="Commands\CommandUsage.cs" />
+    <Compile Include="Commands\CommandVehicle.cs" />
+    <Compile Include="Commands\CommandVotify.cs" />
+    <Compile Include="Commands\CommandWelcome.cs" />
+    <Compile Include="Commands\CommandWhitelisted.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
