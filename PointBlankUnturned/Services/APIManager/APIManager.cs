@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Unturned;
+using PointBlank.API.Implements;
 using PointBlank.API.Plugins;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
@@ -11,9 +12,10 @@ using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
+using PM = PointBlank.API.Plugins.PluginManager;
 using GM = PointBlank.API.Groups.GroupManager;
+using CM = PointBlank.API.Commands.CommandManager;
 using Steamworks;
-using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.APIManager
 {
@@ -49,13 +51,16 @@ namespace PointBlank.Services.APIManager
             BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
             BarricadeEvents.OnBarricadeSalvage += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
 
+            CommandWindow.onCommandWindowInputted += new CommandWindowInputted(OnConsoleCommand);
+            ChatManager.onCheckPermissions += new CheckPermissions(OnUnturnedCommand);
+
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
             ChatManager.onChatted += new Chatted(OnPlayerChat);
             PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
             PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
-            PluginEvents.OnPluginsLoaded += new OnVoidDelegate(OnPluginsLoaded);
+            PluginEvents.OnPluginsLoaded += new VoidHandler(OnPluginsLoaded);
             ServerEvents.OnServerInitialized += new OnVoidDelegate(OnServerInitialized);
             ServerEvents.OnPacketSent += new ServerEvents.PacketSentHandler(OnPacketSend);
             PlayerEvents.OnPrefixAdded += new PlayerEvents.PrefixesChangedHandler(OnPrefixChange);
@@ -204,9 +209,26 @@ namespace PointBlank.Services.APIManager
             player.TotalKills++;
         }
 
+        private void OnConsoleCommand(string text, ref bool shouldExecute)
+        {
+            shouldExecute = false;
+            if (text.StartsWith("/") || text.StartsWith("@"))
+                text = text.Remove(0, 1);
+
+            CM.ExecuteCommand(text, null);
+        }
+        private void OnUnturnedCommand(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
+        {
+            shouldExecuteCommand = false;
+            if (!text.StartsWith("/") && !text.StartsWith("@")) return;
+            shouldList = false;
+
+            CM.ExecuteCommand(text, UnturnedPlayer.Get(player));
+        }
+
         private void OnPluginsLoaded()
         {
-            string plugins = string.Join(",", PM.Plugins.Select(a => a.Name).ToArray());
+            string plugins = string.Join(",", PM.LoadedPlugins.Select(a => PM.GetPluginName(a)).ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
         }
         private void OnServerInitialized()

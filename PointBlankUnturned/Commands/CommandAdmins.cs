@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using UnityEngine;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -29,7 +30,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.nonadmin.admins";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             string admins = string.Join(",", Provider.clients.Where(a => a.isAdmin).Select(a => a.playerID.playerName).ToArray());
 

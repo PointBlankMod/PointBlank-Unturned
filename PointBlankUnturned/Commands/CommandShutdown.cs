@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -28,7 +29,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.shutdown";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             int time = 0;
             bool timed = false;

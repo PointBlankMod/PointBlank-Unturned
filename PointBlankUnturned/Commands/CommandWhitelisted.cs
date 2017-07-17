@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API.Player;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
@@ -31,10 +32,10 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             Provider.isWhitelisted = true;
-            UnturnedChat.SendMessage(executor, Translations["Whitelisted_Set"], ConsoleColor.Green);
+            PointBlankPlayer.SendMessage(executor, Translations["Whitelisted_Set"], ConsoleColor.Green);
         }
     }
 }

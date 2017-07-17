@@ -7,6 +7,7 @@ using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
 using UnityEngine;
+using PointBlank.API.Player;
 using PointBlank.API.Groups;
 using PointBlank.API.Unturned.Server;
 using SP = PointBlank.API.Steam.SteamPlayer;
@@ -14,25 +15,19 @@ using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Item;
 using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
-using CMD = PointBlank.API.Commands.PointBlankCommand;
+using PointBlank.API.Commands;
 
 namespace PointBlank.API.Unturned.Player
 {
     /// <summary>
     /// The unturned player instance
     /// </summary>
-    public class UnturnedPlayer
+    public class UnturnedPlayer : PointBlankPlayer
     {
         #region Variables
-        internal bool Loaded = false;
-
         private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
-        private List<Group> _Groups = new List<Group>();
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
-        private List<string> _Permissions = new List<string>();
-
-        private readonly Dictionary<CMD, DateTime> _Cooldowns = new Dictionary<CMD, DateTime>();
         #endregion
 
         #region Properties
@@ -136,7 +131,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player an admin
         /// </summary>
-        public bool IsAdmin
+        public override bool IsAdmin
         {
             get => SteamPlayer.isAdmin;
             set
@@ -500,21 +495,9 @@ namespace PointBlank.API.Unturned.Player
 
         // Extra data
         /// <summary>
-        /// Any custom data you want to attach to the player
-        /// </summary>
-        public Dictionary<string, object> Metadata { get; private set; }
-        /// <summary>
-        /// The command cooldown for the player
-        /// </summary>
-        public int Cooldown { get; set; }
-        /// <summary>
         /// The players this player can see are in the server
         /// </summary>
         public UnturnedPlayer[] InvisiblePlayers => _InvisiblePlayers.ToArray();
-        /// <summary>
-        /// The groups this player is part of
-        /// </summary>
-        public Group[] Groups => _Groups.ToArray();
         /// <summary>
         /// The steam groups this player is part of
         /// </summary>
@@ -527,10 +510,6 @@ namespace PointBlank.API.Unturned.Player
         /// The suffixes of the player
         /// </summary>
         public string[] Suffixes => _Suffixes.ToArray();
-        /// <summary>
-        /// The permissions of the player
-        /// </summary>
-        public string[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// The number of kills since the player connected
         /// </summary>
@@ -551,9 +530,6 @@ namespace PointBlank.API.Unturned.Player
 
         private UnturnedPlayer(SPlayer steamplayer)
         {
-            // Setup the variables
-            Metadata = new Dictionary<string, object>();
-
             // Set the variables
             this.SteamPlayer = steamplayer;
             this.Steam = new SP(SteamID.m_SteamID);
@@ -575,12 +551,6 @@ namespace PointBlank.API.Unturned.Player
         /// <returns>An unturned player instance</returns>
         internal static UnturnedPlayer Create(SPlayer steamplayer) => UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer) ?? new UnturnedPlayer(steamplayer);
 
-        /// <summary>
-        /// Checks if the UnturnedPlayer is the server player
-        /// </summary>
-        /// <param name="player">The unturned player instance to check</param>
-        /// <returns>If the UnturnedPlayer instance is the server</returns>
-        public static bool IsServer(UnturnedPlayer player) => UnturnedServer.IsServer(player);
         /// <summary>
         /// Checks if the player is still in the server and returns the result
         /// </summary>
@@ -678,33 +648,6 @@ namespace PointBlank.API.Unturned.Player
         }
 
         /// <summary>
-        /// Add the player to a group
-        /// </summary>
-        /// <param name="group">The group to add the player to</param>
-        public void AddGroup(Group group)
-        {
-            if (Groups.Contains(group))
-                return;
-
-            _Groups.Add(group);
-            if (Loaded)
-                PlayerEvents.RunGroupAdd(this, group);
-        }
-        /// <summary>
-        /// Remove the player from a group
-        /// </summary>
-        /// <param name="group">The group to remove the player from</param>
-        public void RemoveGroup(Group group)
-        {
-            if (!Groups.Contains(group))
-                return;
-
-            _Groups.Remove(group);
-            if (Loaded)
-                PlayerEvents.RunGroupRemove(this, group);
-        }
-
-        /// <summary>
         /// Adds a prefix to the player
         /// </summary>
         /// <param name="prefix">The prefix to add</param>
@@ -791,50 +734,11 @@ namespace PointBlank.API.Unturned.Player
         }
 
         /// <summary>
-        /// Adds a permission to the player
-        /// </summary>
-        /// <param name="permission">The permission to add</param>
-        public void AddPermission(string permission)
-        {
-            if (Permissions.Contains(permission))
-                return;
-
-            _Permissions.Add(permission);
-            if (Loaded)
-                PlayerEvents.RunPermissionAdd(this, permission);
-        }
-        /// <summary>
-        /// Removes a permission from the player
-        /// </summary>
-        /// <param name="permission">The permission to remove</param>
-        public void RemovePermission(string permission)
-        {
-            if (!Permissions.Contains(permission))
-                return;
-
-            _Permissions.Remove(permission);
-            if (Loaded)
-                PlayerEvents.RunPermissionRemove(this, permission);
-        }
-
-        /// <summary>
-        /// Checks if the player has the permissions specified
-        /// </summary>
-        /// <param name="permissions">The permissions to check for</param>
-        /// <returns>If the player has the permissions specified</returns>
-        public bool HasPermissions(params string[] permissions)
-        {
-            for (int i = 0; i < permissions.Length; i++)
-                if (!HasPermission(permissions[i]))
-                    return false;
-            return true;
-        }
-        /// <summary>
         /// Checks if the player has the specified permission
         /// </summary>
         /// <param name="permission">The permission to check for</param>
         /// <returns>If the player has the specified permission</returns>
-        public bool HasPermission(string permission)
+        public override bool HasPermission(string permission)
         {
             if (IsAdmin)
                 return true;
@@ -874,7 +778,7 @@ namespace PointBlank.API.Unturned.Player
         /// Gets the command cooldown for the player
         /// </summary>
         /// <returns>The command cooldown for the player</returns>
-        public int GetCooldown()
+        public override int GetCooldown()
         {
             if (HasPermission("pointblank.nocooldown"))
                 return 0;
@@ -888,57 +792,6 @@ namespace PointBlank.API.Unturned.Player
                     return SteamGroups[i].Cooldown;
             return -1;
         }
-        /// <summary>
-        /// Checks if the player has a cooldown on a specific command
-        /// </summary>
-        /// <param name="command">The command to check for</param>
-        /// <returns>If there is a cooldown on the command</returns>
-        public bool HasCooldown(CMD command)
-        {
-            if (!_Cooldowns.ContainsKey(command))
-                return false;
-            int cooldown = GetCooldown();
-
-            if (cooldown != -1)
-            {
-                if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= cooldown)) return true;
-                _Cooldowns.Remove(command);
-                return false;
-            }
-            if (command.Cooldown == -1) return false;
-            if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= command.Cooldown)) return true;
-            _Cooldowns.Remove(command);
-            return false;
-        }
-        /// <summary>
-        /// Gives the player a cooldown on a specific command
-        /// </summary>
-        /// <param name="command">The command to set the cooldown on</param>
-        /// <param name="time">The time when the cooldown was applied(set to null to remove cooldown)</param>
-        public void SetCooldown(CMD command, DateTime time)
-        {
-            if(time == null)
-            {
-                _Cooldowns.Remove(command);
-                return;
-            }
-
-            _Cooldowns.Add(command, time);
-        }
-
-        /// <summary>
-        /// Gets the player color
-        /// </summary>
-        /// <returns>The player color</returns>
-        public Color GetColor()
-        {
-            for(int i = 0; i < Groups.Length; i++)
-            {
-                if (Groups[i].Color != Color.clear)
-                    return Groups[i].Color;
-            }
-            return Color.clear;
-        }
 
         /// <summary>
         /// Sends a message to the player
@@ -946,7 +799,7 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="message">The message to tell the player</param>
         /// <param name="color">The color of the message</param>
         /// <param name="mode">The mode of the message</param>
-        public void SendMessage(string message, Color color, EChatMode mode = EChatMode.SAY) => CM.Tell(SteamID, message, color, mode);
+        public override void SendMessage(object message, Color color) => ChatManager.say(SteamID, message.ToString(), color);
         /// <summary>
         /// Fake sends the message to look like the player sent it
         /// </summary>

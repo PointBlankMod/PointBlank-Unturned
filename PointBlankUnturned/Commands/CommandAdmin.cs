@@ -9,6 +9,7 @@ using UnityEngine;
 using Steamworks;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -33,7 +34,7 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player))
             {
@@ -49,7 +50,7 @@ namespace PointBlank.Commands
             }
             else
             {
-                SteamAdminlist.admin(player, executor.SteamID);
+                SteamAdminlist.admin(player, (PointBlankPlayer.IsServer(executor) ? CSteamID.Nil : ((UnturnedPlayer)executor).SteamID));
                 executor.SendMessage(string.Format(Translations["Admin_Set"], player), Color.green);
             }
         }

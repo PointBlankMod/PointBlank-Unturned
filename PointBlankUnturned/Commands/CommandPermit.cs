@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.permit";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
@@ -38,7 +39,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamWhitelist.whitelist(id, args[1], executor?.SteamID ?? CSteamID.Nil);
+            SteamWhitelist.whitelist(id, args[1], ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Permit_Added"], id), ConsoleColor.Green);
         }
     }

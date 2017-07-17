@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
 using PBGroup = PointBlank.API.Groups.Group;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "pointblank.commands.admin.permissions";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if(StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translations["Permissions_Commands_Help"]) == 0)
             {
@@ -52,7 +53,7 @@ namespace PointBlank.Commands
         }
 
         #region Functions
-        private void Player(UnturnedPlayer executor, string[] args)
+        private void Player(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 4)
             {
@@ -77,7 +78,7 @@ namespace PointBlank.Commands
             }
         }
 
-        private void Group(UnturnedPlayer executor, string[] args)
+        private void Group(PointBlankPlayer executor, string[] args)
         {
             if (args.Length < 4)
             {

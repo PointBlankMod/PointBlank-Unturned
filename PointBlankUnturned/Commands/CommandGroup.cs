@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Unturned.Player;
 using UnityEngine;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -32,7 +33,7 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_List"], args[0]) == 0)
             {
@@ -71,7 +72,7 @@ namespace PointBlank.Commands
         }
 
         #region Funtions
-        private void Permissions(UnturnedPlayer executor, string[] args)
+        private void Permissions(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 2)
             {
@@ -88,7 +89,7 @@ namespace PointBlank.Commands
             UnturnedChat.SendMessage(executor, string.Join(",", group.Permissions), ConsoleColor.Green);
         }
 
-        private void Add(UnturnedPlayer executor, string[] args)
+        private void Add(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 3)
             {
@@ -105,7 +106,7 @@ namespace PointBlank.Commands
             UnturnedChat.SendMessage(executor, Translations["Group_Added"], ConsoleColor.Green);
         }
 
-        private void Remove(UnturnedPlayer executor, string[] args)
+        private void Remove(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 2)
             {

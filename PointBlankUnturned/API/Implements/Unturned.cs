@@ -24,7 +24,7 @@ namespace PointBlank.API.Implements
         /// </summary>
         /// <param name="player">The player instance</param>
         /// <returns>The unturned player instance gotten from the player instance</returns>
-        public static UnturnedPlayer ToUnturnedPlayer(this Player player) => UnturnedPlayer.Get(player);
+        public static UnturnedPlayer ToUnturnedPlayer(this SDG.Unturned.Player player) => UnturnedPlayer.Get(player);
         /// <summary>
         /// Tries to convert the arena player to unturned player instance
         /// </summary>

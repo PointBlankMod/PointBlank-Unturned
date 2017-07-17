@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         public override EAllowedCaller AllowedCaller => EAllowedCaller.SERVER;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             CommandWindow.shouldLogChat = (args[0].ToLower() == "y");
             CommandWindow.shouldLogJoinLeave = (args[1].ToLower() == "y");

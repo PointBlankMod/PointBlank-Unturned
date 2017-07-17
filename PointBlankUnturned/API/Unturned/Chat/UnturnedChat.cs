@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using Steamworks;
 using SDG.Unturned;
+using PointBlank.API.Player;
 using PointBlank.API.Unturned.Player;
 using CM = SDG.Unturned.ChatManager;
 
@@ -58,72 +59,7 @@ namespace PointBlank.API.Unturned.Chat
         /// <param name="player">The player(null if the console)</param>
         /// <param name="text">The message</param>
         /// <param name="color">The message color</param>
-        public static void SendMessage(UnturnedPlayer player, object text, ConsoleColor color = ConsoleColor.White)
-        {
-            if(player == null)
-            {
-                CommandWindow.Log(text, color);
-                return;
-            }
-
-            Color c;
-
-            switch (color)
-            {
-                case ConsoleColor.Black:
-                    c = Color.black;
-                    break;
-                case ConsoleColor.Blue:
-                    c = Color.blue;
-                    break;
-                case ConsoleColor.Cyan:
-                    c = Color.cyan;
-                    break;
-                case ConsoleColor.DarkBlue:
-                    c = new Color(0, 0, 139);
-                    break;
-                case ConsoleColor.DarkCyan:
-                    c = new Color(0, 139, 139);
-                    break;
-                case ConsoleColor.DarkGray:
-                    c = new Color(169, 169, 169);
-                    break;
-                case ConsoleColor.DarkGreen:
-                    c = new Color(0, 100, 0);
-                    break;
-                case ConsoleColor.DarkMagenta:
-                    c = new Color(139, 0, 139);
-                    break;
-                case ConsoleColor.DarkRed:
-                    c = new Color(139, 0, 0);
-                    break;
-                case ConsoleColor.DarkYellow:
-                    c = new Color(153, 153, 0);
-                    break;
-                case ConsoleColor.Gray:
-                    c = Color.gray;
-                    break;
-                case ConsoleColor.Green:
-                    c = Color.green;
-                    break;
-                case ConsoleColor.Magenta:
-                    c = Color.magenta;
-                    break;
-                case ConsoleColor.Red:
-                    c = Color.red;
-                    break;
-                case ConsoleColor.White:
-                    c = Color.white;
-                    break;
-                case ConsoleColor.Yellow:
-                    c = Color.yellow;
-                    break;
-                default:
-                    c = Color.white;
-                    break;
-            }
-            player.SendMessage(text.ToString(), c);
-        }
+        public static void SendMessage(PointBlankPlayer player, object text, ConsoleColor color = ConsoleColor.White) => PointBlankPlayer.SendMessage(player, text, color);
         #endregion
     }
 }

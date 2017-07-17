@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -32,7 +33,7 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             VehicleAsset vehicle;
 
@@ -58,7 +59,7 @@ namespace PointBlank.Commands
                     return;
                 }
 
-                ply = executor;
+                ply = (UnturnedPlayer)executor;
             }
             if(!VehicleTool.giveVehicle(ply.Player, vehicle.id))
             {

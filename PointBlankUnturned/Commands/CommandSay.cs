@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using UnityEngine;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -29,7 +30,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.say";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 4 || !byte.TryParse(args[1], out byte r) || !byte.TryParse(args[2], out byte g) || !byte.TryParse(args[3], out byte b))
             {

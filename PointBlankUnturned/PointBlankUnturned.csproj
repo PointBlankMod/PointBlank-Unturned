@@ -64,6 +64,11 @@
   <ItemGroup>
     <Compile Include="API\Implements\Unturned.cs" />
     <Compile Include="API\ServerInfo.cs" />
+    <Compile Include="API\Steam\EPrivacyState.cs" />
+    <Compile Include="API\Steam\SteamGroup.cs" />
+    <Compile Include="API\Steam\SteamGroupEvents.cs" />
+    <Compile Include="API\Steam\SteamGroupManager.cs" />
+    <Compile Include="API\Steam\SteamPlayer.cs" />
     <Compile Include="API\Unturned\Barricade\BarricadeEvents.cs" />
     <Compile Include="API\Unturned\Barricade\UnturnedBarricade.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
@@ -142,11 +147,22 @@
     <Compile Include="Commands\CommandVotify.cs" />
     <Compile Include="Commands\CommandWelcome.cs" />
     <Compile Include="Commands\CommandWhitelisted.cs" />
+    <Compile Include="Enviroment.cs" />
+    <Compile Include="Framework\Overrides\_Barricade.cs" />
+    <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
+    <Compile Include="Framework\Overrides\_ChatManager.cs" />
+    <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
+    <Compile Include="Framework\Overrides\_PlayerLife.cs" />
+    <Compile Include="Framework\Overrides\_Provider.cs" />
+    <Compile Include="Framework\Overrides\_Structure.cs" />
+    <Compile Include="Framework\Overrides\_StructureManager.cs" />
+    <Compile Include="Framework\Overrides\_VehicleManager.cs" />
+    <Compile Include="Framework\Translations\CommandTranslations.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\APIManager\APIManager.cs" />
+    <Compile Include="Services\APIManager\InfoManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

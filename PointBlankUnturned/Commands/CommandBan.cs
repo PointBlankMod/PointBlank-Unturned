@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using Steamworks;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -32,11 +33,11 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             uint ip;
 
-            if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player) || (executor != null && executor.SteamID == player))
+            if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player) || (executor != null && ((UnturnedPlayer)executor).SteamID == player))
             {
                 UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
@@ -46,7 +47,7 @@ namespace PointBlank.Commands
                 duration = SteamBlacklist.PERMANENT;
             string reason = args.Length < 3 ? Translations["Ban_Reason"] : args[2];
 
-            SteamBlacklist.ban(player, ip, executor?.SteamID ?? CSteamID.Nil, reason, duration);
+            SteamBlacklist.ban(player, ip, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, reason, duration);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Ban_Success"], player), ConsoleColor.Green);
         }
     }

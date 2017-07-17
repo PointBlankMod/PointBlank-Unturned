@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Groups;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -32,7 +33,7 @@ namespace PointBlank.Commands
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translations["Player_Commands_Help"]) == 0)
             {
@@ -58,7 +59,7 @@ namespace PointBlank.Commands
         }
 
         #region Functions
-        private void Permissions(UnturnedPlayer executor, string[] args)
+        private void Permissions(PointBlankPlayer executor, string[] args)
         {
             if (args.Length < 2)
             {
@@ -74,7 +75,7 @@ namespace PointBlank.Commands
             UnturnedChat.SendMessage(executor, string.Join(",", ply.Permissions), ConsoleColor.Green);
         }
 
-        private void Groups(UnturnedPlayer executor, string[] args)
+        private void Groups(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 2)
             {

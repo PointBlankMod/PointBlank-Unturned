@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
+using PointBlank.API.Services;
 using PointBlank.Services.APIManager;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -344,7 +345,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static void ReloadPlayers()
         {
-            InfoManager info = (InfoManager)Enviroment.services["InfoManager.InfoManager"].ServiceClass;
+            InfoManager info = (InfoManager)ServiceManager.GetService("InfoManager.InfoManager");
 
             foreach(UnturnedPlayer player in Players)
                 info.OnPlayerJoin(player);

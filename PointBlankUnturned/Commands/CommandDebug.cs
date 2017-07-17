@@ -8,6 +8,7 @@ using SDG.Unturned;
 using Steamworks;
 using UnityEngine;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -34,7 +35,7 @@ namespace PointBlank.Commands
         public override EAllowedCaller AllowedCaller => EAllowedCaller.SERVER;
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             CommandWindow.Log(Translations["Debug_Title"]);
             CommandWindow.Log(string.Format(Translations["Debug_SteamID"], SteamGameServer.GetSteamID()));

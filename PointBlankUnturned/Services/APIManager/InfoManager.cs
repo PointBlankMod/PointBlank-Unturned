@@ -11,6 +11,7 @@ using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
 using UnityEngine;
+using GM = PointBlank.API.Groups.GroupManager;
 
 namespace PointBlank.Services.APIManager
 {
@@ -20,17 +21,14 @@ namespace PointBlank.Services.APIManager
         #region Info
         public static readonly string SteamGroupPath = ServerInfo.ConfigurationsPath + "/SteamGroups";
         public static readonly string PlayerPath = ServerInfo.ConfigurationsPath + "/Players";
-        public static readonly string GroupPath = ServerInfo.ConfigurationsPath + "/Groups";
         #endregion
 
         #region Properties
         public UniversalData UniSteamGoupConfig { get; private set; }
         public UniversalData UniPlayerConfig { get; private set; }
-        public UniversalData UniGroupConfig { get; private set; }
 
         public JsonData SteamGroupConfig { get; private set; }
         public JsonData PlayerConfig { get; private set; }
-        public JsonData GroupConfig { get; private set; }
         #endregion
 
         #region Override Functions
@@ -39,22 +37,16 @@ namespace PointBlank.Services.APIManager
             // Setup universal configs
             UniSteamGoupConfig = new UniversalData(SteamGroupPath);
             UniPlayerConfig = new UniversalData(PlayerPath);
-            UniGroupConfig = new UniversalData(GroupPath);
 
             // Setup configs
             SteamGroupConfig = UniSteamGoupConfig.GetData(EDataType.JSON) as JsonData;
             PlayerConfig = UniPlayerConfig.GetData(EDataType.JSON) as JsonData;
-            GroupConfig = UniGroupConfig.GetData(EDataType.JSON) as JsonData;
 
             // Setup events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
 
             // Load the configs
-            if (!UniGroupConfig.CreatedNew)
-                LoadGroups();
-            else
-                FirstGroups();
             if (!UniSteamGoupConfig.CreatedNew)
                 LoadSteamGroups();
             else
@@ -66,164 +58,12 @@ namespace PointBlank.Services.APIManager
         public override void Unload()
         {
             // Save the configs
-            SaveGroups();
             SaveSteamGroups();
             SavePlayers();
         }
         #endregion
 
         #region Private Functions
-        internal void LoadGroups()
-        {
-            foreach(JProperty obj in GroupConfig.Document.Properties())
-            {
-                if (GroupManager.Groups.Count(a => a.ID == obj.Name) > 0)
-                    continue;
-
-                if(!ColorUtility.TryParseHtmlString((string)obj.Value["Color"], out Color color))
-                    color = Color.clear;
-
-                Group g = new Group(obj.Name, (string)obj.Value["Name"], (bool)obj.Value["Default"], (int)obj.Value["Cooldown"], color);
-
-                GroupManager.AddGroup(g);
-            }
-
-            foreach(Group g in GroupManager.Groups)
-            {
-                JObject obj = GroupConfig.Document[g.ID] as JObject;
-
-                if(obj["Inherits"] is JArray)
-                {
-                    foreach (JToken token in (JArray)obj["Inherits"])
-                    {
-                        Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
-
-                        if (i == null || g.Inherits.Contains(i) || g == i)
-                            continue;
-                        g.AddInherit(i);
-                    }
-                }
-                else
-                {
-                    Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
-
-                    if (i == null || g.Inherits.Contains(i) || g == i)
-                        continue;
-                    g.AddInherit(i);
-                }
-                if(obj["Permissions"] is JArray)
-                {
-                    foreach (JToken token in (JArray)obj["Permissions"])
-                    {
-                        if (g.Permissions.Contains((string)token))
-                            continue;
-
-                        g.AddPermission((string)token);
-                    }
-                }
-                else
-                {
-                    if (g.Permissions.Contains((string)obj["Permissions"]))
-                        continue;
-
-                    g.AddPermission((string)obj["Permissions"]);
-                }
-                if(obj["Prefixes"] is JArray)
-                {
-                    foreach (JToken token in (JArray)obj["Prefixes"])
-                    {
-                        if (g.Prefixes.Contains((string)token))
-                            continue;
-
-                        g.AddPrefix((string)token);
-                    }
-                }
-                else
-                {
-                    if (g.Prefixes.Contains((string)obj["Prefixes"]))
-                        continue;
-
-                    g.AddPrefix((string)obj["Prefixes"]);
-                }
-                if(obj["Suffixes"] is JArray)
-                {
-                    foreach (JToken token in (JArray)obj["Suffixes"])
-                    {
-                        if (g.Suffixes.Contains((string)token))
-                            continue;
-
-                        g.AddSuffix((string)token);
-                    }
-                }
-                else
-                {
-                    if (g.Suffixes.Contains((string)obj["Suffixes"]))
-                        continue;
-
-                    g.AddSuffix((string)obj["Suffixes"]);
-                }
-            }
-        }
-
-        internal void FirstGroups()
-        {
-            // Create the groups
-            Group guest = new Group("Guest", "Guest Group", true, -1, Color.clear);
-            Group admin = new Group("Admin", "Admin Group", false, 0, Color.blue);
-
-            // Configure guest group
-            guest.AddPermission("unturned.commands.nonadmin.*");
-            guest.AddPrefix("Guest");
-            guest.AddSuffix("Guest");
-            GroupManager.AddGroup(guest);
-
-            // Configure admin group
-            admin.AddPermission("unturned.commands.admin.*");
-            admin.AddPrefix("Admin");
-            admin.AddSuffix("Admin");
-            admin.AddInherit(guest);
-            GroupManager.AddGroup(admin);
-
-            // Save the groups
-            SaveGroups();
-        }
-
-        internal void SaveGroups()
-        {
-            foreach(Group g in GroupManager.Groups)
-            {
-                if(GroupConfig.Document[g.ID] != null)
-                {
-                    JObject obj = GroupConfig.Document[g.ID] as JObject;
-
-                    obj["Permissions"] = JToken.FromObject(g.Permissions);
-                    obj["Prefixes"] = JToken.FromObject(g.Prefixes);
-                    obj["Suffixes"] = JToken.FromObject(g.Suffixes);
-                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID));
-                    obj["Cooldown"] = g.Cooldown;
-                    obj["Color"] = (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color));
-                }
-                else
-                {
-                    JObject obj = new JObject
-                    {
-                        {"Name", g.Name},
-                        {"Default", g.Default},
-                        {"Permissions", JToken.FromObject(g.Permissions)},
-                        {"Prefixes", JToken.FromObject(g.Prefixes)},
-                        {"Suffixes", JToken.FromObject(g.Suffixes)},
-                        {"Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID))},
-                        {"Cooldown", g.Cooldown},
-                        {"Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color))}
-                    };
-
-
-                    GroupConfig.Document.Add(g.ID, obj);
-                }
-            }
-            UniGroupConfig.Save();
-        }
-
         internal void LoadSteamGroups()
         {
             foreach(JObject obj in (JArray)SteamGroupConfig.Document["SteamGroups"])
@@ -441,7 +281,7 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken t in (JArray)token["Groups"])
                     {
-                        Group g = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)t);
+                        Group g = GM.Groups.FirstOrDefault(a => a.ID == (string)t);
 
                         if (g == null || player.Groups.Contains(g))
                             continue;
@@ -450,7 +290,7 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    Group g = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token["Groups"]);
+                    Group g = GM.Groups.FirstOrDefault(a => a.ID == (string)token["Groups"]);
 
                     if (g != null && !player.Groups.Contains(g))
                         player.AddGroup(g);

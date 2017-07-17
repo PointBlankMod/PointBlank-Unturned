@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -29,7 +30,7 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.server.welcome";
         #endregion
 
-        public override void Execute(UnturnedPlayer executor, string[] args)
+        public override void Execute(PointBlankPlayer executor, string[] args)
         {
             ChatManager.welcomeText = string.Join(" ", args);
             UnturnedChat.SendMessage(executor, Translations["Welcome_Set"], ConsoleColor.Green);
