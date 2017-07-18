@@ -34,11 +34,6 @@
             treeNode1});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabServers = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colRunning = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.conServers = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,16 +45,15 @@
             this.txtCommand = new System.Windows.Forms.TextBox();
             this.tabInformation = new System.Windows.Forms.TabPage();
             this.tabConfiguration = new System.Windows.Forms.TabPage();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabTranslation = new System.Windows.Forms.TabPage();
+            this.treeView2 = new System.Windows.Forms.TreeView();
             this.tabModules = new System.Windows.Forms.TabPage();
             this.tabPlugins = new System.Windows.Forms.TabPage();
             this.tabPlayers = new System.Windows.Forms.TabPage();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.treeView2 = new System.Windows.Forms.TreeView();
             this.listView2 = new System.Windows.Forms.ListView();
+            this.tabSettings = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.tabServers.SuspendLayout();
             this.conServers.SuspendLayout();
             this.tabConsole.SuspendLayout();
             this.tabConfiguration.SuspendLayout();
@@ -69,7 +63,6 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabServers);
             this.tabControl1.Controls.Add(this.tabConsole);
             this.tabControl1.Controls.Add(this.tabInformation);
             this.tabControl1.Controls.Add(this.tabConfiguration);
@@ -84,46 +77,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(641, 391);
             this.tabControl1.TabIndex = 0;
-            // 
-            // tabServers
-            // 
-            this.tabServers.Controls.Add(this.listView1);
-            this.tabServers.Location = new System.Drawing.Point(4, 22);
-            this.tabServers.Name = "tabServers";
-            this.tabServers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServers.Size = new System.Drawing.Size(633, 365);
-            this.tabServers.TabIndex = 0;
-            this.tabServers.Text = "Servers";
-            this.tabServers.UseVisualStyleBackColor = true;
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colName,
-            this.colRunning,
-            this.colType});
-            this.listView1.ContextMenuStrip = this.conServers;
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(627, 359);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // colName
-            // 
-            this.colName.Text = "Server Name";
-            this.colName.Width = 440;
-            // 
-            // colRunning
-            // 
-            this.colRunning.Text = "Running";
-            // 
-            // colType
-            // 
-            this.colType.Text = "Type";
-            this.colType.Width = 122;
             // 
             // conServers
             // 
@@ -220,6 +173,20 @@
             this.tabConfiguration.Text = "Configuration";
             this.tabConfiguration.UseVisualStyleBackColor = true;
             // 
+            // treeView1
+            // 
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            treeNode1.Name = "Test Child";
+            treeNode1.Text = "Child Node";
+            treeNode2.Name = "Test";
+            treeNode2.Text = "Test Node";
+            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode2});
+            this.treeView1.Size = new System.Drawing.Size(633, 365);
+            this.treeView1.TabIndex = 0;
+            // 
             // tabTranslation
             // 
             this.tabTranslation.Controls.Add(this.treeView2);
@@ -229,6 +196,14 @@
             this.tabTranslation.TabIndex = 8;
             this.tabTranslation.Text = "Translation";
             this.tabTranslation.UseVisualStyleBackColor = true;
+            // 
+            // treeView2
+            // 
+            this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView2.Location = new System.Drawing.Point(0, 0);
+            this.treeView2.Name = "treeView2";
+            this.treeView2.Size = new System.Drawing.Size(633, 365);
+            this.treeView2.TabIndex = 0;
             // 
             // tabModules
             // 
@@ -258,37 +233,6 @@
             this.tabPlayers.Text = "Players";
             this.tabPlayers.UseVisualStyleBackColor = true;
             // 
-            // tabSettings
-            // 
-            this.tabSettings.Location = new System.Drawing.Point(4, 22);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Size = new System.Drawing.Size(633, 365);
-            this.tabSettings.TabIndex = 7;
-            this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Test Child";
-            treeNode1.Text = "Child Node";
-            treeNode2.Name = "Test";
-            treeNode2.Text = "Test Node";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
-            this.treeView1.Size = new System.Drawing.Size(633, 365);
-            this.treeView1.TabIndex = 0;
-            // 
-            // treeView2
-            // 
-            this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView2.Location = new System.Drawing.Point(0, 0);
-            this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(633, 365);
-            this.treeView2.TabIndex = 0;
-            // 
             // listView2
             // 
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -298,6 +242,15 @@
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Size = new System.Drawing.Size(633, 365);
+            this.tabSettings.TabIndex = 7;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -313,7 +266,6 @@
             this.Text = "PointBlank Launcher";
             this.Load += new System.EventHandler(this.Main_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabServers.ResumeLayout(false);
             this.conServers.ResumeLayout(false);
             this.tabConsole.ResumeLayout(false);
             this.tabConsole.PerformLayout();
@@ -327,7 +279,6 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabServers;
         private System.Windows.Forms.TabPage tabInformation;
         private System.Windows.Forms.TabPage tabConsole;
         private System.Windows.Forms.TabPage tabConfiguration;
@@ -336,10 +287,6 @@
         private System.Windows.Forms.TabPage tabPlugins;
         private System.Windows.Forms.TabPage tabPlayers;
         private System.Windows.Forms.TabPage tabSettings;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader colName;
-        private System.Windows.Forms.ColumnHeader colRunning;
-        private System.Windows.Forms.ColumnHeader colType;
         private System.Windows.Forms.ContextMenuStrip conServers;
         private System.Windows.Forms.ToolStripMenuItem addServerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteServerToolStripMenuItem;
