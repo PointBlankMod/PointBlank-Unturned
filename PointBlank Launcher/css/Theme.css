@@ -1,0 +1,52 @@
+.buttonlist button {
+  font-size: 20px;
+  color: #818181;
+  border: none;
+  background-color: #232323;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px 15px;
+  float: left;
+  margin-left: 5px;
+  cursor: default;
+  transition: 0.3s;
+}
+.buttonlist button:hover {
+  background-color: #3b3b3b;
+  color: #939393;
+}
+.buttonlist button:active {
+  background-color: #7c7c7c;
+  color: #c0c0c0;
+}
+.buttonlist button:focus {
+  outline: none;
+}
+
+.serverlist table {
+  border-collapse: collapse;
+  width: 99%;
+}
+.serverlist th, td {
+  text-align: left;
+  text-decoration: none;
+  padding: 8px;
+}
+.serverlist th {
+  background-color: #232323;
+  color: #818181;
+}
+.serverlist tr {
+  background-color: #333333;
+  color: #919191;
+  border-bottom: 1px solid #000;
+}
+.serverlist tr:hover {
+  background-color: #3c3c3c;
+}
+.serverlist .selected {
+  background-color: #4e4e4e;
+}
+.serverlist .selected:hover {
+  background-color: #3c3c3c;
+}

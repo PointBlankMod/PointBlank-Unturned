@@ -12,4 +12,5 @@ app.on("ready", () => {
   })
 
   MainWindow.loadURL(`file://${__dirname}/index.html`)
+  MainWindow.setResizable(false);
 })

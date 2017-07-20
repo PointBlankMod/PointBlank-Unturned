@@ -1,13 +1,3 @@
-body {
-  padding: none;
-  margin: 0px;
-}
-
-.square {
-  width: 16px;
-  height: 16px;
-}
-
 .titlebar {
   z-index: 1;
   height: 32px;
@@ -65,9 +55,10 @@ body {
 
 .minimizebutton {
   background-color: #1ebc18;
-  position: absolute;
   top: 8px;
-  right: 56px;
+  position: absolute;
+  /*right: 56px;*/
+  right: 32px;
   z-index: 2;
   transition: 0.3s;
   cursor: default;
