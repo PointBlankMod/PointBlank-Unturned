@@ -23,7 +23,10 @@
     <div class="webbody">
       <div id="AppNavigation" class="sidenav">
         <span class="closebtn" onclick="closeAppNav()">&times;</span>
-        <a onclick="loadPage('Servers')">Server List</a>
+        <a id="Servers" onclick="loadPage('Servers')">Server List</a>
+        <div id="ServerManager" class="hidden">
+          <a id="ServerInfo" onclick="loadPage('ServerInfo')">Server Information</a>
+        </div>
       </div>
       <div id="Replacable" class="replacable">
       </div>
