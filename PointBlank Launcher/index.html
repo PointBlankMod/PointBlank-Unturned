@@ -4,9 +4,11 @@
 
     <link rel="stylesheet" type="text/css" href="css/NavBar.css" />
     <link rel="stylesheet" type="text/css" href="css/TitleBar.css" />
+    <link rel="stylesheet" type="text/css" href="css/Main.css" />
 
     <script src="js/NavigationBar.js"></script>
     <script src="js/TitleBar.js"></script>
+    <script src="js/Main.js"></script>
   </head>
   <body>
     <div class="titlebar">
@@ -19,13 +21,14 @@
     </div>
     <div class="webbody">
       <div id="AppNavigation" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeAppNav('AppNavigation')">&times;</a>
-        <a href="javascript:void(0)" onclick="exit()">Test</a>
+        <span class="closebtn" onclick="closeAppNav('AppNavigation')">&times;</span>
+        <a onclick="loadPage('Test')">Test 1</a>
+        <a onclick="loadPage('Test2')">Test 2</a>
+      </div>
+      <div id="Replacable" class="replacable">
       </div>
       <div class="navbtn">
         <span class="opennavbtn" onclick="openAppNav('AppNavigation')">&#9776;</span>
-      </div>
-      <div id="Replacable">
       </div>
     </div>
   </body>

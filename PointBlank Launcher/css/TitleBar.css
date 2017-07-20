@@ -42,6 +42,7 @@ body {
   right: 8px;
   z-index: 2;
   transition: 0.3s;
+  cursor: default;
 }
 .exitbutton:hover {
   background-color: #ff5151;
@@ -55,6 +56,7 @@ body {
   right: 32px;
   z-index: 2;
   transition: 0.3s;
+  cursor: default;
 }
 .maximizebutton:hover {
   background-color: #ff7938;
@@ -68,6 +70,7 @@ body {
   right: 56px;
   z-index: 2;
   transition: 0.3s;
+  cursor: default;
 }
 .minimizebutton:hover {
   background-color: #77ff72;

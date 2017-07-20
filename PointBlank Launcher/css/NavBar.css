@@ -4,21 +4,35 @@
   position: fixed;
   z-index: 1;
   left: 0;
-  background-color: #111;
+  background-color: #313131;
   overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
+}
+.sidenav span {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #c4c4c4;
+  display: block;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.sidenav span:hover {
+  color: #ebebeb;
 }
 .sidenav a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #c4c4c4;
   display: block;
   transition: 0.3s;
+  cursor: pointer;
 }
-.sidenav a:hover, .offcanvas a:focus {
+.sidenav a:hover {
   color: #f1f1f1;
+  background-color: #1e1e1e;
 }
 .sidenav .closebtn {
   position: absolute;
@@ -28,6 +42,9 @@
   margin-left: 50px;
 }
 
+.navbtn {
+  z-index: 1;
+}
 .navbtn .opennavbtn {
   position: fixed;
   cursor: default;
@@ -39,7 +56,7 @@
   opacity: 0;
 }
 .navbtn:hover .opennavbtn {
-  background-color: #424242;
+  background-color: #313131;
   cursor: pointer;
   opacity: 1;
   transition: 0.3s;

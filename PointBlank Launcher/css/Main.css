@@ -1,0 +1,9 @@
+.replacable {
+  margin: 0;
+  padding: none;
+  position: fixed;
+  z-index: 0;
+  background-color: #4f4f4f;
+  width: 100%;
+  height: 100%;
+}
