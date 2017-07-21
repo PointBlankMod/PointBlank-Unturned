@@ -4,7 +4,7 @@ const fs = require('fs');
 const {app, BrowserWindow} = electron
 
 var selectedServer = -1;
-var servers = [];
+var servers = {}
 
 class Storage {
   constructor(opts) {
@@ -50,11 +50,11 @@ function updateNavBar(show) {
 }
 
 function createTableEntry(name, online, installed, path) {
-  var tr = document.createElement("tr");
-  var tdName = document.createElement("td");
-  var tdOnline = document.createElement("td");
-  var tdInstalled = document.createElement("td");
-  var tdPath = document.createElement("td");
+  let tr = document.createElement("tr");
+  let tdName = document.createElement("td");
+  let tdOnline = document.createElement("td");
+  let tdInstalled = document.createElement("td");
+  let tdPath = document.createElement("td");
 
   tdName.innerHTML = name;
   tdOnline.innerHTML = (online ? "Yes" : "No");
@@ -72,5 +72,25 @@ function createTableEntry(name, online, installed, path) {
 function updateServerList() {
   document.getElementById("servers").innerHTML = "";
 
-  
+  let server;
+  for(server in config.get("ServerList")) {
+    if(server in servers) {
+      continue;
+    }
+    srv = {};
+
+    srv["Name"] = path.dirname(server).split(path.sep).pop();
+    srv["IsOnline"] = false;
+    srv["IsInstalled"] = fs.existsSync(server + "/Modules/PointBlank");
+
+    servers[server] = srv;
+  }
+
+  let entry;
+  for(entry in servers) {
+    if(!fs.existsSync(entry)) {
+      continue;
+    }
+    createTableEntry(servers[entry]["Name"], servers[entry]["IsOnline"], servers[entry]["IsInstalled"], entry);
+  }
 }
