@@ -1,4 +1,3 @@
-const fs = require("fs");
 var currentSelect = "";
 
 function openAppNav() {

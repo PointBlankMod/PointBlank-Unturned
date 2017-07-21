@@ -1,3 +1,14 @@
+.titlesign {
+  color: #0066ff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+}
+.subtitlesign {
+  color: #0099ff;
+  text-align: center;
+}
+
 .buttonlist button {
   font-size: 20px;
   color: #818181;

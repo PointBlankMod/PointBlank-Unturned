@@ -1,7 +1,5 @@
 const electron = require('electron').remote;
-const path = require('path');
-const fs = require('fs');
-const {app, BrowserWindow} = electron
+const path = require("path");
 
 var selectedServer = -1;
 var servers = {}
@@ -11,7 +9,7 @@ class Storage {
     const userDataPath = app.getPath("userData");
 
     this.path = path.join(userDataPath, opts.configName + ".json");
-    this.data = this.parseDataFile(filepath, opts.defaults);
+    this.data = Storage.parseDataFile(this.path, opts.defaults);
   }
 
   get(key) {
@@ -40,14 +38,6 @@ const config = new Storage({
     SteamCMD: ""
   }
 });
-
-function updateNavBar(show) {
-  if(show) {
-    document.getElementById("ServerManager").className = "";
-  } else {
-    document.getElementById("ServerManager").className = "hidden";
-  }
-}
 
 function createTableEntry(name, online, installed, path) {
   let tr = document.createElement("tr");
@@ -92,5 +82,21 @@ function updateServerList() {
       continue;
     }
     createTableEntry(servers[entry]["Name"], servers[entry]["IsOnline"], servers[entry]["IsInstalled"], entry);
+  }
+}
+
+function updateNavBar(show) {
+  if(show) {
+    document.getElementById("ServerManager").className = "";
+  } else {
+    document.getElementById("ServerManager").className = "hidden";
+  }
+}
+
+function allowNavBar() {
+  if(config.get("SteamCMD") != "") {
+    document.getElementById("NavButton").className = "";
+  } else {
+    document.getElementById("NavButton").className = "hidden";
   }
 }
