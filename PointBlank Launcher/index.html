@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="css/Main.css" />
     <link rel="stylesheet" type="text/css" href="css/Theme.css" />
 
+    <script src="js/Main.js"></script>
     <script src="js/NavigationBar.js"></script>
     <script src="js/TitleBar.js"></script>
-    <script src="js/Main.js"></script>
   </head>
   <body onload="allowNavBar()">
     <div class="titlebar">
@@ -30,6 +30,16 @@
       </div>
       <div id="Replacable" class="replacable">
         <h1 class="titlesign">Thank you for choosing PointBlank!</h1>
+        <h1 class="subtitlesign">In order to get the launcher working we first need you to configure a couple of things.</h1>
+        <h1 class="subtitlesign">Launcher created by AtiLion</h1>
+        <div class="mainconfig">
+          <div>
+            <span>SteamCMD: </span>
+            <textarea id="path_steamcmd" rows="1" cols="50"></textarea>
+          </div>
+          <br />
+          <button onclick="">Apply</button>
+        </div>
       </div>
       <div id="NavButton" class="navbtn">
         <span class="opennavbtn" onclick="openAppNav()">&#9776;</span>

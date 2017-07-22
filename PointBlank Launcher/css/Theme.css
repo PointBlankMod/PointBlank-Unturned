@@ -7,68 +7,14 @@
 .subtitlesign {
   color: #0099ff;
   text-align: center;
-}
-
-.buttonlist button {
   font-size: 20px;
-  color: #818181;
-  border: none;
-  background-color: #232323;
-  display: inline-block;
-  text-decoration: none;
-  padding: 5px 15px;
-  float: left;
-  margin-left: 5px;
-  cursor: default;
-  transition: 0.3s;
-}
-.buttonlist button:hover {
-  background-color: #0099ff;
-  color: #e9e9e9;
-}
-.buttonlist button:active {
-  background-color: #0066ff;
-  color: #e9e9e9;
-}
-.buttonlist button:focus {
-  outline: none;
 }
 
-.serverlist table {
-  border-collapse: collapse;
-  width: 99%;
-}
-.serverlist th, td {
-  text-align: left;
-  text-decoration: none;
-  padding: 8px;
-}
-.serverlist th {
-  background-color: #232323;
+.mainconfig {
+  margin-top: 20px;
   color: #818181;
+  font-size: 16px;
 }
-.serverlist tr {
-  background-color: #333333;
-  color: #919191;
-  border-bottom: 1px solid #000;
-}
-.serverlist tr:hover {
-  background-color: #0099ff;
-  color: #e9e9e9;
-}
-.serverlist tr:active {
-  background-color: #0066ff;
-  color: #e9e9e9;
-}
-.serverlist .selected {
-  background-color: #0066ff;
-  color: #e9e9e9;
-}
-.serverlist .selected:hover {
-  background-color: #0099ff;
-  color: #e9e9e9;
-}
-.serverlist .selected:active {
-  background-color: #333333;
-  color: #919191;
+.mainconfig span {
+  margin-top: 2px;
 }
