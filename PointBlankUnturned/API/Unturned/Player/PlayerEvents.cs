@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PointBlank.API.Groups;
+﻿using PointBlank.API.Groups;
 using SDG.Unturned;
 
 namespace PointBlank.API.Unturned.Player
@@ -13,6 +9,7 @@ namespace PointBlank.API.Unturned.Player
     public static class PlayerEvents
     {
         #region Handlers
+        
         /// <summary>
         /// Handles permission changes of the player
         /// </summary>
@@ -69,9 +66,11 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="cause">The cause of the kill</param>
         /// <param name="victim">The player that got killed</param>
         public delegate void PlayerKillHandler(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim);
+        
         #endregion
 
         #region Events
+        
         /// <summary>
         /// Called when a permission is added
         /// </summary>
@@ -128,10 +127,13 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Called when a player kills another player
         /// </summary>
+        /// 
         public static event PlayerKillHandler OnPlayerKill;
+        
         #endregion
 
         #region Functions
+        
         internal static void RunPermissionAdd(UnturnedPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
 
         internal static void RunPermissionRemove(UnturnedPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
@@ -165,6 +167,7 @@ namespace PointBlank.API.Unturned.Player
             OnPlayerDied(ply, ref cause, ref damager);
             OnPlayerKill(damager, ref cause, ref ply);
         }
+        
         #endregion
     }
 }

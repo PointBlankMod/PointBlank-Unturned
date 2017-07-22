@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Implements;
 using PointBlank.API.Plugins;

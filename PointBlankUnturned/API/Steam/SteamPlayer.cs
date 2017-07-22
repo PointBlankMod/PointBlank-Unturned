@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Xml;
-using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PointBlank.API.DataManagment;
 
 namespace PointBlank.API.Steam
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.Steam
+﻿namespace PointBlank.API.Steam
 {
     /// <summary>
     /// List of events for steam groups
