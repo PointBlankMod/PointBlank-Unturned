@@ -41,7 +41,6 @@ button {
   display: inline-block;
   text-decoration: none;
   padding: 5px 15px;
-  float: left;
   margin-left: 5px;
   cursor: default;
   transition: 0.3s;

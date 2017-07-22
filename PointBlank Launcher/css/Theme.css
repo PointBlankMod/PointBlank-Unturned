@@ -16,5 +16,17 @@
   font-size: 16px;
 }
 .mainconfig span {
-  margin-top: 2px;
+  float: left;
+  margin-top: 3px;
+  margin-left: 5px;
+}
+.mainconfig textarea {
+  float: left;
+  margin-left: 5px;
+  width: 40%;
+}
+.mainconfig .browse {
+  height: 24px;
+  margin-bottom: 3px;
+  font-size: 16px;
 }
