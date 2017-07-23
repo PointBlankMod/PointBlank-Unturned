@@ -11,7 +11,7 @@
     <script src="js/NavigationBar.js"></script>
     <script src="js/TitleBar.js"></script>
   </head>
-  <body onload="allowNavBar()">
+  <body onload="loadSite()">
     <div class="titlebar">
       <div class="draggable">
         <img src="images/PB_logo.png" class="icon" />
@@ -35,9 +35,9 @@
         <div class="mainconfig">
           <span>SteamCMD: </span>
           <textarea id="path_steamcmd" rows="1" cols="50"></textarea>
-          <button class="browse" onclick="">...</button>
+          <button class="browse" onclick="openSteamCMDDialog()">...</button>
           <br />
-          <button onclick="">Apply</button>
+          <button onclick="saveMainConfig()">Apply</button>
         </div>
       </div>
       <div id="NavButton" class="navbtn">

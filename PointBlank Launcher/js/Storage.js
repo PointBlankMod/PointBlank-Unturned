@@ -1,4 +1,3 @@
-const electron = require('electron').remote;
 const path = require("path");
 
 class Storage {
@@ -15,6 +14,9 @@ class Storage {
   set(key, val) {
     this.data[key] = val;
 
+    this.update();
+  }
+  update() {
     fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
 

@@ -1,5 +1,3 @@
-const {app, BrowserWindow} = require("electron").remote
-
 function exit()
 {
   let win = BrowserWindow.getFocusedWindow();

@@ -18,4 +18,8 @@ function loadPage(name) {
   document.getElementById(name).className += " active";
   currentSelect = name;
   closeAppNav();
+
+  if(document.getElementById("StartupScript") != null) {
+    eval(document.getElementById("StartupScript").innerHTML);
+  }
 }

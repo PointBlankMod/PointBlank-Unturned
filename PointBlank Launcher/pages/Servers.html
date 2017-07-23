@@ -1,9 +1,12 @@
+<script id="StartupScript">
+  updateServerList();
+</script>
 <div class="buttonlist" style="margin-top:25px;margin-left:20px">
-  <button onclick="">Add Server</button>
-  <button onclick="">Remove Server</button>
+  <button onclick="addServer()">Add Server</button>
+  <button onclick="removeServer()">Remove Server</button>
   <button onclick="updateServerList()">Reload Server List</button>
 </div>
-<div onload="updateServerList()" class="serverlist" style="padding-top:40px;margin-left:10px">
+<div class="serverlist" style="padding-top:40px;margin-left:10px">
   <table>
     <tr>
       <th>Server Name</th>
@@ -11,7 +14,7 @@
       <th>PointBlank Installed</th>
       <th>Path</th>
     </tr>
-    <div id="servers">
-    </div>
+    <tbody id="servers">
+    </tbody>
   </table>
 </div>
