@@ -1,4 +1,5 @@
-﻿using SDG.Unturned;
+﻿using System;
+using SDG.Unturned;
 using Steamworks;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Vehicle;
@@ -49,6 +50,14 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="channel">The channel to send it on</param>
         /// <param name="cancel">Should the packet be canceled</param>
         public delegate void PacketSentHandler(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel);
+
+        /// <summary>
+        /// Used for handling the console output that unturned sends
+        /// </summary>
+        /// <param name="text">The text of the message</param>
+        /// <param name="color">The color of the message</param>
+        /// <param name="cancel">Should the output not be displayed</param>
+        public delegate void ConsoleOutputHandler(ref object text, ref ConsoleColor color, ref bool cancel);
         #endregion
 
         #region Events
@@ -133,6 +142,11 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a packet is sent
         /// </summary>
         public static event PacketSentHandler OnPacketSent;
+
+        /// <summary>
+        /// Called when unturned tries to print into the console
+        /// </summary>
+        public static event ConsoleOutputHandler OnConsoleOutput;
         #endregion
 
         #region Functions
@@ -206,6 +220,7 @@ namespace PointBlank.API.Unturned.Server
 
         internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
 
+        internal static void RunConsoleOutput(ref object text, ref ConsoleColor color, ref bool cancel) => OnConsoleOutput?.Invoke(ref text, ref color, ref cancel);
         #endregion
     }
 }
