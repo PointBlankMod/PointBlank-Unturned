@@ -1,69 +1,73 @@
 .titlebar {
-  z-index: 1;
-  height: 32px;
-  background-color: #000000;
-  padding: none;
-  margin: 0px;
-  z-index: 1;
+    z-index: 1;
+    height: 32px;
+    background-color: #000000;
+    padding: none;
+    margin: 0px;
+    z-index: 1;
 }
+
 .titlebar .draggable {
-  padding: none;
-  margin: 0px;
-  height: 32px;
-  z-index: 1;
-  position: absolute;
-  right: 74px;
-  width: 100%;
-  -webkit-app-region: drag;
+    padding: none;
+    margin: 0px;
+    height: 32px;
+    z-index: 1;
+    position: absolute;
+    right: 74px;
+    width: 100%;
+    -webkit-app-region: drag;
 }
 
 .icon {
-  width: 25px;
-  height: 25px;
-  padding: none;
-  margin-top: 3px;
-  margin-left: 80px;
+    width: 25px;
+    height: 25px;
+    padding: none;
+    margin-top: 3px;
+    margin-left: 80px;
 }
 
 .exitbutton {
-  background: red;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 2;
-  transition: 0.3s;
-  cursor: default;
+    background: red;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    transition: 0.3s;
+    cursor: default;
 }
+
 .exitbutton:hover {
-  background-color: #ff5151;
-  transition: 0.3s;
+    background-color: #ff5151;
+    transition: 0.3s;
 }
 
 .maximizebutton {
-  background-color: #ff5400;
-  position: absolute;
-  top: 8px;
-  right: 32px;
-  z-index: 2;
-  transition: 0.3s;
-  cursor: default;
+    background-color: #ff5400;
+    position: absolute;
+    top: 8px;
+    right: 32px;
+    z-index: 2;
+    transition: 0.3s;
+    cursor: default;
 }
+
 .maximizebutton:hover {
-  background-color: #ff7938;
-  transition: 0.3s;
+    background-color: #ff7938;
+    transition: 0.3s;
 }
 
 .minimizebutton {
-  background-color: #1ebc18;
-  top: 8px;
-  position: absolute;
-  /*right: 56px;*/
-  right: 32px;
-  z-index: 2;
-  transition: 0.3s;
-  cursor: default;
+    background-color: #f2ee05;
+    top: 8px;
+    position: absolute;
+    /*right: 56px;*/
+    right: 32px;
+    z-index: 2;
+    transition: 0.3s;
+    cursor: default;
 }
+
 .minimizebutton:hover {
-  background-color: #77ff72;
-  transition: 0.3s;
+    background-color: #F9FF80;
+    transition: 0.3s;
 }
