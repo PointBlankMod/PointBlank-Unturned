@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using SDG.Unturned;
 using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
@@ -524,6 +525,7 @@ namespace PointBlank.API.Unturned.Player
         /// The number of deaths since the player first joined the server
         /// </summary>
         public int TotalDeaths { get; internal set; }
+        
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)

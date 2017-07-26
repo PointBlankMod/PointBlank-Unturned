@@ -76,6 +76,7 @@
     <Compile Include="API\Unturned\Item\UnturnedItem.cs" />
     <Compile Include="API\Unturned\Item\UnturnedStoredItem.cs" />
     <Compile Include="API\Unturned\OwnershipTool.cs" />
+    <Compile Include="API\Unturned\Player\StoredPlayer.cs" />
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
     <Compile Include="API\Unturned\Server\ServerEvents.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Framework\Overrides\_CommandWindow.cs" />
     <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
     <Compile Include="Framework\Overrides\_PlayerLife.cs" />
+    <Compile Include="Framework\Overrides\_PlayerSkills.cs" />
     <Compile Include="Framework\Overrides\_Provider.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />

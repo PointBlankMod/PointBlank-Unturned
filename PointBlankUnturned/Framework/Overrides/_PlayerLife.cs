@@ -17,8 +17,9 @@ namespace PointBlank.Framework.Overrides
             kill = EPlayerKill.NONE;
 
             PlayerEvents.RunPlayerHurt(life.channel.owner, ref amount, ref newCause, ref newLimb, ref ply, ref cancel);
-            if (cancel)
-                return;
+            
+            if (cancel) return;
+            
             object[] paramaters = new object[] { amount, newRagdoll, newCause, newLimb, newKiller, null };
             DetourManager.CallOriginal(typeof(PlayerLife).GetMethod("doDamage", BindingFlags.NonPublic | BindingFlags.Instance), life, paramaters);
             kill = (EPlayerKill)paramaters[5];

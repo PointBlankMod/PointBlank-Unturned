@@ -1,4 +1,5 @@
-﻿using PointBlank.API.Groups;
+﻿using System;
+using PointBlank.API.Groups;
 using SDG.Unturned;
 
 namespace PointBlank.API.Unturned.Player
@@ -66,6 +67,14 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="cause">The cause of the kill</param>
         /// <param name="victim">The player that got killed</param>
         public delegate void PlayerKillHandler(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim);
+        /// <summary>
+        /// Handles player skill upgrades
+        /// </summary>
+        /// <param name="Player">Player who upgraded their skill</param>
+        /// <param name="Skillset">Skillset in which skill that is being upgraded belongs to</param>
+        /// <param name="Skill">Skill being upgraded</param>
+        /// <param name="Level">Upgraded level of skill</param>
+        public delegate void PlayerSkillUpgradeHandler(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level);
         
         #endregion
 
@@ -127,8 +136,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Called when a player kills another player
         /// </summary>
-        /// 
         public static event PlayerKillHandler OnPlayerKill;
+        /// <summary>
+        /// Called when a player upgrades their skill
+        /// </summary>
+        public static event PlayerSkillUpgradeHandler OnPlayerSkillUpgrade;
         
         #endregion
 
@@ -167,7 +179,10 @@ namespace PointBlank.API.Unturned.Player
             OnPlayerDied(ply, ref cause, ref damager);
             OnPlayerKill(damager, ref cause, ref ply);
         }
-        
+
+        internal static void RunPlayerSkillUpgrade(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level) =>
+            OnPlayerSkillUpgrade?.Invoke(Player, Specialty, Skill, Level);
+
         #endregion
     }
 }
