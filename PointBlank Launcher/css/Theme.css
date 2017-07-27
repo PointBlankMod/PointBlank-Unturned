@@ -1,29 +1,36 @@
 .titlesign {
-  color: #0066ff;
+  color: #FFFFFF;
   text-align: center;
   font-weight: bold;
   font-size: 50px;
+  font-family: 'Oswald', sans-serif;
 }
 .subtitlesign {
-  color: #0099ff;
+  color: #FFFFFF;
   text-align: center;
   font-size: 20px;
+  font-family: 'Oswald', sans-serif;
 }
 
 .mainconfig {
   margin-top: 20px;
-  color: #818181;
-  font-size: 16px;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-family: 'Oswald', sans-serif;
 }
 .mainconfig span {
-  float: left;
+  
   margin-top: 3px;
   margin-left: 5px;
+  float: left;
 }
 .mainconfig textarea {
-  float: left;
-  margin-left: 5px;
+  float:center;
+  margin-left: auto;
+  margin-righ: auto;
+  position: relative;
   width: 40%;
+ 
 }
 .mainconfig .browse {
   height: 24px;
