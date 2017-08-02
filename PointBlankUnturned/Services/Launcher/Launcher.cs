@@ -8,7 +8,7 @@ using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.Launcher
 {
-    [Service("Launcher", true)]
+    [Service("Launcher", false)]
     internal class Launcher : Service
     {
         #region Override Functions

@@ -151,15 +151,12 @@ namespace PointBlank.API.Unturned.Server
 
         #region Functions
         internal static void RunGameTick() => OnGameTick?.Invoke();
-
         internal static void RunThreadTick() => OnThreadTick?.Invoke();
 
         internal static void RunServerShutdown() => OnServerShutdown?.Invoke();
-
         internal static void RunServerInitialized() => OnServerInitialized?.Invoke();
 
         internal static void RunPlayerConnected(SteamPlayer player) => OnPlayerConnected?.Invoke(UnturnedPlayer.Create(player));
-
         internal static void RunPlayerDisconnected(SteamPlayer player) => OnPlayerDisconnected?.Invoke(UnturnedPlayer.Create(player));
 
         internal static void RunDayNight(bool isDay)
@@ -174,7 +171,6 @@ namespace PointBlank.API.Unturned.Server
             else
                 OnTimeNight();
         }
-
         internal static void RunFullMoon(bool isFullMoon)
         {
             if (isFullMoon && OnFullMoonStarted == null)
@@ -187,15 +183,12 @@ namespace PointBlank.API.Unturned.Server
             else
                 OnFullMoonEnded();
         }
-
         internal static void RunRainUpdated(ELightingRain status) => OnRainUpdated?.Invoke(status);
 
         internal static void RunVehicleCreated(InteractableVehicle vehicle) => OnVehicleCreated?.Invoke(UnturnedVehicle.Create(vehicle));
-
         internal static void RunVehicleRemoved(InteractableVehicle vehicle) => OnVehicleRemoved?.Invoke(UnturnedVehicle.Create(vehicle));
 
         internal static void RunStructureCreated(StructureData structure, ref bool cancel) => OnStructureCreated?.Invoke(UnturnedStructure.Create(structure), ref cancel);
-
         internal static void RunStructureRemoved(UnturnedStructure structure, ref bool cancel)
         {
             if (OnStructureRemoved == null)
@@ -207,7 +200,6 @@ namespace PointBlank.API.Unturned.Server
         }
 
         internal static void RunBarricadeCreated(BarricadeData barricade, ref bool cancel) => OnBarricadeCreated?.Invoke(UnturnedBarricade.Create(barricade), ref cancel);
-
         internal static void RunBarricadeRemoved(UnturnedBarricade barricade, ref bool cancel)
         {
             if (OnBarricadeRemoved == null)
@@ -219,7 +211,6 @@ namespace PointBlank.API.Unturned.Server
         }
 
         internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
-
         internal static void RunConsoleOutput(ref object text, ref ConsoleColor color, ref bool cancel) => OnConsoleOutput?.Invoke(ref text, ref color, ref cancel);
         #endregion
     }

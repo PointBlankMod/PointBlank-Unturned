@@ -21,18 +21,15 @@ namespace PointBlank.API.Unturned.Server
     public static class UnturnedServer
     {
         #region Variables
-        
         private static HashSet<UnturnedPlayer> _Players = new HashSet<UnturnedPlayer>();
         private static HashSet<StoredPlayer> _StoredPlayers = new HashSet<StoredPlayer>();
         private static HashSet<UnturnedVehicle> _Vehicles = new HashSet<UnturnedVehicle>();
         private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
         private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
         private static HashSet<UnturnedItem> _Items = new HashSet<UnturnedItem>();
-        
         #endregion
 
         #region Properties
-        
         /// <summary>
         /// The currently online players
         /// </summary>
@@ -81,11 +78,9 @@ namespace PointBlank.API.Unturned.Server
         /// Is it currently raining/snowing
         /// </summary>
         public static bool IsRaining => LightingManager.hasRain;
-        
         #endregion
 
         #region Functions
-        
         internal static UnturnedPlayer AddPlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
@@ -96,7 +91,6 @@ namespace PointBlank.API.Unturned.Server
             _Players.Add(player);
             return player;
         }
-        
         internal static bool RemovePlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
@@ -118,7 +112,6 @@ namespace PointBlank.API.Unturned.Server
             _Structures.Add(structure);
             return structure;
         }
-        
         internal static bool RemoveStructure(UnturnedStructure structure)
         {
             UnturnedStructure stru = Structures.FirstOrDefault(a => a.Data == structure.Data);
@@ -140,7 +133,6 @@ namespace PointBlank.API.Unturned.Server
             _Barricades.Add(Barricade);
             return Barricade;
         }
-        
         internal static bool RemoveBarricade(UnturnedBarricade Barricade)
         {
             UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
@@ -162,7 +154,6 @@ namespace PointBlank.API.Unturned.Server
             _Vehicles.Add(vehicle);
             return vehicle;
         }
-        
         internal static bool RemoveVehicle(UnturnedVehicle vehicle)
         {
             UnturnedVehicle veh = Vehicles.FirstOrDefault(a => a.Vehicle == vehicle.Vehicle);
@@ -184,7 +175,6 @@ namespace PointBlank.API.Unturned.Server
             _Items.Add(item);
             return item;
         }
-        
         internal static bool RemoveItem(UnturnedItem item)
         {
             UnturnedItem itm = Items.FirstOrDefault(a => a.Item == item.Item);
@@ -195,11 +185,9 @@ namespace PointBlank.API.Unturned.Server
             _Items.Remove(itm);
             return true;
         }
-        
         #endregion
 
         #region Public Functions
-        
         /// <summary>
         /// Checks if the UnturnedPlayer is the server player
         /// </summary>
@@ -367,7 +355,6 @@ namespace PointBlank.API.Unturned.Server
             foreach(UnturnedPlayer player in Players)
                 info.OnPlayerJoin(player);
         }
-        
         #endregion
     }
 }

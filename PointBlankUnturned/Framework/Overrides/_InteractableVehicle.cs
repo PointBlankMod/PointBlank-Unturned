@@ -22,28 +22,29 @@ namespace PointBlank.Framework.Overrides
         {
             if (index < 0)
                 return;
-
             if (Vehicle.asset != null && !Vehicle.asset.canTiresBeDamaged)
                 return;
-
             UnturnedVehicle UVehicle = UnturnedServer.Vehicles.FirstOrDefault(vehicle => vehicle.InstanceID == Vehicle.instanceID);
+            bool cancel = false;
             
-            VehicleEvents.RunVehicleTireDamage(UVehicle, index);
-            
-            DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamageTire", BindingFlags.Public | BindingFlags.Instance), Vehicle, index);
+            VehicleEvents.RunVehicleTireDamage(UVehicle, ref index, ref cancel);
+
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamageTire", BindingFlags.Public | BindingFlags.Instance), Vehicle, index);
         }
         
         [Detour(typeof(InteractableVehicle), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
         public static void askDamage(this InteractableVehicle Vehicle, ushort amount, bool canRepair)
         {
             if (amount == 0) return;
-
             UnturnedVehicle vehicle = UnturnedServer.Vehicles.FirstOrDefault(v => v.InstanceID == Vehicle.instanceID);
+            bool cancel = false;
             
-            VehicleEvents.RunVehicleDamage(vehicle, amount, canRepair);
+            VehicleEvents.RunVehicleDamage(vehicle, ref amount, ref canRepair, ref cancel);
             
-            DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamage", BindingFlags.Public | BindingFlags.Instance),
-                Vehicle, amount, canRepair);
+            if(!cancel)
+                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamage", BindingFlags.Public | BindingFlags.Instance),
+                    Vehicle, amount, canRepair);
         }
         
         [Detour(typeof(InteractableVehicle), "askRepair", BindingFlags.Public | BindingFlags.Instance)]
@@ -51,13 +52,14 @@ namespace PointBlank.Framework.Overrides
         {
             if (amount == 0 || Vehicle.isExploded)
                 return;
-
             UnturnedVehicle vehicle = UnturnedServer.Vehicles.FirstOrDefault(v => v.InstanceID == Vehicle.instanceID);
+            bool cancel = false;
             
-            VehicleEvents.RunVehicleRepair(vehicle, amount);
+            VehicleEvents.RunVehicleRepair(vehicle, ref amount, ref cancel);
 
-            DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askRepair", BindingFlags.Public | BindingFlags.Instance),
-                Vehicle, amount);
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askRepair", BindingFlags.Public | BindingFlags.Instance),
+                    Vehicle, amount);
         }
     }
 }
