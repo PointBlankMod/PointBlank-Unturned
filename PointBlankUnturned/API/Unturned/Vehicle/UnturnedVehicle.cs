@@ -14,7 +14,7 @@ namespace PointBlank.API.Unturned.Vehicle
         #region Properties
         // Important information
         /// <summary>
-        /// The interactablevehicle instance
+        /// The interactable vehicle instance
         /// </summary>
         public InteractableVehicle Vehicle { get; private set; }
         /// <summary>

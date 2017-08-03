@@ -2,79 +2,88 @@
 using System.Collections.Generic;
 using SDG.Unturned;
 using UnityEngine;
-using UItem = SDG.Unturned.Item;
 
 namespace PointBlank.API.Unturned.Item
 {
     public class UnturnedStoredItem
     {
         #region Properties
-
+        // Information
+        /// <summary>
+        /// The item jar instance
+        /// </summary>
         public ItemJar Jar { get; private set; }
-
-        public Byte Rot => Jar.rot;
-
-        public Byte Size_X => Jar.size_x;
-
-        public Byte Size_Y => Jar.size_y;
-
-        public Byte X => Jar.x;
-
-        public Byte Y => Jar.y;
-
-        public UItem Item => Jar.item;
-
+        /// <summary>
+        /// The item instance
+        /// </summary>
+        public SDG.Unturned.Item Item => Jar.item;
+        /// <summary>
+        /// The interactable item instance
+        /// </summary>
         public InteractableItem Interactable => Jar.interactableItem;
-
-        public ushort ID => Item.id;
-
-        public Byte Amount => Item.amount;
-
+        /// <summary>
+        /// The asset of the item
+        /// </summary>
         public ItemAsset Asset => Interactable.asset;
 
-        public String Name => Asset.itemName;
+        // ItemJar information
+        /// <summary>
+        /// The rotation of the item inside the player's inventory
+        /// </summary>
+        public byte Rotation => Jar.rot;
+        /// <summary>
+        /// The size of the item in the inventory(X axis)
+        /// </summary>
+        public byte Size_X => Jar.size_x;
+        /// <summary>
+        /// The size of the item in the inventory(Y axis)
+        /// </summary>
+        public byte Size_Y => Jar.size_y;
+        /// <summary>
+        /// The X position of the item in the inventory
+        /// </summary>
+        public byte X => Jar.x;
+        /// <summary>
+        /// The Y position of the item in the inventory
+        /// </summary>
+        public byte Y => Jar.y;
 
-        public String Description => Asset.itemDescription;
+        // Item information
+        /// <summary>
+        /// The item ID
+        /// </summary>
+        public ushort ID => Item.id;
+        /// <summary>
+        /// How durable is the item
+        /// </summary>
+        public byte Durability => Item.durability;
 
-        public GameObject Object => Asset.item;
-
-        public AudioClip EquipAudio => Asset.equip;
-
-        public AnimationClip[] Animations => Asset.animations;
-
-        public List<Blueprint> Blueprints => Asset.blueprints;
-
-        public List<SDG.Unturned.Action> Actions => Asset.actions;
-
-        public Texture AlbedoBase => Asset.albedoBase;
-
-        public Texture MetallicBase => Asset.metallicBase;
-
-        public Texture EmissionBase => Asset.emissionBase;
-
-        public EAssetType AssetCategory = EAssetType.ITEM;
-
-        public bool IsDangerous = false;
-
-        public Transform Transform => Object.transform;
-
-        public Quaternion Rotation => Transform.rotation;
-
-        public Vector3 Position => Transform.position;
-
-        public Byte[] Metadata
-        {
-            get => Item.state;
-            set => Item.state = value;
-        }
-
-        public Byte Durability
-        {
-            get => Item.quality;
-            set => Item.quality = value;
-        }
-
-        #endregion Properties
+        // Asset information
+        /// <summary>
+        /// The name of the item
+        /// </summary>
+        public string Name => Asset.itemName;
+        /// <summary>
+        /// The description of the item
+        /// </summary>
+        public string Description => Asset.itemDescription;
+        /// <summary>
+        /// The asset category of the item
+        /// </summary>
+        public EAssetType AssetCategory => Asset.assetCategory;
+        /// <summary>
+        /// The type of item
+        /// </summary>
+        public EItemType ItemType => Asset.type;
+        /// <summary>
+        /// The slot type of the item
+        /// </summary>
+        public ESlotType SlotType => Asset.slot;
+        /// <summary>
+        /// How rare is the item
+        /// </summary>
+        public EItemRarity ItemRarity => Asset.rarity;
+        #endregion
 
         internal UnturnedStoredItem(ItemJar jar)
         {

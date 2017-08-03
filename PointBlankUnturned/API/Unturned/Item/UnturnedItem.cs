@@ -1,4 +1,6 @@
-﻿using SDG.Unturned;
+﻿using System.Linq;
+using PointBlank.API.Unturned.Server;
+using SDG.Unturned;
 using UnityEngine;
 
 namespace PointBlank.API.Unturned.Item
@@ -11,13 +13,9 @@ namespace PointBlank.API.Unturned.Item
         #region Properties
         // Important info
         /// <summary>
-        /// The drop instance
-        /// </summary>
-        public ItemDrop Drop { get; private set; }
-        /// <summary>
         /// The interactable item instance of the item
         /// </summary>
-        public InteractableItem Interactable => Drop.interactableItem;
+        public InteractableItem Interactable { get; private set; }
         /// <summary>
         /// The asset of the item
         /// </summary>
@@ -38,16 +36,6 @@ namespace PointBlank.API.Unturned.Item
             get => Interactable.item;
             set => Interactable.item = value;
         }
-
-        // Basic information
-        /// <summary>
-        /// The transform of the item model
-        /// </summary>
-        public Transform Model => Drop.model;
-        /// <summary>
-        /// The instance ID of the item
-        /// </summary>
-        public uint InstanceID => Drop.instanceID;
 
         // Asset information
         /// <summary>
@@ -88,12 +76,26 @@ namespace PointBlank.API.Unturned.Item
         /// How durable is the item
         /// </summary>
         public byte Durability => Item.durability;
-        #endregion Properties
+        #endregion
 
-        internal UnturnedItem(ItemDrop drop)
+        private UnturnedItem(InteractableItem item)
         {
             // Set the variables
-            Drop = drop;
+            Interactable = item;
+
+            // Run code
+            UnturnedServer.AddItem(this);
         }
+
+        #region Static Functions
+        internal static UnturnedItem Create(InteractableItem item)
+        {
+            UnturnedItem itm = UnturnedServer.Items.FirstOrDefault(a => a.Interactable == item);
+
+            if (itm != null)
+                return itm;
+            return new UnturnedItem(item);
+        }
+        #endregion
     }
 }

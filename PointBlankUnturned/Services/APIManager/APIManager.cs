@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using SDG.Unturned;
 using PointBlank.API.Implements;
 using PointBlank.API.Plugins;
 using PointBlank.API.Groups;
@@ -11,10 +10,13 @@ using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
+using PointBlank.API.Unturned.Item;
 using PM = PointBlank.API.Plugins.PluginManager;
 using GM = PointBlank.API.Groups.GroupManager;
 using CM = PointBlank.API.Commands.CommandManager;
 using Steamworks;
+using UnityEngine;
+using SDG.Unturned;
 
 namespace PointBlank.Services.APIManager
 {
@@ -45,18 +47,16 @@ namespace PointBlank.Services.APIManager
             LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
-            StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
-            StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
-            BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
-            BarricadeEvents.OnBarricadeSalvage += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
 
+            ChatManager.onChatted += new Chatted(OnPlayerChat);
             CommandWindow.onCommandWindowInputted += new CommandWindowInputted(OnConsoleCommand);
             ChatManager.onCheckPermissions += new CheckPermissions(OnUnturnedCommand);
+            ItemManager.onItemDropAdded += new ItemDropAdded(OnItemDropAdded);
+            ItemManager.onItemDropRemoved += new ItemDropRemoved(OnItemDropRemoved);
 
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
-            ChatManager.onChatted += new Chatted(OnPlayerChat);
             PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
             PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
             PluginEvents.OnPluginsLoaded += new VoidHandler(OnPluginsLoaded);
@@ -70,6 +70,11 @@ namespace PointBlank.Services.APIManager
             PlayerEvents.OnGroupRemoved += new PlayerEvents.GroupsChangedHandler(OnGroupChange);
             PlayerEvents.OnPlayerDied += new PlayerEvents.PlayerDeathHandler(OnPlayerDie);
             PlayerEvents.OnPlayerKill += new PlayerEvents.PlayerKillHandler(OnPlayerKill);
+
+            StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
+            StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
+            BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
+            BarricadeEvents.OnBarricadeSalvage += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
 
             // Run code
             tGame.Start();
@@ -88,6 +93,19 @@ namespace PointBlank.Services.APIManager
         #endregion
 
         #region Event Functions
+        private void OnItemDropAdded(Transform model, InteractableItem item)
+        {
+            UnturnedItem itm = UnturnedItem.Create(item);
+
+            ServerEvents.RunItemCreated(itm);
+        }
+        private void OnItemDropRemoved(Transform model, InteractableItem item)
+        {
+            UnturnedItem itm = UnturnedItem.Create(item);
+
+            ServerEvents.RunItemRemoved(itm);
+        }
+
         private void OnPlayerJoin(UnturnedPlayer player)
         {
             Group[] groups = GM.Groups.Where(a => a.Default).ToArray();

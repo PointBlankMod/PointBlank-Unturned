@@ -5,6 +5,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
+using PointBlank.API.Unturned.Item;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -58,6 +59,12 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="color">The color of the message</param>
         /// <param name="cancel">Should the output not be displayed</param>
         public delegate void ConsoleOutputHandler(ref object text, ref ConsoleColor color, ref bool cancel);
+
+        /// <summary>
+        /// Used for handling item updates
+        /// </summary>
+        /// <param name="item">The affected item</param>
+        public delegate void ItemUpdateHandler(UnturnedItem item);
         #endregion
 
         #region Events
@@ -147,6 +154,15 @@ namespace PointBlank.API.Unturned.Server
         /// Called when unturned tries to print into the console
         /// </summary>
         public static event ConsoleOutputHandler OnConsoleOutput;
+
+        /// <summary>
+        /// Called when an item is created
+        /// </summary>
+        public static event ItemUpdateHandler OnItemCreated;
+        /// <summary>
+        /// Called when an item is removed
+        /// </summary>
+        public static event ItemUpdateHandler OnItemRemoved;
         #endregion
 
         #region Functions
@@ -212,6 +228,9 @@ namespace PointBlank.API.Unturned.Server
 
         internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
         internal static void RunConsoleOutput(ref object text, ref ConsoleColor color, ref bool cancel) => OnConsoleOutput?.Invoke(ref text, ref color, ref cancel);
+
+        internal static void RunItemCreated(UnturnedItem item) => OnItemCreated?.Invoke(item);
+        internal static void RunItemRemoved(UnturnedItem item) => OnItemRemoved?.Invoke(item);
         #endregion
     }
 }
