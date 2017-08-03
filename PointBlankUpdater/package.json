@@ -1,0 +1,23 @@
+{
+  "name": "pointblankupdater",
+  "version": "1.0.0",
+  "description": "The official PointBlank updater",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PointBlankMod/PointBlank.git"
+  },
+  "keywords": [
+    "PointBlank",
+    "updater",
+    "unturned"
+  ],
+  "author": "AtiLion",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/PointBlankMod/PointBlank/issues"
+  },
+  "homepage": "https://github.com/PointBlankMod/PointBlank#readme"
+}
