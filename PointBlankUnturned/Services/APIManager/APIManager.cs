@@ -14,6 +14,7 @@ using PointBlank.API.Unturned.Item;
 using PM = PointBlank.API.Plugins.PluginManager;
 using GM = PointBlank.API.Groups.GroupManager;
 using CM = PointBlank.API.Commands.CommandManager;
+using Typ = SDG.Unturned.Types;
 using Steamworks;
 using UnityEngine;
 using SDG.Unturned;
@@ -260,34 +261,34 @@ namespace PointBlank.Services.APIManager
 
             object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
             {
-                Types.BYTE_TYPE,
-                Types.STEAM_ID_TYPE,
-                Types.BYTE_TYPE,
-                Types.STRING_TYPE,
-                Types.STRING_TYPE,
-                Types.VECTOR3_TYPE,
-                Types.BYTE_TYPE,
-                Types.BOOLEAN_TYPE,
-                Types.BOOLEAN_TYPE,
-                Types.INT32_TYPE,
-                Types.STEAM_ID_TYPE,
-                Types.STRING_TYPE,
-                Types.BYTE_TYPE,
-                Types.BYTE_TYPE,
-                Types.BYTE_TYPE,
-                Types.COLOR_TYPE,
-                Types.COLOR_TYPE,
-                Types.BOOLEAN_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_TYPE,
-                Types.INT32_ARRAY_TYPE,
-                Types.BYTE_TYPE,
-                Types.STRING_TYPE
+                Typ.BYTE_TYPE,
+                Typ.STEAM_ID_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.STRING_TYPE,
+                Typ.STRING_TYPE,
+                Typ.VECTOR3_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.BOOLEAN_TYPE,
+                Typ.BOOLEAN_TYPE,
+                Typ.INT32_TYPE,
+                Typ.STEAM_ID_TYPE,
+                Typ.STRING_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.COLOR_TYPE,
+                Typ.COLOR_TYPE,
+                Typ.BOOLEAN_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_TYPE,
+                Typ.INT32_ARRAY_TYPE,
+                Typ.BYTE_TYPE,
+                Typ.STRING_TYPE
             });
             UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 

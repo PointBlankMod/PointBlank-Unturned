@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
 using PointBlank.API;
+using PointBlank.API.Server;
 using PointBlank.API.Steam;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
@@ -15,8 +16,8 @@ namespace PointBlank.Services.APIManager
     internal class InfoManager : Service
     {
         #region Info
-        public static readonly string SteamGroupPath = ServerInfo.ConfigurationsPath + "/SteamGroups";
-        public static readonly string PlayerPath = ServerInfo.ConfigurationsPath + "/Players";
+        public static readonly string SteamGroupPath = Server.ConfigurationsPath + "/SteamGroups";
+        public static readonly string PlayerPath = Server.ConfigurationsPath + "/Players";
         #endregion
 
         #region Properties

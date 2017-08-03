@@ -29,45 +29,97 @@ namespace PointBlank.Framework.Overrides
         }
         
         [SteamCall]
-        [Detour(typeof(VehicleManager), "tellEnterVehicle", BindingFlags.Public | BindingFlags.Instance)]
-        public void tellEnterVehicle(CSteamID steamID, uint instanceID, byte seat, CSteamID player)
+        [Detour(typeof(VehicleManager), "askEnterVehicle", BindingFlags.Public | BindingFlags.Instance)]
+        public void askEnterVehicle(CSteamID steamID, uint instanceID, byte[] hash, byte engine)
         {
-            if (!VehicleManager.instance.channel.checkServer(steamID)) return;
-            
-            for (int i = 0; i < VehicleManager.vehicles.Count; i++)
+            if (Provider.isServer)
             {
-                if (VehicleManager.vehicles[i].instanceID != instanceID) continue;
-                
-                UnturnedVehicle Vehicle = UnturnedServer.Vehicles.FirstOrDefault(vehicle => vehicle.InstanceID == instanceID);
-                
-                VehicleEvents.RunVehicleEnter(Vehicle, seat, player);
-                
-                break;
+                Player player = PlayerTool.getPlayer(steamID);
+                if (player == null)
+                    return;
+                if (player.life.isDead)
+                    return;
+                if (player.equipment.isBusy)
+                    return;
+                if (player.equipment.isSelected && !player.equipment.isEquipped)
+                    return;
+                if (player.movement.getVehicle() != null)
+                    return;
+                InteractableVehicle interactableVehicle = null;
+                for (int i = 0; i < VehicleManager.vehicles.Count; i++)
+                {
+                    if (VehicleManager.vehicles[i].instanceID == instanceID)
+                    {
+                        interactableVehicle = VehicleManager.vehicles[i];
+                        break;
+                    }
+                }
+                if (interactableVehicle == null)
+                    return;
+                if (interactableVehicle.asset.shouldVerifyHash && !Hash.verifyHash(hash, interactableVehicle.asset.hash))
+                    return;
+                if ((EEngine)engine != interactableVehicle.asset.engine)
+                    return;
+                if ((interactableVehicle.transform.position - player.transform.position).sqrMagnitude > 100f)
+                    return;
+                if (!interactableVehicle.checkEnter(player.channel.owner.playerID.steamID, player.quests.groupID))
+                    return;
+                byte b;
+                bool cancel = false;
+
+                VehicleEvents.RunVehicleEnter(UnturnedVehicle.Create(interactableVehicle), ref player, ref cancel);
+                if (cancel)
+                    return;
+                if (interactableVehicle.tryAddPlayer(out b, player))
+                {
+                    VehicleManager.instance.channel.send("tellEnterVehicle", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        instanceID,
+                        b,
+                        steamID
+                    });
+                }
             }
-            
-            DetourManager.CallOriginal(typeof(VehicleManager).GetMethod("tellEnterVehicle", BindingFlags.Public | BindingFlags.Instance),
-                VehicleManager.instance, steamID, instanceID, seat, player);
         }
         
         [SteamCall]
-        [Detour(typeof(VehicleManager), "tellExitVehicle", BindingFlags.Public | BindingFlags.Instance)]
-        public void tellExitVehicle(CSteamID steamID, uint instanceID, byte seat, Vector3 point, byte angle, bool forceUpdate)
+        [Detour(typeof(VehicleManager), "askExitVehicle", BindingFlags.Public | BindingFlags.Instance)]
+        public void askExitVehicle(CSteamID steamID, Vector3 velocity)
         {
-            if (!VehicleManager.instance.channel.checkServer(steamID)) return;
-            
-            for (int i = 0; i < VehicleManager.vehicles.Count; i++)
+            if (Provider.isServer)
             {
-                if (VehicleManager.vehicles[i].instanceID != instanceID) continue;
-                
-                UnturnedVehicle Vehicle = UnturnedServer.Vehicles.FirstOrDefault(vehicle => vehicle.InstanceID == instanceID);
-                
-                VehicleEvents.RunVehicleExit(Vehicle, seat, point, angle, forceUpdate);
+                Player player = PlayerTool.getPlayer(steamID);
+                if (player == null)
+                    return;
+                if (player.life.isDead)
+                    return;
+                if (player.equipment.isBusy)
+                    return;
+                InteractableVehicle vehicle = player.movement.getVehicle();
+                if (vehicle == null)
+                    return;
+                byte b;
+                Vector3 vector;
+                byte b2;
+                bool cancel = false;
 
-                break;
+                VehicleEvents.RunVehicleExit(UnturnedVehicle.Create(vehicle), ref player, ref cancel);
+                if (cancel)
+                    return;
+                if (vehicle.tryRemovePlayer(out b, steamID, out vector, out b2))
+                {
+                    VehicleManager.instance.channel.send("tellExitVehicle", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        vehicle.instanceID,
+                        b,
+                        vector,
+                        b2,
+                        false
+                    });
+                    if (b == 0 && Dedicator.isDedicated)
+                        vehicle.GetComponent<Rigidbody>().velocity = velocity;
+                }
             }
-            
-            DetourManager.CallOriginal(typeof(VehicleManager).GetMethod("tellExitVehicle", BindingFlags.Public | BindingFlags.Instance),
-                VehicleManager.instance, steamID, instanceID, seat, point, angle, forceUpdate);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace PointBlank.API.Unturned.Vehicle
         /// <param name="Vehicle">Vehicle Player is entering</param>
         /// <param name="Seat">Seat in which the Player is entering</param>
         /// <param name="player">Player that is entering the vehicle</param>
-        public delegate void VehicleEnterHandler(UnturnedVehicle Vehicle, ref byte Seat, ref CSteamID Player, ref bool cancel);
+        public delegate void VehicleEnterHandler(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel);
         
         /// <summary>
         /// Handles exiting of the vehicle
@@ -26,7 +26,7 @@ namespace PointBlank.API.Unturned.Vehicle
         /// <param name="Point">Point in which the player will be expelled</param>
         /// <param name="Angle">Angle in which the player will be expelled</param>
         /// <param name="ForceUpdate">Whether or not to call PlayerMovement.updateVehicle</param>
-        public delegate void VehicleExitHandler(UnturnedVehicle Vehicle, ref byte Seat, ref Vector3 Point, ref byte Angle, ref bool ForceUpdate, ref bool cancel);
+        public delegate void VehicleExitHandler(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel);
 
         /// <summary>
         /// Handles damage to tires of the vehicle
@@ -79,11 +79,11 @@ namespace PointBlank.API.Unturned.Vehicle
         #endregion
         
         #region Functions
-        internal static void RunVehicleEnter(UnturnedVehicle Vehicle, ref byte Seat, ref CSteamID Player, ref bool cancel) =>
-            OnVehicleEnter?.Invoke(Vehicle, ref Seat, ref Player, ref cancel);
+        internal static void RunVehicleEnter(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel) =>
+            OnVehicleEnter?.Invoke(Vehicle, ref Player, ref cancel);
 
-        internal static void RunVehicleExit(UnturnedVehicle Vehicle, ref byte Seat, ref Vector3 Point, ref byte Angle, ref bool ForceUpdate, ref bool cancel) =>
-            OnVehicleExit?.Invoke(Vehicle, ref Seat, ref Point, ref Angle, ref ForceUpdate, ref cancel);
+        internal static void RunVehicleExit(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel) =>
+            OnVehicleExit?.Invoke(Vehicle, ref Player, ref cancel);
 
         internal static void RunVehicleTireDamage(UnturnedVehicle Vehicle, ref int Index, ref bool cancel) => OnVehicleTireDamage?.Invoke(Vehicle, ref Index, ref cancel);
 

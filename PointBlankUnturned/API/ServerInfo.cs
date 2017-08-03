@@ -93,30 +93,5 @@ namespace PointBlank.API
         /// Returns the server level type
         /// </summary>
         public static ELevelType LevelType => LevelManager.levelType;
-
-        /// <summary>
-        /// The path to the libraries directory
-        /// </summary>
-        public static string LibrariesPath => ServerPath + "/PointBlank/Libraries";
-
-        /// <summary>
-        /// The path to the plugins directory
-        /// </summary>
-        public static string PluginsPath => ServerPath + "/PointBlank/Plugins";
-
-        /// <summary>
-        /// The path to the configurations directory
-        /// </summary>
-        public static string ConfigurationsPath => ServerPath + "/PointBlank/Configurations";
-
-        /// <summary>
-        /// The path to the translations directory
-        /// </summary>
-        public static string TranslationsPath => ServerPath + "/PointBlank/Translations";
-
-        /// <summary>
-        /// The path to the data directory
-        /// </summary>
-        public static string DataPath => ServerPath + "/PointBlank/Data";
     }
 }
