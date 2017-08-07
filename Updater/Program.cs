@@ -74,7 +74,9 @@ namespace Updater
         }
 
         #region Static Functions
-        public static bool IsUnturnedFolder(string path) => Directory.Exists(path) && File.Exists(path + "/Unturned.exe") && File.Exists(path + "/Unturned_BE.exe");
+        public static bool IsUnturnedFolder(string path) => Directory.Exists(path) && 
+            ((File.Exists(path + "/Unturned.exe") && File.Exists(path + "/Unturned_BE.exe")) || // Windows
+            (File.Exists(path + "/Unturned.exe") && (File.Exists(path + "/Unturned.x86_64") || File.Exists(path + "/Unturned.x86")))); // Linux
         #endregion
 
         #region Functions
