@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIInfo.cs" />
     <Compile Include="API\Implements\Unturned.cs" />
     <Compile Include="API\ServerInfo.cs" />
     <Compile Include="API\Steam\EPrivacyState.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Services\APIManager\APIManager.cs" />
     <Compile Include="Services\APIManager\InfoManager.cs" />
     <Compile Include="Services\Launcher\Launcher.cs" />
+    <Compile Include="Services\APIUpdateChecker\APIUpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
