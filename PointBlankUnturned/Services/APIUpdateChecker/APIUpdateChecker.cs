@@ -43,14 +43,16 @@ namespace PointBlank.Services.APIUpdateChecker
         {
             while (Running)
             {
-                if(WebsiteData.GetData(URL, out string data))
+                Thread.Sleep(300000); // Check every 5 minutes
+                if (WebsiteData.GetData(URL, out string data))
                 {
                     JObject info = JObject.Parse(data);
 
+                    if ((string)info["Games"]["Unturned"]["API_Version"] == "0")
+                        continue;
                     if((string)info["Games"]["Unturned"]["API_Version"] != APIInfo.Version)
                         Logging.LogImportant("A new update is available for the API!");
                 }
-                Thread.Sleep(300000); // Check every 5 minutes
             }
         }
         #endregion
