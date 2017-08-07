@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Net;
+using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Updater.Internals;
 
 namespace Updater
 {
@@ -15,8 +16,9 @@ namespace Updater
         public static readonly string URL_Info = "https://pastebin.com/raw/ZVcNXEVw";
         public static readonly string Stored_Info = Directory.GetCurrentDirectory() + "/UpdaterInfo.json";
 
-        public static readonly string Framework_Path = Directory.GetCurrentDirectory() + "/Modules/PointBlank/PointBlank.dll";
-        public static readonly string API_Path = Directory.GetCurrentDirectory() + "/Modules/PointBlank/PointBlankUnturned.dll";
+        public static readonly string Modules_Path = Directory.GetCurrentDirectory() + "/Modules";
+        public static readonly string Module_Path = Modules_Path + "/PointBlank";
+        public static readonly string Temporary_Path = Directory.GetCurrentDirectory() + "/Temp.dat";
         #endregion
 
         #region Variables
@@ -52,8 +54,8 @@ namespace Updater
                 DownloadInfo();
                 LoadStoredInfo();
                 CheckLauncher();
-                CheckFrameworkUpdates();
                 CheckAPIUpdates();
+                CheckFrameworkUpdates();
                 File.WriteAllText(Stored_Info, Stored.ToString(Formatting.None));
                 Console.WriteLine("Update checks complete!");
                 Console.WriteLine("Thank you for using PointBlank!");
@@ -161,8 +163,11 @@ namespace Updater
                 Console.WriteLine("Downloading latest version of PointBlank...");
                 try
                 {
-                    Client.DownloadFile((string)Info["PointBlank_Latest"], Framework_Path);
+                    Client.DownloadFile((string)Info["PointBlank_Latest"], Temporary_Path);
+                    using (Unzip unzip = new Unzip(Temporary_Path))
+                        unzip.ExtractToDirectory(Module_Path);
                     Stored["PointBlank_Version"] = (string)Info["PointBlank_Version"];
+                    File.Delete(Temporary_Path);
                     Console.WriteLine("PointBlank successfully downloaded!");
                 }
                 catch (Exception ex)
@@ -191,8 +196,12 @@ namespace Updater
                 Console.WriteLine("Downloading latest version of the Unturned API...");
                 try
                 {
-                    Client.DownloadFile((string)Info["Games"]["Unturned"]["API_Latest"], API_Path);
+                    Client.DownloadFile((string)Info["Games"]["Unturned"]["API_Latest"], Temporary_Path);
+                    Console.WriteLine("Extracting the Unturned API...");
+                    using (Unzip unzip = new Unzip(Temporary_Path))
+                        unzip.ExtractToDirectory(Modules_Path);
                     Stored["API_Version"] = (string)Info["Games"]["Unturned"]["API_Version"];
+                    File.Delete(Temporary_Path);
                     Console.WriteLine("Unturned API successfully downloaded!");
                 }
                 catch (Exception ex)
