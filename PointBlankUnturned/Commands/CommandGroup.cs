@@ -10,7 +10,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Group", 1)]
     internal class CommandGroup : PointBlankCommand
     {
         #region Properties
@@ -28,6 +27,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "pointblank.commands.admin.group";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

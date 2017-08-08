@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Votify", 6)]
     internal class CommandVotify : PointBlankCommand
     {
         #region Properties
@@ -24,6 +23,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Votify_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.votify";
+
+        public override int MinimumParams => 6;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Usage", 1)]
     internal class CommandUsage : PointBlankCommand
     {
         #region Properties
@@ -24,6 +23,8 @@ namespace PointBlank.Commands
         public override string Usage => Translations["Usage_Usage"];
 
         public override string DefaultPermission => "pointblank.commands.nonadmin.usage";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

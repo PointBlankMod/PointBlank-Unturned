@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Map", 1)]
     internal class CommandMap : PointBlankCommand
     {
         #region Properties
@@ -26,6 +25,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.server.map";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

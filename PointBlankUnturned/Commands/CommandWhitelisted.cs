@@ -7,7 +7,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Whitelisted", 0)]
     internal class CommandWhitelisted : PointBlankCommand
     {
         #region Properties

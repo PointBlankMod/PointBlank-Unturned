@@ -7,7 +7,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Modules", 0)]
     internal class CommandModules : PointBlankCommand
     {
         #region Properties

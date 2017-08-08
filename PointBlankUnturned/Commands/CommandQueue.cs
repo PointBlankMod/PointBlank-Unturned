@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Queue", 1)]
     internal class CommandQueue : PointBlankCommand
     {
         #region Info
@@ -28,6 +27,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Queue_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.queue";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

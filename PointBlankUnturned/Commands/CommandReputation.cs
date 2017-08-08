@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Reputation", 1)]
     internal class CommandReputation : PointBlankCommand
     {
         #region Properties
@@ -27,6 +26,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.reputation";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

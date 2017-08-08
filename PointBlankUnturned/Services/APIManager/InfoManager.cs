@@ -12,7 +12,6 @@ using GM = PointBlank.API.Groups.GroupManager;
 
 namespace PointBlank.Services.APIManager
 {
-    [Service("InfoManager", true)]
     internal class InfoManager : Service
     {
         #region Info

@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("ResetConfig", 0)]
     internal class CommandResetConfig : PointBlankCommand
     {
         #region Properties

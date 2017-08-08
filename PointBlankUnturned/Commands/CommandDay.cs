@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Day", 0)]
     internal class CommandDay : PointBlankCommand
     {
         #region Properties

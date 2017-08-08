@@ -9,7 +9,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Unban", 1)]
     internal class CommandUnban : PointBlankCommand
     {
         #region Properties
@@ -27,6 +26,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.unban";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Password", 0)]
     internal class CommandPassword : PointBlankCommand
     {
         #region Properties

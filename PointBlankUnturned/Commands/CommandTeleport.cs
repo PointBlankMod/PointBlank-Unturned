@@ -10,7 +10,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Teleport", 1)]
     internal class CommandTeleport : PointBlankCommand
     {
         #region Properties
@@ -29,6 +28,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.admin.teleport";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

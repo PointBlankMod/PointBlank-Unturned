@@ -9,7 +9,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Owner", 1)]
     internal class CommandOwner : PointBlankCommand
     {
         #region Properties
@@ -27,6 +26,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.server.owner";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

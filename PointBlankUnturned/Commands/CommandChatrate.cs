@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Chatrate", 1)]
     internal class CommandChatrate : PointBlankCommand
     {
         #region Info
@@ -29,6 +28,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Chatrate_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.chatrate";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

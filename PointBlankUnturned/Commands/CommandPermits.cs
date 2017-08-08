@@ -9,7 +9,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Permits", 0)]
     internal class CommandPermits : PointBlankCommand
     {
         #region Properties

@@ -9,7 +9,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Spy", 1)]
     internal class CommandSpy : PointBlankCommand
     {
         #region Properties
@@ -25,6 +24,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Spy_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.spy";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

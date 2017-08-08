@@ -9,7 +9,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Permissions", 1)]
     internal class CommandPermissions : PointBlankCommand
     {
         #region Properties
@@ -26,6 +25,8 @@ namespace PointBlank.Commands
         public override string Usage => string.Format(Translations["Permissions_Usage"], Translations["Permissions_Commands_Help"]);
 
         public override string DefaultPermission => "pointblank.commands.admin.permissions";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

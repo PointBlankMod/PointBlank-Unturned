@@ -11,7 +11,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Kill", 0)]
     internal class CommandKill : PointBlankCommand
     {
         #region Properties

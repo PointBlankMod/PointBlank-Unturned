@@ -10,7 +10,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Permit", 2)]
     internal class CommandPermit : PointBlankCommand
     {
         #region Properties
@@ -26,6 +25,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Permit_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.permit";
+
+        public override int MinimumParams => 2;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

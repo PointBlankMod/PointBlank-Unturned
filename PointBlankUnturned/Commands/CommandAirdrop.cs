@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Airdrop", 0)]
     internal class CommandAirdrop : PointBlankCommand
     {
         #region Properties

@@ -7,7 +7,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Log", 4)]
     internal class CommandLog : PointBlankCommand
     {
         #region Properties
@@ -25,6 +24,8 @@ namespace PointBlank.Commands
         public override string DefaultPermission => "unturned.commands.server.log";
 
         public override EAllowedCaller AllowedCaller => EAllowedCaller.SERVER;
+
+        public override int MinimumParams => 4;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

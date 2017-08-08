@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Storm", 0)]
     internal class CommandStorm : PointBlankCommand
     {
         #region Properties

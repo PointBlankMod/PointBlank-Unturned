@@ -21,7 +21,6 @@ using SDG.Unturned;
 
 namespace PointBlank.Services.APIManager
 {
-    [Service("APIManager", true)]
     internal class APIManager : Service
     {
         #region Variables

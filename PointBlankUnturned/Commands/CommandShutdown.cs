@@ -6,7 +6,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Shutdown", 0)]
     internal class CommandShutdown : PointBlankCommand
     {
         #region Properties

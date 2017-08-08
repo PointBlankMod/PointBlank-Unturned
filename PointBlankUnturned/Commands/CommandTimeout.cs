@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Timeout", 1)]
     internal class CommandTimeout : PointBlankCommand
     {
         #region Info
@@ -29,6 +28,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Timeout_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.timeout";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)

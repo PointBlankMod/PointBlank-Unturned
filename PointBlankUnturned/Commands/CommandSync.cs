@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Sync", 0)]
     internal class CommandSync : PointBlankCommand
     {
         #region Properties

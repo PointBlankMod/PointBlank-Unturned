@@ -8,7 +8,6 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Cycle", 1)]
     internal class CommandCycle : PointBlankCommand
     {
         #region Properties
@@ -24,6 +23,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + Translations["Cycle_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.cycle";
+
+        public override int MinimumParams => 1;
         #endregion
 
         public override void Execute(PointBlankPlayer executor, string[] args)
