@@ -29,6 +29,10 @@ namespace PointBlank.Services.APIManager
         private static bool RunThread = true;
         #endregion
 
+        #region Properties
+        public override int LaunchIndex => 2;
+        #endregion
+
         #region Service Functions
         public override void Load()
         {
@@ -59,7 +63,6 @@ namespace PointBlank.Services.APIManager
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
             PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
             PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
-            PluginEvents.OnPluginsLoaded += new VoidHandler(OnPluginsLoaded);
             ServerEvents.OnServerInitialized += new OnVoidDelegate(OnServerInitialized);
             ServerEvents.OnPacketSent += new ServerEvents.PacketSentHandler(OnPacketSend);
             PlayerEvents.OnPrefixAdded += new PlayerEvents.PrefixesChangedHandler(OnPrefixChange);
@@ -243,15 +246,12 @@ namespace PointBlank.Services.APIManager
             CM.ExecuteCommand(text, UnturnedPlayer.Get(player));
         }
 
-        private void OnPluginsLoaded()
-        {
-            string plugins = string.Join(",", PM.LoadedPlugins.Select(a => PM.GetPluginName(a)).ToArray());
-            SteamGameServer.SetKeyValue("pointblankplugins", plugins);
-        }
         private void OnServerInitialized()
         {
             SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
+            string plugins = string.Join(",", PM.LoadedPlugins.Select(a => PM.GetPluginName(a)).ToArray());
+            SteamGameServer.SetKeyValue("pointblankplugins", plugins);
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {

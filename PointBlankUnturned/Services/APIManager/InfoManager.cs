@@ -25,6 +25,8 @@ namespace PointBlank.Services.APIManager
 
         public JsonData SteamGroupConfig { get; private set; }
         public JsonData PlayerConfig { get; private set; }
+
+        public override int LaunchIndex => 1;
         #endregion
 
         #region Override Functions

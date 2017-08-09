@@ -10,6 +10,10 @@ namespace PointBlank.Services.Launcher
 {
     internal class Launcher : Service
     {
+        #region Properties
+        public override int LaunchIndex => 0;
+        #endregion
+
         #region Override Functions
         public override void Load()
         {
