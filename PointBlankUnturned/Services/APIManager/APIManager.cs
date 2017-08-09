@@ -2,8 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using PointBlank.API.Implements;
-using PointBlank.API.Plugins;
+using PointBlank.API.Server;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
@@ -252,6 +251,7 @@ namespace PointBlank.Services.APIManager
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
             string plugins = string.Join(",", PM.LoadedPlugins.Select(a => PM.GetPluginName(a)).ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
+            Server.IsRunning = true;
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
