@@ -15,6 +15,7 @@ namespace PointBlank.Framework.Configurations
         {
             { "WebPermissions", false },
             { "WebPermissionsSite", "http://127.0.0.1/index.php?serverName=TestServer&file={0}" },
+            { "WebPermissionsInterval", 600 },
         };
 
         public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.APIConfigurations;

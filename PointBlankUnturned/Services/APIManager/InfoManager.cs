@@ -5,10 +5,12 @@ using PointBlank.API.Server;
 using PointBlank.API.Steam;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
+using PointBlank.API.Collections;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
 using GM = PointBlank.API.Groups.GroupManager;
+using Config = PointBlank.Framework.Configurations.APIConfigurations;
 
 namespace PointBlank.Services.APIManager
 {
@@ -17,6 +19,10 @@ namespace PointBlank.Services.APIManager
         #region Info
         public static readonly string SteamGroupPath = Server.ConfigurationsPath + "/SteamGroups";
         public static readonly string PlayerPath = Server.ConfigurationsPath + "/Players";
+        #endregion
+
+        #region Variables
+        private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties
@@ -64,6 +70,7 @@ namespace PointBlank.Services.APIManager
         #region Private Functions
         internal void LoadSteamGroups()
         {
+            SteamGroupManager.Loaded = false;
             foreach(JObject obj in (JArray)SteamGroupConfig.Document["SteamGroups"])
             {
                 if (SteamGroupManager.Groups.Count(a => a.ID == (ulong)obj["Steam64"]) > 0)
@@ -78,6 +85,14 @@ namespace PointBlank.Services.APIManager
             {
                 JObject obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID) as JObject;
 
+                while (g.Inherits.Length > 0)
+                    g.RemoveInherit(g.Inherits[0]);
+                while (g.Permissions.Length > 0)
+                    g.RemovePermission(g.Permissions[0]);
+                while (g.Prefixes.Length > 0)
+                    g.RemovePrefix(g.Prefixes[0]);
+                while (g.Suffixes.Length > 0)
+                    g.RemoveSuffix(g.Suffixes[0]);
                 if(obj["Inherits"] is JArray)
                 {
                     foreach(JToken token in (JArray)obj["Inherits"])
@@ -153,10 +168,12 @@ namespace PointBlank.Services.APIManager
                     g.AddSuffix((string)obj["Suffixes"]);
                 }
             }
+            SteamGroupManager.Loaded = true;
         }
 
         internal void FirstSteamGroups()
         {
+            SteamGroupManager.Loaded = false;
             // Create the array
             SteamGroupConfig.Document.Add("SteamGroups", new JArray());
 
@@ -171,11 +188,12 @@ namespace PointBlank.Services.APIManager
 
             // Save the groups
             SaveSteamGroups();
+            SteamGroupManager.Loaded = true;
         }
 
         internal void SaveSteamGroups()
         {
-            foreach(SteamGroup g in SteamGroupManager.Groups)
+            foreach (SteamGroup g in SteamGroupManager.Groups)
             {
                 if (g.Ignore)
                     continue;
@@ -210,6 +228,8 @@ namespace PointBlank.Services.APIManager
 
         internal void SavePlayers() // Force save players
         {
+            if ((bool)Configurations["WebPermissions"])
+                return;
             JArray arr = PlayerConfig.Document["Players"] as JArray;
 
             foreach(UnturnedPlayer player in UnturnedServer.Players)
@@ -254,6 +274,15 @@ namespace PointBlank.Services.APIManager
             JArray arr = PlayerConfig.Document["Players"] as JArray;
             JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
+            player.Loaded = false;
+            while (player.Permissions.Length > 0)
+                player.RemovePermission(player.Permissions[0]);
+            while (player.Groups.Length > 0)
+                player.RemoveGroup(player.Groups[0]);
+            while (player.Prefixes.Length > 0)
+                player.RemovePrefix(player.Prefixes[0]);
+            while (player.Suffixes.Length > 0)
+                player.RemoveSuffix(player.Suffixes[0]);
             if(token != null)
             {
                 player.Cooldown = (int)token["Cooldown"];
@@ -334,6 +363,8 @@ namespace PointBlank.Services.APIManager
 
         internal void OnPlayerLeave(UnturnedPlayer player)
         {
+            if ((bool)Configurations["WebPermissions"])
+                return;
             JArray arr = PlayerConfig.Document["Players"] as JArray;
             JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 

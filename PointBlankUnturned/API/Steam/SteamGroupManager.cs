@@ -17,6 +17,10 @@ namespace PointBlank.API.Steam
         /// </summary>
         public static SteamGroup[] Groups => _Groups.Values.ToArray();
 
+        /// <summary>
+        /// Is the steam group manager loaded(this is for events)
+        /// </summary>
+        public static bool Loaded { get; set; } = false;
         #endregion
 
         #region Public Functions
@@ -30,9 +34,9 @@ namespace PointBlank.API.Steam
                 return;
             _Groups.Add(group.ID, group);
 
-            SteamGroupEvents.RunSteamGroupAdded(group);
+            if (Loaded)
+                SteamGroupEvents.RunSteamGroupAdded(group);
         }
-
         /// <summary>
         /// Creates and adds a steam group to the server
         /// </summary>
@@ -46,7 +50,8 @@ namespace PointBlank.API.Steam
 
             _Groups.Add(ID, group);
 
-            SteamGroupEvents.RunSteamGroupAdded(group);
+            if (Loaded)
+                SteamGroupEvents.RunSteamGroupAdded(group);
         }
 
         /// <summary>
@@ -59,9 +64,9 @@ namespace PointBlank.API.Steam
                 return;
             _Groups.Remove(group.ID);
 
-            SteamGroupEvents.RunSteamGroupRemoved(group);
+            if (Loaded)
+                SteamGroupEvents.RunSteamGroupRemoved(group);
         }
-
         /// <summary>
         /// Removes a steam group from the server
         /// </summary>
@@ -74,7 +79,8 @@ namespace PointBlank.API.Steam
 
             _Groups.Remove(ID);
 
-            SteamGroupEvents.RunSteamGroupRemoved(group);
+            if (Loaded)
+                SteamGroupEvents.RunSteamGroupRemoved(group);
         }
 
         /// <summary>
