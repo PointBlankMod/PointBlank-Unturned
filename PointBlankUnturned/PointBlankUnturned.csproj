@@ -150,6 +150,7 @@
     <Compile Include="Commands\CommandWelcome.cs" />
     <Compile Include="Commands\CommandWhitelisted.cs" />
     <Compile Include="Enviroment.cs" />
+    <Compile Include="Framework\Configurations\APIConfigurations.cs" />
     <Compile Include="Framework\Overrides\_Barricade.cs" />
     <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
