@@ -1,5 +1,6 @@
 ﻿using System;
 using PointBlank.API.Commands;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
@@ -32,24 +33,34 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
+            UnturnedPlayer[] players = new UnturnedPlayer[1];
+            players[0] = (UnturnedPlayer)executor;
+
             if(!uint.TryParse(args[0], out uint xp))
             {
                 UnturnedChat.SendMessage(executor, Translations["Experience_Invalid"], ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer player))
+            if(args.Length > 1)
             {
-                if(executor == null)
+                if(!UnturnedPlayer.TryGetPlayers(args[1], out players))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+            }
+
+            players.ForEach((player) =>
+            {
+                if (UnturnedPlayer.IsServer(player))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
-                player = (UnturnedPlayer)executor;
-            }
-
-            player.Player.skills.askAward(xp);
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Experience_Give"], player.PlayerName, xp), ConsoleColor.Green);
+                player.Player.skills.askAward(xp);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Experience_Give"], player.PlayerName, xp), ConsoleColor.Green);
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using PointBlank.API.Commands;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
@@ -35,6 +36,8 @@ namespace PointBlank.Commands
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
             VehicleAsset vehicle;
+            UnturnedPlayer[] players = new UnturnedPlayer[1];
+            players[0] = (UnturnedPlayer)executor;
 
             if(!ushort.TryParse(args[0], out ushort id))
             {
@@ -50,22 +53,30 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if (args.Length < 2 || UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
+            if (args.Length > 1)
             {
-                if (executor == null)
+                if (!UnturnedPlayer.TryGetPlayers(args[1], out players))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+            }
+
+            players.ForEach((player) =>
+            {
+                if (UnturnedPlayer.IsServer(player))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
-                ply = (UnturnedPlayer)executor;
-            }
-            if(!VehicleTool.giveVehicle(ply.Player, vehicle.id))
-            {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Fail"], vehicle.vehicleName), ConsoleColor.Red);
-                return;
-            }
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Spawn"], vehicle.vehicleName), ConsoleColor.Green);
+                if (!VehicleTool.giveVehicle(player.Player, vehicle.id))
+                {
+                    UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Fail"], vehicle.vehicleName), ConsoleColor.Red);
+                    return;
+                }
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Spawn"], vehicle.vehicleName), ConsoleColor.Green);
+            });
         }
     }
 }

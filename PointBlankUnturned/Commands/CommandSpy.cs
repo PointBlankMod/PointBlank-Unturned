@@ -1,5 +1,6 @@
 ﻿using System;
 using PointBlank.API.Commands;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using Steamworks;
@@ -30,14 +31,25 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            if(!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer ply))
+            if(!UnturnedPlayer.TryGetPlayers(args[0], out UnturnedPlayer[] players))
             {
                 UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
-            ply.Player.sendScreenshot(((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, null);
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Spy_Spy"], ply.PlayerName), ConsoleColor.Red);
+            players.ForEach((player) =>
+            {
+                if (UnturnedPlayer.IsServer(player))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+                if(player == (UnturnedPlayer)executor)
+                    return;
+
+                player.Player.sendScreenshot(((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, null);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Spy_Spy"], player.PlayerName), ConsoleColor.Red);
+            });
         }
     }
 }

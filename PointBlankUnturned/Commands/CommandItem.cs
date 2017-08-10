@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using PointBlank.API.Commands;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
@@ -35,6 +36,8 @@ namespace PointBlank.Commands
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
             ItemAsset item;
+            UnturnedPlayer[] players = new UnturnedPlayer[1];
+            players[0] = (UnturnedPlayer)executor;
 
             if(!ushort.TryParse(args[0], out ushort id))
             {
@@ -55,23 +58,30 @@ namespace PointBlank.Commands
             if(args.Length < 2 || !byte.TryParse(args[1], out byte amount))
                 amount = 1;
 
-            if(args.Length < 3 || UnturnedPlayer.TryGetPlayer(args[2], out UnturnedPlayer ply))
+            if(args.Length > 2)
             {
-                if(executor == null)
+                if (!UnturnedPlayer.TryGetPlayers(args[2], out players))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+            }
+
+            players.ForEach((player) =>
+            {
+                if (UnturnedPlayer.IsServer(player))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
-                ply = (UnturnedPlayer)executor;
-            }
-
-            if(!ItemTool.tryForceGiveItem(ply.Player, item.id, amount))
-            {
-                UnturnedChat.SendMessage(executor, Translations["Item_Fail"], ConsoleColor.Red);
-                return;
-            }
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Item_Give"], item.itemName, ply.PlayerName), ConsoleColor.Green);
+                if (!ItemTool.tryForceGiveItem(player.Player, item.id, amount))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Item_Fail"], ConsoleColor.Red);
+                    return;
+                }
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Item_Give"], item.itemName, player.PlayerName), ConsoleColor.Green);
+            });
         }
     }
 }

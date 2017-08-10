@@ -1,5 +1,6 @@
 ﻿using System;
 using PointBlank.API.Commands;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
@@ -31,24 +32,34 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
+            UnturnedPlayer[] players = new UnturnedPlayer[1];
+            players[0] = (UnturnedPlayer)executor;
+
             if (!ushort.TryParse(args[0], out ushort quest))
             {
                 UnturnedChat.SendMessage(executor, Translations["Quest_Invalid"], ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
+            if(args.Length > 1)
             {
-                if(executor == null)
+                if(!UnturnedPlayer.TryGetPlayers(args[1], out players))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+            }
+
+            players.ForEach((player) =>
+            {
+                if (UnturnedPlayer.IsServer(player))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
-                ply = (UnturnedPlayer)executor;
-            }
-
-            ply.Player.quests.sendAddQuest(quest);
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Quest_Added"], quest, ply.PlayerName), ConsoleColor.Green);
+                player.Player.quests.sendAddQuest(quest);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Quest_Added"], quest, player.PlayerName), ConsoleColor.Green);
+            });
         }
     }
 }

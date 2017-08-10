@@ -34,23 +34,31 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player))
+            CSteamID steamID = CSteamID.Nil;
+
+            if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
                 UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
-
-            if (executor == null)
+            if(player == null)
             {
-                SteamAdminlist.admin(player, CSteamID.Nil);
-                CommandWindow.Log(string.Format(Translations["Admin_Set"], player), ConsoleColor.Green);
-
+                if(!PlayerTool.tryGetSteamID(args[0], out steamID))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
             }
             else
             {
-                SteamAdminlist.admin(player, (PointBlankPlayer.IsServer(executor) ? CSteamID.Nil : ((UnturnedPlayer)executor).SteamID));
-                executor.SendMessage(string.Format(Translations["Admin_Set"], player), Color.green);
+                steamID = player.SteamID;
             }
+
+            if (UnturnedPlayer.IsServer(executor))
+                SteamAdminlist.admin(steamID, CSteamID.Nil);
+            else
+                SteamAdminlist.admin(steamID, ((UnturnedPlayer)executor).SteamID);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Admin_Set"], player), ConsoleColor.Green);
         }
     }
 }

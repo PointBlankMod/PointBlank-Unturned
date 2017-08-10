@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using PointBlank.API.Commands;
-using UnityEngine;
-using SDG.Unturned;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
+using PointBlank.API.Unturned.Chat;
+using PointBlank.API.Unturned.Player;
+using UnityEngine;
+using SDG.Unturned;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -30,20 +32,13 @@ namespace PointBlank.Commands
         {
             string admins = string.Join(",", Provider.clients.Where(a => a.isAdmin).Select(a => a.playerID.playerName).ToArray());
 
-            if(executor == null)
+            if(!UnturnedPlayer.IsServer(executor) && Provider.hideAdmins && !executor.HasPermission("unturned.revealadmins"))
             {
-                CommandWindow.Log(Translations["Admins_List"] + admins, ConsoleColor.Green);
+                executor.SendMessage(Translations["Admins_Hidden"], Color.red);
+                return;
             }
-            else
-            {
-                if(Provider.hideAdmins && !executor.HasPermission("unturned.revealadmins"))
-                {
-                    executor.SendMessage(Translations["Admins_Hidden"], Color.red);
-                    return;
-                }
 
-                executor.SendMessage(Translations["Admins_List"] + admins, Color.green);
-            }
+            UnturnedChat.SendMessage(executor, Translations["Admins_List"] + admins, ConsoleColor.Green);
         }
     }
 }

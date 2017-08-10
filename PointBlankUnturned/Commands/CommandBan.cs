@@ -34,18 +34,32 @@ namespace PointBlank.Commands
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
             uint ip;
+            CSteamID steamID = CSteamID.Nil;
 
-            if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player) || (executor != null && ((UnturnedPlayer)executor).SteamID == player))
+            if(UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
                 UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
-            ip = SteamGameServerNetworking.GetP2PSessionState(player, out P2PSessionState_t p2PSessionState_t) ? p2PSessionState_t.m_nRemoteIP : 0u;
+            if(player == null)
+            {
+                if (!PlayerTool.tryGetSteamID(args[0], out steamID))
+                {
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    return;
+                }
+            }
+            else
+            {
+                steamID = player.SteamID;
+            }
+            ip = SteamGameServerNetworking.GetP2PSessionState(steamID, out P2PSessionState_t p2PSessionState_t) ? p2PSessionState_t.m_nRemoteIP : 0u;
+
             if (args.Length < 2 || uint.TryParse(args[1], out uint duration))
                 duration = SteamBlacklist.PERMANENT;
             string reason = args.Length < 3 ? Translations["Ban_Reason"] : args[2];
 
-            SteamBlacklist.ban(player, ip, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, reason, duration);
+            SteamBlacklist.ban(steamID, ip, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, reason, duration);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Ban_Success"], player), ConsoleColor.Green);
         }
     }
