@@ -2,19 +2,19 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using SDG.Unturned;
-using UPlayer = SDG.Unturned.Player;
-using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
 using UnityEngine;
+using PointBlank.API.Implements;
 using PointBlank.API.Player;
 using PointBlank.API.Unturned.Server;
-using SP = PointBlank.API.Steam.SteamPlayer;
-using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Item;
+using SP = PointBlank.API.Steam.SteamPlayer;
+using RG = PointBlank.API.Steam.SteamGroup;
 using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
+using UPlayer = SDG.Unturned.Player;
+using SPlayer = SDG.Unturned.SteamPlayer;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -596,14 +596,14 @@ namespace PointBlank.API.Unturned.Player
         public static UnturnedPlayer Get(ulong steam64) => UnturnedServer.GetPlayer(steam64);
 
         /// <summary>
-        /// Tries to get the unturned player instance based on the paramater
+        /// Tries to get the unturned player instance based on the parameter
         /// </summary>
-        /// <param name="param">The paramater to test</param>
+        /// <param name="param">The parameter to test</param>
         /// <param name="player">The unturned player instance</param>
-        /// <returns>If the player waws gotten successfully</returns>
+        /// <returns>If the player was gotten successfully</returns>
         public static bool TryGetPlayer(string param, out UnturnedPlayer player)
         {
-            if(ulong.TryParse(param, out ulong steam64))
+            if (ulong.TryParse(param, out ulong steam64))
             {
                 player = Get(steam64);
                 return true;
@@ -618,6 +618,39 @@ namespace PointBlank.API.Unturned.Player
             }
             player = null;
             return false;
+        }
+
+        /// <summary>
+        /// Tries to get the unturned players based on the parameters
+        /// </summary>
+        /// <param name="param">The parameter to test</param>
+        /// <param name="players">The unturned player instance</param>
+        /// <returns>If the players were gotten successfully</returns>
+        public static bool TryGetPlayers(string param, out UnturnedPlayer[] players)
+        {
+            if(ulong.TryParse(param, out ulong steam64))
+            {
+                players = new UnturnedPlayer[1];
+                players[0] = Get(steam64);
+                return true;
+            }
+            if(param == "*")
+            {
+                players = UnturnedServer.Players;
+                return true;
+            }
+
+            List<UnturnedPlayer> plys = new List<UnturnedPlayer>();
+            UnturnedServer.Players.For((i, player) =>
+            {
+                if (!NameTool.checkNames(param, player.PlayerName) &&
+                   !NameTool.checkNames(param, player.CharacterName)) return;
+
+                plys.Add(player);
+            });
+
+            players = plys.ToArray();
+            return (players.Length > 0);
         }
         #endregion
 
