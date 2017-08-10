@@ -9,7 +9,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandUnadmin : PointBlankCommand
+    public class CommandUnadmin : PointBlankCommand
     {
         #region Properties
         public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;

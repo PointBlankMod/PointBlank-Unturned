@@ -8,7 +8,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandName : PointBlankCommand
+    public class CommandName : PointBlankCommand
     {
         #region Info
         private static readonly byte MIN_LENGTH = 5;

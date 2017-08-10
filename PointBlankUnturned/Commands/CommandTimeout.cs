@@ -8,7 +8,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandTimeout : PointBlankCommand
+    public class CommandTimeout : PointBlankCommand
     {
         #region Info
         private static readonly ushort MIN_NUMBER = 50;

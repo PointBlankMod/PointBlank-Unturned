@@ -11,7 +11,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandKill : PointBlankCommand
+    public class CommandKill : PointBlankCommand
     {
         #region Properties
         public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;

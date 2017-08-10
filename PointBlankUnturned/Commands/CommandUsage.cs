@@ -8,7 +8,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandUsage : PointBlankCommand
+    public class CommandUsage : PointBlankCommand
     {
         #region Properties
         public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;

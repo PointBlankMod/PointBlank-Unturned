@@ -8,7 +8,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandChatrate : PointBlankCommand
+    public class CommandChatrate : PointBlankCommand
     {
         #region Info
         private static readonly float MIN_NUMBER = 1f;

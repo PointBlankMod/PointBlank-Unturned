@@ -8,7 +8,7 @@ using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
-    internal class CommandQueue : PointBlankCommand
+    public class CommandQueue : PointBlankCommand
     {
         #region Info
         private static readonly byte MAX_NUMBER = 64;
