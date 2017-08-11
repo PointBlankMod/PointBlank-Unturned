@@ -827,6 +827,20 @@ namespace PointBlank.API.Unturned.Player
         }
 
         /// <summary>
+        /// Returns the position the player is looking at
+        /// </summary>
+        /// <param name="distance">The ray distance</param>
+        /// <param name="masks">The ray masks</param>
+        /// <returns>The position the player is looking at</returns>
+        public Vector3? GetEyePosition(float distance, int masks) => GetEyePosition(Look.aim.position, Look.aim.forward, distance, masks);
+        /// <summary>
+        /// Returns the position the player is looking at
+        /// </summary>
+        /// <param name="distance">The ray distance</param>
+        /// <returns>The position the player is looking at</returns>
+        public Vector3? GetEyePosition(float distance) => GetEyePosition(distance, RayMasks.BLOCK_COLLISION & ~(1 << 0x15));
+
+        /// <summary>
         /// Sends a message to the player
         /// </summary>
         /// <param name="message">The message to tell the player</param>
