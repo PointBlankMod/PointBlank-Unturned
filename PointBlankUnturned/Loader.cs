@@ -20,7 +20,7 @@ namespace PointBlank
 
             // Set the variables
             Instance = this;
-            Server.ServerLocation = ServerInfo.ServerPath;
+            PointBlankServer.ServerLocation = ServerInfo.ServerPath;
             PointBlank = new PointBlank();
 
             // Run code

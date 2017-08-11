@@ -97,7 +97,7 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Base_NotEnoughArgs"], ConsoleColor.Red);
                 return;
             }
-            Group group = Group.Find(args[3]);
+            PointBlankGroup group = PointBlankGroup.Find(args[3]);
             if(group == null)
             {
                 UnturnedChat.SendMessage(executor, Translations["Player_Group_Invalid"], ConsoleColor.Red);

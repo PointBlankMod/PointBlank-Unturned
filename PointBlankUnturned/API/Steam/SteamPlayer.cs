@@ -123,7 +123,7 @@ namespace PointBlank.API.Steam
             }
             catch (Exception ex)
             {
-                Logging.LogError("Issue occured when getting info for " + ID, ex);
+                PointBlankLogging.LogError("Issue occurred when getting info for " + ID, ex);
             }
         }
     }

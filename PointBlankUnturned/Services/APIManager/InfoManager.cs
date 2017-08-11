@@ -9,16 +9,15 @@ using PointBlank.API.Collections;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
-using GM = PointBlank.API.Groups.GroupManager;
 using Config = PointBlank.Framework.Configurations.APIConfigurations;
 
 namespace PointBlank.Services.APIManager
 {
-    internal class InfoManager : Service
+    internal class InfoManager : PointBlankService
     {
         #region Info
-        public static readonly string SteamGroupPath = Server.ConfigurationsPath + "/SteamGroups";
-        public static readonly string PlayerPath = Server.ConfigurationsPath + "/Players";
+        public static readonly string SteamGroupPath = PointBlankServer.ConfigurationsPath + "/SteamGroups";
+        public static readonly string PlayerPath = PointBlankServer.ConfigurationsPath + "/Players";
         #endregion
 
         #region Variables
@@ -308,7 +307,7 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken t in (JArray)token["Groups"])
                     {
-                        Group g = GM.Groups.FirstOrDefault(a => a.ID == (string)t);
+                        PointBlankGroup g = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)t);
 
                         if (g == null || player.Groups.Contains(g))
                             continue;
@@ -317,7 +316,7 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    Group g = GM.Groups.FirstOrDefault(a => a.ID == (string)token["Groups"]);
+                    PointBlankGroup g = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)token["Groups"]);
 
                     if (g != null && !player.Groups.Contains(g))
                         player.AddGroup(g);

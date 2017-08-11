@@ -10,7 +10,6 @@ namespace PointBlank.API.Unturned.Player
     public static class PlayerEvents
     {
         #region Handlers
-        
         /// <summary>
         /// Handles permission changes of the player
         /// </summary>
@@ -22,7 +21,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="player">The affected player</param>
         /// <param name="group">The changed group</param>
-        public delegate void GroupsChangedHandler(UnturnedPlayer player, Group group);
+        public delegate void GroupsChangedHandler(UnturnedPlayer player, PointBlankGroup group);
         /// <summary>
         /// Handles invisible player changes of the player
         /// </summary>
@@ -75,11 +74,9 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="Skill">Skill being upgraded</param>
         /// <param name="Level">Upgraded level of skill</param>
         public delegate void PlayerSkillUpgradeHandler(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level);
-        
         #endregion
 
         #region Events
-        
         /// <summary>
         /// Called when a permission is added
         /// </summary>
@@ -141,29 +138,22 @@ namespace PointBlank.API.Unturned.Player
         /// Called when a player upgrades their skill
         /// </summary>
         public static event PlayerSkillUpgradeHandler OnPlayerSkillUpgrade;
-        
         #endregion
 
         #region Functions
-        
         internal static void RunPermissionAdd(UnturnedPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
-
         internal static void RunPermissionRemove(UnturnedPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
 
-        internal static void RunGroupAdd(UnturnedPlayer player, Group group) => OnGroupAdded?.Invoke(player, @group);
-
-        internal static void RunGroupRemove(UnturnedPlayer player, Group group) => OnGroupRemoved?.Invoke(player, @group);
+        internal static void RunGroupAdd(UnturnedPlayer player, PointBlankGroup group) => OnGroupAdded?.Invoke(player, @group);
+        internal static void RunGroupRemove(UnturnedPlayer player, PointBlankGroup group) => OnGroupRemoved?.Invoke(player, @group);
 
         internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerAdded?.Invoke(player, target);
-
         internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerRemoved?.Invoke(player, target);
 
         internal static void RunPrefixAdd(UnturnedPlayer player, string prefix) => OnPrefixAdded?.Invoke(player, prefix);
-
         internal static void RunPrefixRemove(UnturnedPlayer player, string prefix) => OnPrefixRemoved?.Invoke(player, prefix);
 
         internal static void RunSuffixAdd(UnturnedPlayer player, string suffix) => OnSuffixAdded?.Invoke(player, suffix);
-
         internal static void RunSuffixRemove(UnturnedPlayer player, string suffix) => OnSuffixRemoved?.Invoke(player, suffix);
 
         internal static void RunPlayerHurt(SteamPlayer player, ref byte damage, ref EDeathCause cause, ref ELimb limb, ref UnturnedPlayer damager, ref bool cancel)
@@ -182,7 +172,6 @@ namespace PointBlank.API.Unturned.Player
 
         internal static void RunPlayerSkillUpgrade(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level) =>
             OnPlayerSkillUpgrade?.Invoke(Player, Specialty, Skill, Level);
-
         #endregion
     }
 }

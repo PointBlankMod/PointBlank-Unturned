@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace PointBlank.Services.APIUpdateChecker
 {
-    internal class APIUpdateChecker : Service
+    internal class APIUpdateChecker : PointBlankService
     {
         #region Info
         public static readonly string URL = "http://pastebin.com/raw/ZVcNXEVw";
@@ -54,7 +54,7 @@ namespace PointBlank.Services.APIUpdateChecker
                     if ((string)info["Games"]["Unturned"]["API_Version"] == "0")
                         continue;
                     if((string)info["Games"]["Unturned"]["API_Version"] != APIInfo.Version)
-                        Logging.LogImportant("A new update is available for the API!");
+                        PointBlankLogging.LogImportant("A new update is available for the API!");
                 }
             }
         }

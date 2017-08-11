@@ -6,14 +6,13 @@ using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
+using PointBlank.API.Plugins;
+using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
-using PM = PointBlank.API.Plugins.PluginManager;
-using GM = PointBlank.API.Groups.GroupManager;
-using CM = PointBlank.API.Commands.CommandManager;
 using Typ = SDG.Unturned.Types;
 using Steamworks;
 using UnityEngine;
@@ -21,7 +20,7 @@ using SDG.Unturned;
 
 namespace PointBlank.Services.APIManager
 {
-    internal class APIManager : Service
+    internal class APIManager : PointBlankService
     {
         #region Variables
         // Thread variables
@@ -125,14 +124,14 @@ namespace PointBlank.Services.APIManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error in pre-connect event!", ex);
+                PointBlankLogging.LogError("Error in pre-connect event!", ex);
             }
         }
         private void OnPlayerJoin(UnturnedPlayer player)
         {
-            Group[] groups = GM.Groups.Where(a => a.Default).ToArray();
+            PointBlankGroup[] groups = PointBlankGroupManager.Groups.Where(a => a.Default).ToArray();
 
-            foreach (Group g in groups)
+            foreach (PointBlankGroup g in groups)
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
         }
@@ -223,7 +222,7 @@ namespace PointBlank.Services.APIManager
                 OnSetVisible(UnturnedServer.Players[i], player);
             }
         }
-        private void OnGroupChange(UnturnedPlayer player, Group group)
+        private void OnGroupChange(UnturnedPlayer player, PointBlankGroup group)
         {
             player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
             player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
@@ -254,7 +253,7 @@ namespace PointBlank.Services.APIManager
             if (text.StartsWith("/") || text.StartsWith("@"))
                 text = text.Remove(0, 1);
 
-            CM.ExecuteCommand(text, null);
+            PointBlankCommandManager.ExecuteCommand(text, null);
         }
         private void OnUnturnedCommand(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
         {
@@ -262,16 +261,16 @@ namespace PointBlank.Services.APIManager
             if (!text.StartsWith("/") && !text.StartsWith("@")) return;
             shouldList = false;
 
-            CM.ExecuteCommand(text, UnturnedPlayer.Get(player));
+            PointBlankCommandManager.ExecuteCommand(text, UnturnedPlayer.Get(player));
         }
 
         private void OnServerInitialized()
         {
             SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
-            string plugins = string.Join(",", PM.LoadedPlugins.Select(a => PM.GetPluginName(a)).ToArray());
+            string plugins = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a)).ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
-            Server.IsRunning = true;
+            PointBlankServer.IsRunning = true;
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {

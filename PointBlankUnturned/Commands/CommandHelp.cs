@@ -29,7 +29,7 @@ namespace PointBlank.Commands
         {
             if(args.Length > 0)
             {
-                PointBlankCommand cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
+                PointBlankCommand cmd = PointBlankCommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
 
                 if(cmd == null)
                 {
@@ -44,7 +44,7 @@ namespace PointBlank.Commands
             string send = "";
             while (true)
             {
-                if(pos >= CommandManager.Commands.Length)
+                if(pos >= PointBlankCommandManager.Commands.Length)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     break;
@@ -56,7 +56,7 @@ namespace PointBlank.Commands
                     prevPos = pos;
                 }
 
-                send += (string.IsNullOrEmpty(send) ? "" : ",") + CommandManager.Commands[pos].Commands[0];
+                send += (string.IsNullOrEmpty(send) ? "" : ",") + PointBlankCommandManager.Commands[pos].Commands[0];
                 pos++;
             }
         }

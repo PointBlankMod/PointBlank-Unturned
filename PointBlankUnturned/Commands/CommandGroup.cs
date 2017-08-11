@@ -35,11 +35,11 @@ namespace PointBlank.Commands
         {
             if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_List"], args[0]) == 0)
             {
-                UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.Name).ToArray()), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, string.Join(",", PointBlankGroupManager.Groups.Select(a => a.Name).ToArray()), ConsoleColor.Green);
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_IDs"], args[0]) == 0)
             {
-                UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.ID).ToArray()), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, string.Join(",", PointBlankGroupManager.Groups.Select(a => a.ID).ToArray()), ConsoleColor.Green);
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_Help"], args[0]) == 0)
             {
@@ -64,12 +64,12 @@ namespace PointBlank.Commands
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_Reload"], args[0]) == 0)
             {
-                GroupManager.Reload();
+                PointBlankGroupManager.Reload();
                 UnturnedChat.SendMessage(executor, Translations["Group_Reloaded"], ConsoleColor.Green);
             }
         }
 
-        #region Funtions
+        #region Functions
         private void Permissions(PointBlankPlayer executor, string[] args)
         {
             if(args.Length < 2)
@@ -77,7 +77,7 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Base_NotEnoughArgs"], ConsoleColor.Red);
                 return;
             }
-            Group group = Group.Find(args[1]);
+            PointBlankGroup group = PointBlankGroup.Find(args[1]);
             if (group == null)
             {
                 UnturnedChat.SendMessage(executor, Translations["Group_NotFound"], ConsoleColor.Red);
@@ -94,13 +94,13 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Base_NotEnoughArgs"], ConsoleColor.Red);
                 return;
             }
-            if (Group.Exists(args[1]))
+            if (PointBlankGroup.Exists(args[1]))
             {
                 UnturnedChat.SendMessage(executor, Translations["Group_Exists"], ConsoleColor.Red);
                 return;
             }
 
-            GroupManager.AddGroup(args[1], args[2], false, -1, Color.clear);
+            PointBlankGroupManager.AddGroup(args[1], args[2], false, -1, Color.clear);
             UnturnedChat.SendMessage(executor, Translations["Group_Added"], ConsoleColor.Green);
         }
 
@@ -111,14 +111,14 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Base_NotEnoughArgs"], ConsoleColor.Red);
                 return;
             }
-            Group group = Group.Find(args[1]);
+            PointBlankGroup group = PointBlankGroup.Find(args[1]);
             if (group == null)
             {
                 UnturnedChat.SendMessage(executor, Translations["Group_NotFound"], ConsoleColor.Red);
                 return;
             }
 
-            GroupManager.RemoveGroup(group);
+            PointBlankGroupManager.RemoveGroup(group);
             UnturnedChat.SendMessage(executor, Translations["Group_Removed"], ConsoleColor.Green);
         }
         #endregion

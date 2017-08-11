@@ -29,7 +29,7 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            PointBlankCommand cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
+            PointBlankCommand cmd = PointBlankCommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
 
             if (cmd == null)
             {

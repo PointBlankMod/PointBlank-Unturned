@@ -235,9 +235,9 @@ namespace PointBlank.API.Steam
             List<string> permissions = new List<string>();
 
             permissions.AddRange(Permissions);
-            PBTools.ForeachLoop<SteamGroup>(Inherits, delegate (int index, SteamGroup value)
+            PointBlankTools.ForeachLoop<SteamGroup>(Inherits, delegate (int index, SteamGroup value)
             {
-                PBTools.ForeachLoop<string>(value.GetPermissions(), delegate (int i, string v)
+                PointBlankTools.ForeachLoop<string>(value.GetPermissions(), delegate (int i, string v)
                 {
                     if (permissions.Contains(v))
                         return;

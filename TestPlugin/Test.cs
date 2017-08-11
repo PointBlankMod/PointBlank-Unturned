@@ -5,7 +5,7 @@ using PointBlank.API.Plugins;
 
 namespace TestPlugin
 {
-    public class Test : Plugin
+    public class Test : PointBlankPlugin
     {
         public override TranslationList Translations => new TranslationList()
         {
@@ -31,15 +31,15 @@ namespace TestPlugin
 
         public override void Load()
         {
-            Logging.Log("Hello from test plugin load!");
-            Logging.Log("Translation test: " + Test.Instance.Translations["test"]); // Call the translation
-            Logging.Log("Configuration test: " + (string)Test.Instance.Configurations["test"]); // Call the test configuration
-            Logging.Log("Configuration test 2: " + (string)((List<object>)Test.Instance.Configurations["testList"])[0]);
+            PointBlankLogging.Log("Hello from test plugin load!");
+            PointBlankLogging.Log("Translation test: " + Test.Instance.Translations["test"]); // Call the translation
+            PointBlankLogging.Log("Configuration test: " + (string)Test.Instance.Configurations["test"]); // Call the test configuration
+            PointBlankLogging.Log("Configuration test 2: " + (string)((List<object>)Test.Instance.Configurations["testList"])[0]);
         }
 
         public override void Unload()
         {
-            Logging.Log("Hello from test plugin unload!");
+            PointBlankLogging.Log("Hello from test plugin unload!");
         }
     }
 }

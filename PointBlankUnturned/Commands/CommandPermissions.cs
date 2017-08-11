@@ -1,9 +1,9 @@
 ﻿using System;
 using PointBlank.API.Commands;
+using PointBlank.API.Groups;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
-using PBGroup = PointBlank.API.Groups.Group;
 using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
@@ -83,7 +83,7 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Base_NotEnoughArgs"], ConsoleColor.Red);
                 return;
             }
-            if(!PBGroup.TryFindGroup(args[1], out PBGroup group))
+            if(!PointBlankGroup.TryFindGroup(args[1], out PointBlankGroup group))
             {
                 UnturnedChat.SendMessage(executor, Translations["Base_InvalidGroup"], ConsoleColor.Red);
                 return;

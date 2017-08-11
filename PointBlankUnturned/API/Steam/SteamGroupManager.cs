@@ -109,7 +109,7 @@ namespace PointBlank.API.Steam
         /// </summary>
         public static void Reload()
         {
-            InfoManager im = (InfoManager)ServiceManager.GetService("InfoManager.InfoManager");
+            InfoManager im = (InfoManager)PointBlankServiceManager.GetService("InfoManager.InfoManager");
 
             im.LoadSteamGroups();
         }

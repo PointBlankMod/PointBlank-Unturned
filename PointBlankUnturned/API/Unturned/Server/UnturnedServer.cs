@@ -350,7 +350,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static void ReloadPlayers()
         {
-            InfoManager info = (InfoManager)ServiceManager.GetService("InfoManager.InfoManager");
+            InfoManager info = (InfoManager)PointBlankServiceManager.GetService("InfoManager.InfoManager");
 
             foreach(UnturnedPlayer player in Players)
                 info.OnPlayerJoin(player);

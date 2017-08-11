@@ -44,7 +44,7 @@ namespace PointBlank.Commands
             {
                 SteamGroupManager.Reload();
                 UnturnedServer.ReloadPlayers();
-                GroupManager.Reload();
+                PointBlankGroupManager.Reload();
                 UnturnedChat.SendMessage(executor, Translations["PointBlank_ReloadAll"], ConsoleColor.Green);
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare("version", args[0]) == 0)
@@ -53,7 +53,7 @@ namespace PointBlank.Commands
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare("restartplugins", args[0]) == 0)
             {
-                PluginManager.Reload();
+                PointBlankPluginManager.Reload();
                 UnturnedChat.SendMessage(executor, Translations["PointBlank_RestartPlugins"], ConsoleColor.Green);
             }
             else

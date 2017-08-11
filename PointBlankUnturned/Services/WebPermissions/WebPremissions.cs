@@ -11,12 +11,12 @@ using Config = PointBlank.Framework.Configurations.APIConfigurations;
 
 namespace PointBlank.Services.WebPermissions
 {
-    internal class WebPremissions : Service
+    internal class WebPremissions : PointBlankService
     {
         #region Info
-        public static readonly string SteamGroupPath = Server.ConfigurationsPath + "/SteamGroups.dat";
-        public static readonly string PlayerPath = Server.ConfigurationsPath + "/Players.dat";
-        public static readonly string GroupPath = Server.ConfigurationsPath + "/Groups.dat";
+        public static readonly string SteamGroupPath = PointBlankServer.ConfigurationsPath + "/SteamGroups.dat";
+        public static readonly string PlayerPath = PointBlankServer.ConfigurationsPath + "/Players.dat";
+        public static readonly string GroupPath = PointBlankServer.ConfigurationsPath + "/Groups.dat";
         #endregion
 
         #region Variables

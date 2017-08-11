@@ -8,13 +8,12 @@ using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.Launcher
 {
-    internal class Launcher : Service
+    internal class Launcher : PointBlankService
     {
         #region Properties
         public override int LaunchIndex => 0;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             if (!Environment.GetCommandLineArgs().Contains("-launcher"))
@@ -38,7 +37,6 @@ namespace PointBlank.Services.Launcher
             if (!Environment.GetCommandLineArgs().Contains("-launcher"))
                 return;
         }
-        #endregion
 
         #region Event Functions
         private void OnPlayerUpdate(UnturnedPlayer player)
