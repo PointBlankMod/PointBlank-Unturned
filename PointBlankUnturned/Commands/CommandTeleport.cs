@@ -34,34 +34,34 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
+            UnturnedPlayer player = (UnturnedPlayer)executor;
+
+            if (args.Length > 1)
             {
-                if(executor == null)
+                if (!UnturnedPlayer.TryGetPlayer(args[1], out player))
                 {
-                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translate("PlayerNotFound"), ConsoleColor.Red);
                     return;
                 }
-
-                ply = (UnturnedPlayer)executor;
             }
 
-            if(UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer pTarget))
+            if (UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer pTarget))
             {
-                ply.Teleport(pTarget.Player.transform.position);
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Teleport_Teleport"], ply.PlayerName, pTarget.PlayerName), ConsoleColor.Green);
+                player.Teleport(pTarget.Player.transform.position);
+                UnturnedChat.SendMessage(executor, string.Format(Translate("Teleport_Teleport"), player.PlayerName, pTarget.PlayerName), ConsoleColor.Green);
             }
             else
             {
                 Node nTarget = LevelNodes.nodes.FirstOrDefault(a => a.type == ENodeType.LOCATION && NameTool.checkNames(args[0], ((LocationNode)a).name));
 
-                if(nTarget == null)
+                if (nTarget == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translations["Teleport_Invalid"], ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translate("Teleport_Invalid"), ConsoleColor.Red);
                     return;
                 }
 
-                ply.Teleport(nTarget.point);
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Teleport_Teleport"], ply.PlayerName, ((LocationNode)nTarget).name), ConsoleColor.Green);
+                player.Teleport(nTarget.point);
+                UnturnedChat.SendMessage(executor, string.Format(Translate("Teleport_Teleport"), player.PlayerName, ((LocationNode)nTarget).name), ConsoleColor.Green);
             }
         }
     }
