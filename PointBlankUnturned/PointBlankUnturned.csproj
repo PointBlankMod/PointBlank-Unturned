@@ -80,6 +80,7 @@
     <Compile Include="API\Unturned\Player\StoredPlayer.cs" />
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
+    <Compile Include="API\Unturned\Player\UnturnedPlayerComponent.cs" />
     <Compile Include="API\Unturned\Server\ServerEvents.cs" />
     <Compile Include="API\Unturned\Server\UnturnedServer.cs" />
     <Compile Include="API\Unturned\Skills\ESkills.cs" />

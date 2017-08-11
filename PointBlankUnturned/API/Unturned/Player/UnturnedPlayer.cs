@@ -525,7 +525,10 @@ namespace PointBlank.API.Unturned.Player
         /// The number of deaths since the player first joined the server
         /// </summary>
         public int TotalDeaths { get; internal set; }
-        
+        /// <summary>
+        /// The gameobject of the player
+        /// </summary>
+        public override GameObject GameObject => Player.gameObject;
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
