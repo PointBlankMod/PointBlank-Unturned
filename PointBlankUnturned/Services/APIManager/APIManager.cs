@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
+using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
@@ -47,6 +48,7 @@ namespace PointBlank.Services.APIManager
             Provider.onEnemyDisconnected += new Provider.EnemyDisconnected(ServerEvents.RunPlayerDisconnected);
             Provider.onServerShutdown += new Provider.ServerShutdown(ServerEvents.RunServerShutdown);
             Provider.onServerHosted += new Provider.ServerHosted(ServerEvents.RunServerInitialized);
+            Provider.onCheckValid += new Provider.CheckValid(OnPlayerPreConnect);
             LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
@@ -108,6 +110,24 @@ namespace PointBlank.Services.APIManager
             ServerEvents.RunItemRemoved(itm);
         }
 
+        private void OnPlayerPreConnect(ValidateAuthTicketResponse_t AuthTicket, ref bool valid)
+        {
+            ESteamRejection? reject = null;
+
+            try
+            {
+                ServerEvents.RunPlayerPreConnect(AuthTicket.m_SteamID, ref reject);
+                if (reject.HasValue)
+                {
+                    Provider.reject(AuthTicket.m_SteamID, reject.Value);
+                    valid = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Error in pre-connect event!", ex);
+            }
+        }
         private void OnPlayerJoin(UnturnedPlayer player)
         {
             Group[] groups = GM.Groups.Where(a => a.Default).ToArray();

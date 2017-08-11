@@ -20,6 +20,12 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The player that connected/disconnected</param>
         public delegate void PlayerConnectionHandler(UnturnedPlayer player);
+        /// <summary>
+        /// Used for handling player joins before connection is started
+        /// </summary>
+        /// <param name="steamID">The player's steam ID</param>
+        /// <param name="reject">The rejection reason(leave null to accept)</param>
+        public delegate void PlayerPreConnectHandler(CSteamID steamID, ref ESteamRejection? reject);
 
         /// <summary>
         /// Used for handling vehicles
@@ -94,6 +100,10 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a player disconnected from the server
         /// </summary>
         public static event PlayerConnectionHandler OnPlayerDisconnected;
+        /// <summary>
+        /// Called when the player is attempting to join the server
+        /// </summary>
+        public static event PlayerPreConnectHandler OnPlayerPreConnect;
 
         /// <summary>
         /// Called when the time is officially day
@@ -174,6 +184,7 @@ namespace PointBlank.API.Unturned.Server
 
         internal static void RunPlayerConnected(SteamPlayer player) => OnPlayerConnected?.Invoke(UnturnedPlayer.Create(player));
         internal static void RunPlayerDisconnected(SteamPlayer player) => OnPlayerDisconnected?.Invoke(UnturnedPlayer.Create(player));
+        internal static void RunPlayerPreConnect(CSteamID steamID, ref ESteamRejection? reject) => OnPlayerPreConnect?.Invoke(steamID, ref reject);
 
         internal static void RunDayNight(bool isDay)
         {
