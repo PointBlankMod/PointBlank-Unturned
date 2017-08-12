@@ -27,6 +27,8 @@ namespace PointBlank.API.Unturned.Player
         private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
+
+        private readonly FieldInfo _fiItems = typeof(Items).GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
         #endregion
 
         #region Properties
@@ -469,13 +471,13 @@ namespace PointBlank.API.Unturned.Player
             get
             {
                 List<UnturnedStoredItem> retval = new List<UnturnedStoredItem>();
-                for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
+                Inventory.items.ForEach((items) =>
                 {
-                    byte count = Inventory.getItemCount(page);
-                    if (count <= 0) continue;
-                    for (byte index = 0; index < count; index++)
-                        retval.Add(new UnturnedStoredItem(Inventory.getItem(page, index)));
-                }
+                    ((List<ItemJar>)_fiItems.GetValue(items)).For((i, item) =>
+                    {
+                        retval.Add(new UnturnedStoredItem(item, items, (byte)i, this));
+                    });
+                });
                 return retval.ToArray();
             }
         }

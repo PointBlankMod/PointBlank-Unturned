@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using UnityEngine;
 
@@ -13,6 +14,18 @@ namespace PointBlank.API.Unturned.Item
         /// The item jar instance
         /// </summary>
         public ItemJar Jar { get; private set; }
+        /// <summary>
+        /// The items instance for the inventory info
+        /// </summary>
+        public Items Items { get; private set; }
+        /// <summary>
+        /// The item index in the inventory
+        /// </summary>
+        public byte Index { get; private set; }
+        /// <summary>
+        /// The item owner
+        /// </summary>
+        public UnturnedPlayer Owner { get; private set; }
         /// <summary>
         /// The item instance
         /// </summary>
@@ -83,12 +96,34 @@ namespace PointBlank.API.Unturned.Item
         /// How rare is the item
         /// </summary>
         public EItemRarity ItemRarity => Asset.rarity;
+
+        // Items information
+        /// <summary>
+        /// Gets/Sets the quality of the item
+        /// </summary>
+        public byte Quality
+        {
+            get => Item.quality;
+            set
+            {
+                Items.updateQuality(Index, value);
+                Owner.Inventory.channel.send("tellUpdateQuality", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                {
+                    Items.page,
+                    Owner.Inventory.getIndex(Items.page, Jar.x, Jar.y),
+                    value
+                });
+            }
+        }
         #endregion
 
-        internal UnturnedStoredItem(ItemJar jar)
+        internal UnturnedStoredItem(ItemJar jar, Items items, byte index, UnturnedPlayer owner)
         {
             // Set the variables
             Jar = jar;
+            Items = items;
+            Index = index;
+            Owner = owner;
         }
     }
 }
