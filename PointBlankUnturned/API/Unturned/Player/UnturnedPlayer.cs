@@ -962,6 +962,12 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="message">Message displayed when kicked</param>
         public void Kick(string message) => Provider.kick(SteamID, message);
+
+        /// <summary>
+        /// Executes a message as the player(commands included)
+        /// </summary>
+        /// <param name="message">The message to execute as the player</param>
+        public void Sudo(string message) => ChatManager.instance.askChat(SteamID, (byte)EChatMode.GLOBAL, message);
         #endregion
     }
 }
