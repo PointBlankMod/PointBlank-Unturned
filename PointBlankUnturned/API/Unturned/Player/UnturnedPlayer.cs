@@ -564,6 +564,13 @@ namespace PointBlank.API.Unturned.Player
         public static bool IsInServer(UnturnedPlayer player) => UnturnedServer.IsInServer(player);
 
         /// <summary>
+        /// Gets the player/server name and returns it
+        /// </summary>
+        /// <param name="player">The player instance/null for server</param>
+        /// <returns>The name of player/server</returns>
+        public static string GetName(PointBlankPlayer player) => IsServer(player) ? "Server" : player.ToString();
+
+        /// <summary>
         /// Gets the unturned player instance based on steam player instance
         /// </summary>
         /// <param name="player">The steam player instance</param>
@@ -968,6 +975,10 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="message">The message to execute as the player</param>
         public void Sudo(string message) => ChatManager.instance.askChat(SteamID, (byte)EChatMode.GLOBAL, message);
+        #endregion
+
+        #region Override Functions
+        public override string ToString() => CharacterName;
         #endregion
     }
 }
