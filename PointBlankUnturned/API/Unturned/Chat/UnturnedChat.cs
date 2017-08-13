@@ -18,16 +18,7 @@ namespace PointBlank.API.Unturned.Chat
         /// </summary>
         /// <param name="text">The text to broadcast</param>
         /// <param name="color">The color of the broadcast</param>
-        public static void Broadcast(string text, Color color) => CM.say(text, color);
-
-        /// <summary>
-        /// Sends a private message to a player
-        /// </summary>
-        /// <param name="user">The steamID of the player to send to</param>
-        /// <param name="text">The message text to send</param>
-        /// <param name="color">The message color to send</param>
-        /// <param name="mode">The message mode</param>
-        public static void Tell(CSteamID user, string text, Color color, EChatMode mode = EChatMode.SAY) => CM.say(user, text, color, mode);
+        public static void Broadcast(object text, Color color) => CM.say(text.ToString(), color);
 
         /// <summary>
         /// Sends a fake global message as a user
@@ -56,6 +47,25 @@ namespace PointBlank.API.Unturned.Chat
         /// <param name="text">The message</param>
         /// <param name="color">The message color</param>
         public static void SendMessage(PointBlankPlayer player, object text, ConsoleColor color = ConsoleColor.White) => PointBlankPlayer.SendMessage(player, text, color);
+
+        /// <summary>
+        /// Broadcast a message to the entire server
+        /// </summary>
+        /// <param name="message">The message to broadcast</param>
+        public static void Say(object message) => Broadcast(message, Color.magenta);
+        /// <summary>
+        /// Broadcast a message to the entire server
+        /// </summary>
+        /// <param name="message">The message to broadcast</param>
+        /// <param name="color">The color of the message</param>
+        public static void Say(object message, Color color) => Broadcast(message, color);
+        /// <summary>
+        /// Sends a message to a specific player or to the server
+        /// </summary>
+        /// <param name="player">The player to send the message to(null if server)</param>
+        /// <param name="message">The message to send to the player/server</param>
+        /// <param name="color">The color of the message</param>
+        public static void Say(PointBlankPlayer player, object message, ConsoleColor color = ConsoleColor.White) => SendMessage(player, message, color);
         #endregion
     }
 }
