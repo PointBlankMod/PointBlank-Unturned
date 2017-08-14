@@ -32,7 +32,6 @@ namespace PointBlank.Services.APIManager
         public override int LaunchIndex => 2;
         #endregion
 
-        #region Service Functions
         public override void Load()
         {
             // Setup thread
@@ -43,41 +42,41 @@ namespace PointBlank.Services.APIManager
             }));
 
             // Setup events
-            Provider.onEnemyConnected += new Provider.EnemyConnected(ServerEvents.RunPlayerConnected);
-            Provider.onEnemyDisconnected += new Provider.EnemyDisconnected(ServerEvents.RunPlayerDisconnected);
-            Provider.onServerShutdown += new Provider.ServerShutdown(ServerEvents.RunServerShutdown);
-            Provider.onServerHosted += new Provider.ServerHosted(ServerEvents.RunServerInitialized);
-            Provider.onCheckValid += new Provider.CheckValid(OnPlayerPreConnect);
-            LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
-            LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
-            LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
+            Provider.onEnemyConnected += ServerEvents.RunPlayerConnected;
+            Provider.onEnemyDisconnected += ServerEvents.RunPlayerDisconnected;
+            Provider.onServerShutdown += ServerEvents.RunServerShutdown;
+            Provider.onServerHosted += ServerEvents.RunServerInitialized;
+            Provider.onCheckValid += OnPlayerPreConnect;
+            LightingManager.onDayNightUpdated += ServerEvents.RunDayNight;
+            LightingManager.onMoonUpdated += ServerEvents.RunFullMoon;
+            LightingManager.onRainUpdated += ServerEvents.RunRainUpdated;
 
-            ChatManager.onChatted += new Chatted(OnPlayerChat);
-            CommandWindow.onCommandWindowInputted += new CommandWindowInputted(OnConsoleCommand);
-            ChatManager.onCheckPermissions += new CheckPermissions(OnUnturnedCommand);
-            ItemManager.onItemDropAdded += new ItemDropAdded(OnItemDropAdded);
-            ItemManager.onItemDropRemoved += new ItemDropRemoved(OnItemDropRemoved);
+            ChatManager.onChatted += OnPlayerChat;
+            CommandWindow.onCommandWindowInputted += OnConsoleCommand;
+            ChatManager.onCheckPermissions += OnUnturnedCommand;
+            ItemManager.onItemDropAdded += OnItemDropAdded;
+            ItemManager.onItemDropRemoved += OnItemDropRemoved;
 
             // Setup pointblank events
-            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
-            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
-            PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
-            PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
-            ServerEvents.OnServerInitialized += new OnVoidDelegate(OnServerInitialized);
-            ServerEvents.OnPacketSent += new ServerEvents.PacketSentHandler(OnPacketSend);
-            PlayerEvents.OnPrefixAdded += new PlayerEvents.PrefixesChangedHandler(OnPrefixChange);
-            PlayerEvents.OnPrefixRemoved += new PlayerEvents.PrefixesChangedHandler(OnPrefixChange);
-            PlayerEvents.OnSuffixAdded += new PlayerEvents.SuffixesChangedHandler(OnSuffixChange);
-            PlayerEvents.OnSuffixRemoved += new PlayerEvents.SuffixesChangedHandler(OnSuffixChange);
-            PlayerEvents.OnGroupAdded += new PlayerEvents.GroupsChangedHandler(OnGroupChange);
-            PlayerEvents.OnGroupRemoved += new PlayerEvents.GroupsChangedHandler(OnGroupChange);
-            PlayerEvents.OnPlayerDied += new PlayerEvents.PlayerDeathHandler(OnPlayerDie);
-            PlayerEvents.OnPlayerKill += new PlayerEvents.PlayerKillHandler(OnPlayerKill);
+            ServerEvents.OnPlayerConnected += OnPlayerJoin;
+            ServerEvents.OnPlayerDisconnected += OnPlayerLeave;
+            PlayerEvents.OnInvisiblePlayerAdded += OnSetInvisible;
+            PlayerEvents.OnInvisiblePlayerRemoved += OnSetVisible;
+            ServerEvents.OnServerInitialized += OnServerInitialized;
+            ServerEvents.OnPacketSent += OnPacketSend;
+            PlayerEvents.OnPrefixAdded += OnPrefixChange;
+            PlayerEvents.OnPrefixRemoved += OnPrefixChange;
+            PlayerEvents.OnSuffixAdded += OnSuffixChange;
+            PlayerEvents.OnSuffixRemoved += OnSuffixChange;
+            PlayerEvents.OnGroupAdded += OnGroupChange;
+            PlayerEvents.OnGroupRemoved += OnGroupChange;
+            PlayerEvents.OnPlayerDied += OnPlayerDie;
+            PlayerEvents.OnPlayerKill += OnPlayerKill;
 
-            StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
-            StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
-            BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
-            BarricadeEvents.OnBarricadeSalvage += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
+            StructureEvents.OnDestroyStructure += ServerEvents.RunStructureRemoved;
+            StructureEvents.OnSalvageStructure += ServerEvents.RunStructureRemoved;
+            BarricadeEvents.OnBarricadeDestroy += ServerEvents.RunBarricadeRemoved;
+            BarricadeEvents.OnBarricadeSalvage += ServerEvents.RunBarricadeRemoved;
 
             // Run code
             tGame.Start();
@@ -85,11 +84,47 @@ namespace PointBlank.Services.APIManager
 
         public override void Unload()
         {
+            // Unload events
+            Provider.onEnemyConnected -= ServerEvents.RunPlayerConnected;
+            Provider.onEnemyDisconnected -= ServerEvents.RunPlayerDisconnected;
+            Provider.onServerShutdown -= ServerEvents.RunServerShutdown;
+            Provider.onServerHosted -= ServerEvents.RunServerInitialized;
+            Provider.onCheckValid -= OnPlayerPreConnect;
+            LightingManager.onDayNightUpdated -= ServerEvents.RunDayNight;
+            LightingManager.onMoonUpdated -= ServerEvents.RunFullMoon;
+            LightingManager.onRainUpdated -= ServerEvents.RunRainUpdated;
+
+            ChatManager.onChatted -= OnPlayerChat;
+            CommandWindow.onCommandWindowInputted -= OnConsoleCommand;
+            ChatManager.onCheckPermissions -= OnUnturnedCommand;
+            ItemManager.onItemDropAdded -= OnItemDropAdded;
+            ItemManager.onItemDropRemoved -= OnItemDropRemoved;
+
+            // Unload pointblank events
+            ServerEvents.OnPlayerConnected -= OnPlayerJoin;
+            ServerEvents.OnPlayerDisconnected -= OnPlayerLeave;
+            PlayerEvents.OnInvisiblePlayerAdded -= OnSetInvisible;
+            PlayerEvents.OnInvisiblePlayerRemoved -= OnSetVisible;
+            ServerEvents.OnServerInitialized -= OnServerInitialized;
+            ServerEvents.OnPacketSent -= OnPacketSend;
+            PlayerEvents.OnPrefixAdded -= OnPrefixChange;
+            PlayerEvents.OnPrefixRemoved -= OnPrefixChange;
+            PlayerEvents.OnSuffixAdded -= OnSuffixChange;
+            PlayerEvents.OnSuffixRemoved -= OnSuffixChange;
+            PlayerEvents.OnGroupAdded -= OnGroupChange;
+            PlayerEvents.OnGroupRemoved -= OnGroupChange;
+            PlayerEvents.OnPlayerDied -= OnPlayerDie;
+            PlayerEvents.OnPlayerKill -= OnPlayerKill;
+
+            StructureEvents.OnDestroyStructure -= ServerEvents.RunStructureRemoved;
+            StructureEvents.OnSalvageStructure -= ServerEvents.RunStructureRemoved;
+            BarricadeEvents.OnBarricadeDestroy -= ServerEvents.RunBarricadeRemoved;
+            BarricadeEvents.OnBarricadeSalvage -= ServerEvents.RunBarricadeRemoved;
+
             // Stop the thread
             RunThread = false;
             tGame.Abort();
         }
-        #endregion
 
         #region Mono Functions
         void Update() => ServerEvents.RunGameTick();
@@ -160,6 +195,9 @@ namespace PointBlank.Services.APIManager
         }
         private void OnSetVisible(UnturnedPlayer player, UnturnedPlayer target)
         {
+            if (!UnturnedPlayer.IsInServer(target))
+                return;
+
             byte[] bytes = SteamPacker.getBytes(0, out int size, new object[]
             {
                 11,

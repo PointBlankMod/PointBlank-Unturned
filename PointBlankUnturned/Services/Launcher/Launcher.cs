@@ -36,6 +36,11 @@ namespace PointBlank.Services.Launcher
         {
             if (!Environment.GetCommandLineArgs().Contains("-launcher"))
                 return;
+
+            // Unload the events
+            ServerEvents.OnPlayerConnected -= new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
+            ServerEvents.OnPlayerDisconnected -= new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
+            ServerEvents.OnConsoleOutput -= new ServerEvents.ConsoleOutputHandler(OnServerOutput);
         }
 
         #region Event Functions

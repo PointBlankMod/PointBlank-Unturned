@@ -34,7 +34,6 @@ namespace PointBlank.Services.APIManager
         public override int LaunchIndex => 1;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             // Setup universal configs
@@ -46,8 +45,8 @@ namespace PointBlank.Services.APIManager
             PlayerConfig = UniPlayerConfig.GetData(EDataType.JSON) as JsonData;
 
             // Setup events
-            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
-            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
+            ServerEvents.OnPlayerConnected += OnPlayerJoin;
+            ServerEvents.OnPlayerDisconnected += OnPlayerLeave;
 
             // Load the configs
             if (!UniSteamGoupConfig.CreatedNew)
@@ -60,11 +59,14 @@ namespace PointBlank.Services.APIManager
 
         public override void Unload()
         {
+            // Setup events
+            ServerEvents.OnPlayerConnected -= OnPlayerJoin;
+            ServerEvents.OnPlayerDisconnected -= OnPlayerLeave;
+
             // Save the configs
             SaveSteamGroups();
             SavePlayers();
         }
-        #endregion
 
         #region Private Functions
         internal void LoadSteamGroups()
