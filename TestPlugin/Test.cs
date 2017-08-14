@@ -32,9 +32,9 @@ namespace TestPlugin
         public override void Load()
         {
             PointBlankLogging.Log("Hello from test plugin load!");
-            PointBlankLogging.Log("Translation test: " + Test.Instance.Translations["test"]); // Call the translation
-            PointBlankLogging.Log("Configuration test: " + (string)Test.Instance.Configurations["test"]); // Call the test configuration
-            PointBlankLogging.Log("Configuration test 2: " + (string)((List<object>)Test.Instance.Configurations["testList"])[0]);
+            PointBlankLogging.Log("Translation test: " + Translate("test")); // Call the translation
+            PointBlankLogging.Log("Configuration test: " + Configure<string>("test")); // Call the test configuration
+            PointBlankLogging.Log("Configuration test 2: " + (string)(Configure<List<object>>("testList")[0]));
         }
 
         public override void Unload()

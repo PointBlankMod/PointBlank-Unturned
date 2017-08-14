@@ -42,10 +42,11 @@ namespace PointBlank.Commands
             if(!ushort.TryParse(args[0], out ushort id))
             {
                 ItemAsset[] items = Assets.find(EAssetType.ITEM) as ItemAsset[];
+                ItemAsset[] tmp;
 
-                UnturnedChat.SendMessage(executor, "Test", ConsoleColor.Blue);
-                item = items.Where(a => a != null).OrderBy(a => a.itemName.Length).FirstOrDefault(a => a.itemName.ToLower().Contains(args[0].ToLower()));
-                UnturnedChat.SendMessage(executor, "Test1", ConsoleColor.Blue);
+                tmp = items.Where(a => a.itemName != null).ToArray();
+                tmp = tmp.OrderBy(a => a.itemName.Length).ToArray();
+                item = tmp.FirstOrDefault(a => a.itemName.ToLower().Contains(args[0].ToLower()));
             }
             else
             {

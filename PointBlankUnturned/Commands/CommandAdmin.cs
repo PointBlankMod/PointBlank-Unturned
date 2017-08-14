@@ -38,12 +38,7 @@ namespace PointBlank.Commands
 
             if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
-                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
-                return;
-            }
-            if(player == null)
-            {
-                if(!PlayerTool.tryGetSteamID(args[0], out steamID))
+                if (!PlayerTool.tryGetSteamID(args[0], out steamID))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;

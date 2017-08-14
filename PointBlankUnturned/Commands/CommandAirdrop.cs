@@ -27,7 +27,7 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            if (LevelManager.hasAirdrop)
+            if (!LevelManager.hasAirdrop)
                 return;
 
             LevelManager.airdropFrequency = 0u;

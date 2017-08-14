@@ -77,7 +77,7 @@ namespace PointBlank.Services.APIManager
                 if (SteamGroupManager.Groups.Count(a => a.ID == (ulong)obj["Steam64"]) > 0)
                     continue;
 
-                SteamGroup g = new SteamGroup((ulong)obj["Steam64"], (int)obj["Cooldown"], false, false);
+                SteamGroup g = new SteamGroup((ulong)obj["Steam64"], false, false);
 
                 SteamGroupManager.AddSteamGroup(g);
             }
@@ -94,7 +94,8 @@ namespace PointBlank.Services.APIManager
                     g.RemovePrefix(g.Prefixes[0]);
                 while (g.Suffixes.Length > 0)
                     g.RemoveSuffix(g.Suffixes[0]);
-                if(obj["Inherits"] is JArray)
+                g.Cooldown = (int)obj["Cooldown"];
+                if (obj["Inherits"] is JArray)
                 {
                     foreach(JToken token in (JArray)obj["Inherits"])
                     {
@@ -355,8 +356,10 @@ namespace PointBlank.Services.APIManager
                 }
             }
 
-            player.UnturnedCharacterName = player.CharacterName;
-            player.UnturnedNickName = player.NickName;
+            if (string.IsNullOrEmpty(player.UnturnedCharacterName))
+                player.UnturnedCharacterName = player.CharacterName;
+            if (string.IsNullOrEmpty(player.UnturnedNickName))
+                player.UnturnedNickName = player.NickName;
             player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
             player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
             player.Loaded = true;

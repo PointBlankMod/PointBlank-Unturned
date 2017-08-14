@@ -91,6 +91,23 @@ namespace PointBlank.API.Steam
                 DownloadData();
         }
 
+        /// <summary>
+        /// The steam group instance using async
+        /// </summary>
+        /// <param name="id">The ID of the steam group</param>
+        /// <param name="downloadData">Should the information for the steam group be downloaded</param>
+        /// <param name="ignore">Should the group be ignored while saving</param>
+        public SteamGroup(ulong id, bool downloadData = false, bool ignore = true)
+        {
+            // Set the variables
+            this.ID = id;
+            this.Ignore = ignore;
+
+            // Run the code
+            if (downloadData)
+                DownloadData();
+        }
+
         #region Public Functions
         /// <summary>
         /// Downloads the steam group data from steam
@@ -132,7 +149,6 @@ namespace PointBlank.API.Steam
             _Permissions.Add(permission);
             SteamGroupEvents.RunPermissionAdded(this, permission);
         }
-
         /// <summary>
         /// Remove a permission from the steam group
         /// </summary>
@@ -158,7 +174,6 @@ namespace PointBlank.API.Steam
             _Prefixes.Add(prefix);
             SteamGroupEvents.RunPrefixAdded(this, prefix);
         }
-
         /// <summary>
         /// Remove a prefix from the steam group
         /// </summary>
@@ -184,7 +199,6 @@ namespace PointBlank.API.Steam
             _Suffixes.Add(suffix);
             SteamGroupEvents.RunSuffixAdded(this, suffix);
         }
-
         /// <summary>
         /// Removes a suffix from the steam group
         /// </summary>
@@ -212,7 +226,6 @@ namespace PointBlank.API.Steam
             _Inherits.Add(group);
             SteamGroupEvents.RunInheritAdded(this, group);
         }
-
         /// <summary>
         /// Removes an inherit from the steam group
         /// </summary>
