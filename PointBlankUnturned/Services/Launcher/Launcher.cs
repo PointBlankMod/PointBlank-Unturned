@@ -27,9 +27,9 @@ namespace PointBlank.Services.Launcher
             IPCM.AddKey("Players", (UnturnedServer.Players.Length > 0 ? string.Join(",", UnturnedServer.Players.Select(a => a.PlayerName).ToArray()) : ""));
 
             // Setup the events
-            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
-            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
-            ServerEvents.OnConsoleOutput += new ServerEvents.ConsoleOutputHandler(OnServerOutput);
+            ServerEvents.OnPlayerConnected += OnPlayerUpdate;
+            ServerEvents.OnPlayerDisconnected += OnPlayerUpdate;
+            ServerEvents.OnConsoleOutput += OnServerOutput;
         }
 
         public override void Unload()
@@ -38,9 +38,9 @@ namespace PointBlank.Services.Launcher
                 return;
 
             // Unload the events
-            ServerEvents.OnPlayerConnected -= new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
-            ServerEvents.OnPlayerDisconnected -= new ServerEvents.PlayerConnectionHandler(OnPlayerUpdate);
-            ServerEvents.OnConsoleOutput -= new ServerEvents.ConsoleOutputHandler(OnServerOutput);
+            ServerEvents.OnPlayerConnected -= OnPlayerUpdate;
+            ServerEvents.OnPlayerDisconnected -= OnPlayerUpdate;
+            ServerEvents.OnConsoleOutput -= OnServerOutput;
         }
 
         #region Event Functions
