@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using PointBlank.API.Commands;
 using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Player;
@@ -41,12 +42,17 @@ namespace PointBlank.Commands
 
             if(!ushort.TryParse(args[0], out ushort id))
             {
-                ItemAsset[] items = Assets.find(EAssetType.ITEM) as ItemAsset[];
-                ItemAsset[] tmp;
+                List<ItemAsset> items = new List<ItemAsset>();
 
-                tmp = items.Where(a => a.itemName != null).ToArray();
-                tmp = tmp.OrderBy(a => a.itemName.Length).ToArray();
-                item = tmp.FirstOrDefault(a => a.itemName.ToLower().Contains(args[0].ToLower()));
+                Assets.find(EAssetType.ITEM).ForEach((asset) =>
+                {
+                    if (asset == null)
+                        return;
+
+                    items.Add((ItemAsset)asset);
+                });
+
+                item = items.Where(a => a.itemName != null).OrderBy(a => a.itemName.Length).FirstOrDefault(a => a.itemName.ToLower().Contains(args[0].ToLower()));
             }
             else
             {

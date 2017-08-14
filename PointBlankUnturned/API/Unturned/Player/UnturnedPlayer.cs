@@ -212,7 +212,7 @@ namespace PointBlank.API.Unturned.Player
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_food", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
+                Life.tellFood(Provider.server, value);
 
                 // Update
                 Life.channel.send("tellFood", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -236,7 +236,7 @@ namespace PointBlank.API.Unturned.Player
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_water", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
+                Life.tellWater(Provider.server, value);
 
                 // Update
                 Life.channel.send("tellWater", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -260,7 +260,7 @@ namespace PointBlank.API.Unturned.Player
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_virus", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
+                Life.tellVirus(Provider.server, value);
 
                 // Update
                 Life.channel.send("tellVirus", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -284,7 +284,7 @@ namespace PointBlank.API.Unturned.Player
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_isBroken", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
+                Life.tellBroken(Provider.server, value);
 
                 // Update
                 Life.channel.send("tellBroken", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -308,7 +308,7 @@ namespace PointBlank.API.Unturned.Player
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_isBleeding", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
+                Life.tellBleeding(Provider.server, value);
 
                 // Update
                 Life.channel.send("tellBleeding", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -330,7 +330,7 @@ namespace PointBlank.API.Unturned.Player
             set
             {
                 // Data
-                typeof(PlayerSkills).GetField("_boost", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.skills, value);
+                USkills.tellBoost(Provider.server, (byte)value);
 
                 // Update
                 Player.skills.channel.send("tellBoost", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -348,7 +348,7 @@ namespace PointBlank.API.Unturned.Player
             set
             {
                 // Data
-                typeof(PlayerSkills).GetField("_experience", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.skills, value);
+                USkills.tellExperience(Provider.server, value);
 
                 // Update
                 Player.skills.channel.send("tellExperience", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
@@ -374,7 +374,7 @@ namespace PointBlank.API.Unturned.Player
             set
             {
                 // Data
-                typeof(PlayerSkills).GetField("_reputation", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.skills, value);
+                USkills.tellReputation(Provider.server, value);
 
                 // Update
                 Player.skills.channel.send("tellReputation", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]

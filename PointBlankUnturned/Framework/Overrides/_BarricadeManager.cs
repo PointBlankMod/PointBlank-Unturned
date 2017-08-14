@@ -53,7 +53,7 @@ namespace PointBlank.Framework.Overrides
 
                         uint num2 = fi_instanceCount.GetValue<uint>(null) + 1u;
                         fi_instanceCount.SetValue(null, num2);
-                        result = mi_spawnBarricade.RunMethod<Transform>(BarricadeManager.instance, barricadeRegion, barricade.id, barricade.state, barricadeData.point, barricadeData.angle_x, barricadeData.angle_y, barricadeData.angle_z, 100, barricadeData.owner, barricadeData.group, num2);
+                        result = mi_spawnBarricade.RunMethod<Transform>(BarricadeManager.instance, barricadeRegion, barricade.id, barricade.state, barricadeData.point, barricadeData.angle_x, barricadeData.angle_y, barricadeData.angle_z, (byte)100, barricadeData.owner, barricadeData.group, num2);
 
                         BarricadeManager.instance.channel.send("tellBarricade", ESteamCall.OTHERS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                         {
@@ -84,13 +84,13 @@ namespace PointBlank.Framework.Overrides
 
                     uint num3 = fi_instanceCount.GetValue<uint>(null) + 1u;
                     fi_instanceCount.SetValue(null, num3);
-                    result = mi_spawnBarricade.RunMethod<Transform>(BarricadeManager.instance, barricadeRegion2, barricade.id, barricade.state, barricadeData2.point, barricadeData2.angle_x, barricadeData2.angle_y, barricadeData2.angle_z, 100, barricadeData2.owner, barricadeData2.group, num3);
+                    result = mi_spawnBarricade.RunMethod<Transform>(BarricadeManager.instance, barricadeRegion2, barricade.id, barricade.state, barricadeData2.point, barricadeData2.angle_x, barricadeData2.angle_y, barricadeData2.angle_z, (byte)100, barricadeData2.owner, barricadeData2.group, num3);
 
                     BarricadeManager.instance.channel.send("tellBarricade", ESteamCall.OTHERS, b3, b4, BarricadeManager.BARRICADE_REGIONS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                     {
                         b3,
                         b4,
-                        65535,
+                        (ushort)65535,
                         barricade.id,
                         barricade.state,
                         barricadeData2.point,
