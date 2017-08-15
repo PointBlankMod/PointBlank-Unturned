@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
@@ -8,6 +9,10 @@ namespace PointBlank.Framework.Overrides
 {
     internal static class _PlayerSkills
     {
+        #region Reflection
+        private static MethodInfo mi_tellSkill = PointBlankReflect.GetMethod<PlayerSkills>("tellSkill", BindingFlags.Instance | BindingFlags.Public);
+        #endregion
+
         [SteamCall]
         [Detour(typeof(PlayerSkills), "tellSkill", BindingFlags.Instance | BindingFlags.Public)]
         public static void tellSkill(this PlayerSkills Skills, CSteamID steamID, byte speciality, byte index, byte level)
@@ -19,8 +24,7 @@ namespace PointBlank.Framework.Overrides
             
             PlayerEvents.RunPlayerSkillUpgrade(Player, speciality, index, level);
 
-            DetourManager.CallOriginal(typeof(PlayerSkills).GetMethod("tellSkill", BindingFlags.Instance | BindingFlags.Public),
-                Skills, steamID, speciality, index, level);
+            DetourManager.CallOriginal(mi_tellSkill, Skills, steamID, speciality, index, level);
         }
     }
 }

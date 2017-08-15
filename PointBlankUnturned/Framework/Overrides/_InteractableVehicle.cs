@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Linq;
 using SDG.Unturned;
+using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Vehicle;
@@ -9,12 +10,19 @@ namespace PointBlank.Framework.Overrides
 {
     internal static class _InteractableVehicle
     {
+        #region Reflection
+        private static MethodInfo mi_init = PointBlankReflect.GetMethod<InteractableVehicle>("init", BindingFlags.Instance | BindingFlags.Public);
+        private static MethodInfo mi_askDamageTire = PointBlankReflect.GetMethod<InteractableVehicle>("askDamageTire", BindingFlags.Public | BindingFlags.Instance);
+        private static MethodInfo mi_askDamage = PointBlankReflect.GetMethod<InteractableVehicle>("askDamage", BindingFlags.Public | BindingFlags.Instance);
+        private static MethodInfo mi_askRepair = PointBlankReflect.GetMethod<InteractableVehicle>("askRepair", BindingFlags.Public | BindingFlags.Instance);
+        #endregion
+
         [Detour(typeof(InteractableVehicle), "init", BindingFlags.Public | BindingFlags.Instance)]
         public static void init(this InteractableVehicle vehicle)
         {
             ServerEvents.RunVehicleCreated(vehicle);
 
-            DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("init"), vehicle, new object[0]);
+            DetourManager.CallOriginal(mi_init, vehicle, new object[0]);
         }
         
         [Detour(typeof(InteractableVehicle), "askDamageTire", BindingFlags.Public | BindingFlags.Instance)]
@@ -30,7 +38,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleTireDamage(UVehicle, ref index, ref cancel);
 
             if (!cancel)
-                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamageTire", BindingFlags.Public | BindingFlags.Instance), Vehicle, index);
+                DetourManager.CallOriginal(mi_askDamageTire, Vehicle, index);
         }
         
         [Detour(typeof(InteractableVehicle), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
@@ -43,8 +51,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleDamage(vehicle, ref amount, ref canRepair, ref cancel);
             
             if(!cancel)
-                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askDamage", BindingFlags.Public | BindingFlags.Instance),
-                    Vehicle, amount, canRepair);
+                DetourManager.CallOriginal(mi_askDamage, Vehicle, amount, canRepair);
         }
         
         [Detour(typeof(InteractableVehicle), "askRepair", BindingFlags.Public | BindingFlags.Instance)]
@@ -58,8 +65,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleRepair(vehicle, ref amount, ref cancel);
 
             if (!cancel)
-                DetourManager.CallOriginal(typeof(InteractableVehicle).GetMethod("askRepair", BindingFlags.Public | BindingFlags.Instance),
-                    Vehicle, amount);
+                DetourManager.CallOriginal(mi_askRepair, Vehicle, amount);
         }
     }
 }

@@ -4,6 +4,7 @@ using PointBlank.API.Detour;
 using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Barricade;
+using PointBlank.API.Unturned;
 using SDG.Unturned;
 using UnityEngine;
 using Steamworks;
@@ -113,15 +114,69 @@ namespace PointBlank.Framework.Overrides
             BarricadeRegion barricadeRegion;
             bool cancel = false;
 
-            if (BarricadeManager.tryGetRegion(x, y, plant, out barricadeRegion))
+            if (Provider.isServer && BarricadeManager.tryGetRegion(x, y, plant, out barricadeRegion))
             {
-                BarricadeData data = barricadeRegion.barricades[(int)index];
+                Player player = PlayerTool.getPlayer(steamID);
+                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(barricadeRegion.barricades[(int)index]), ref cancel);
 
-                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(data), ref cancel);
+                if (player == null)
+                    return;
+                if (player.life.isDead)
+                    return;
+                if ((int)index >= barricadeRegion.drops.Count)
+                    return;
+                if (!OwnershipTool.checkToggle(player.channel.owner.playerID.steamID, barricadeRegion.barricades[(int)index].owner, player.quests.groupID, barricadeRegion.barricades[(int)index].group))
+                    return;
+                if (cancel)
+                    return;
+                ItemBarricadeAsset itemBarricadeAsset = (ItemBarricadeAsset)Assets.find(EAssetType.ITEM, barricadeRegion.barricades[(int)index].barricade.id);
+
+                if (itemBarricadeAsset != null)
+                {
+                    if (itemBarricadeAsset.isUnpickupable)
+                        return;
+
+                    if (barricadeRegion.barricades[(int)index].barricade.health == itemBarricadeAsset.health)
+                    {
+                        player.inventory.forceAddItem(new Item(barricadeRegion.barricades[(int)index].barricade.id, EItemOrigin.NATURE), true);
+                    }
+                    else if (itemBarricadeAsset.isSalvageable)
+                    {
+                        for (int i = 0; i < itemBarricadeAsset.blueprints.Count; i++)
+                        {
+                            Blueprint blueprint = itemBarricadeAsset.blueprints[i];
+                            if (blueprint.outputs.Length == 1 && blueprint.outputs[0].id == itemBarricadeAsset.id)
+                            {
+                                ushort id = blueprint.supplies[UnityEngine.Random.Range(0, blueprint.supplies.Length)].id;
+
+                                player.inventory.forceAddItem(new Item(id, EItemOrigin.NATURE), true);
+                                break;
+                            }
+                        }
+                    }
+                }
+                barricadeRegion.barricades.RemoveAt((int)index);
+                if (plant == 65535)
+                {
+                    BarricadeManager.instance.channel.send("tellTakeBarricade", ESteamCall.ALL, x, y, BarricadeManager.BARRICADE_REGIONS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        x,
+                        y,
+                        plant,
+                        index
+                    });
+                }
+                else
+                {
+                    BarricadeManager.instance.channel.send("tellTakeBarricade", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        x,
+                        y,
+                        plant,
+                        index
+                    });
+                }
             }
-
-            if (!cancel)
-                DetourManager.CallOriginal(typeof(BarricadeManager).GetMethod("askSalvageBarricade", BindingFlags.Public | BindingFlags.Instance), BarricadeManager.instance, steamID, x, y, plant, index);
         }
     }
 }

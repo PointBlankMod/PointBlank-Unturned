@@ -3,6 +3,7 @@ using System.Linq;
 using SDG.Unturned;
 using UnityEngine;
 using Steamworks;
+using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Vehicle;
@@ -11,6 +12,10 @@ namespace PointBlank.Framework.Overrides
 {
     internal class _VehicleManager
     {
+        #region Reflection
+        private static MethodInfo mi_tellVehicleDestroy = PointBlankReflect.GetMethod<VehicleManager>("tellVehicleDestroy", BindingFlags.Instance | BindingFlags.Public);
+        #endregion
+
         [SteamCall]
         [Detour(typeof(VehicleManager), "tellVehicleDestroy", BindingFlags.Public | BindingFlags.Instance)]
         public void tellVehicleDestroy(CSteamID steamID, uint instanceID)
@@ -25,7 +30,7 @@ namespace PointBlank.Framework.Overrides
                 ServerEvents.RunVehicleRemoved(vehicle);
             }
 
-            DetourManager.CallOriginal(typeof(VehicleManager).GetMethod("tellVehicleDestroy", BindingFlags.Instance | BindingFlags.Public), VehicleManager.instance, steamID, instanceID);
+            DetourManager.CallOriginal(mi_tellVehicleDestroy, VehicleManager.instance, steamID, instanceID);
         }
         
         [SteamCall]

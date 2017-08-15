@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using SDG.Unturned;
 using Steamworks;
+using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Unturned.Player;
@@ -10,6 +11,10 @@ namespace PointBlank.Framework.Overrides
 {
     internal class _ChatManager
     {
+        #region Reflection
+        private static MethodInfo mi_askChat = PointBlankReflect.GetMethod<CM>("askChat", BindingFlags.Public | BindingFlags.Instance);
+        #endregion
+
         [Detour(typeof(CM), "askChat", BindingFlags.Instance | BindingFlags.Public)]
         [SteamCall]
         public void askChat(CSteamID steamID, byte mode, string text)
@@ -30,7 +35,7 @@ namespace PointBlank.Framework.Overrides
                 return;
 
             // Restore original
-            DetourManager.CallOriginal(typeof(CM).GetMethod("askChat", BindingFlags.Public | BindingFlags.Instance), CM.instance, player.SteamID, mode, text);
+            DetourManager.CallOriginal(mi_askChat, CM.instance, player.SteamID, mode, text);
         }
     }
 }
