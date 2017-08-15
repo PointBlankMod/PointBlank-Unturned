@@ -283,6 +283,9 @@ namespace PointBlank.Services.APIManager
         }
         private void OnPlayerKill(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim)
         {
+            if (player == null)
+                return;
+
             player.Kills++;
             player.TotalKills++;
         }
