@@ -78,24 +78,6 @@ namespace PointBlank.API.Unturned.Player
 
         #region Events
         /// <summary>
-        /// Called when a permission is added
-        /// </summary>
-        public static event PermissionsChangedHandler OnPermissionAdded;
-        /// <summary>
-        /// Called when a permission is removed
-        /// </summary>
-        public static event PermissionsChangedHandler OnPermissionRemoved;
-
-        /// <summary>
-        /// Called when a group is added
-        /// </summary>
-        public static event GroupsChangedHandler OnGroupAdded;
-        /// <summary>
-        /// Called when a group is removed
-        /// </summary>
-        public static event GroupsChangedHandler OnGroupRemoved;
-
-        /// <summary>
         /// Called when an invisible player is added
         /// </summary>
         public static event InvisiblePlayersChangedHandler OnInvisiblePlayerAdded;
@@ -141,12 +123,6 @@ namespace PointBlank.API.Unturned.Player
         #endregion
 
         #region Functions
-        internal static void RunPermissionAdd(UnturnedPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
-        internal static void RunPermissionRemove(UnturnedPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
-
-        internal static void RunGroupAdd(UnturnedPlayer player, PointBlankGroup group) => OnGroupAdded?.Invoke(player, @group);
-        internal static void RunGroupRemove(UnturnedPlayer player, PointBlankGroup group) => OnGroupRemoved?.Invoke(player, @group);
-
         internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerAdded?.Invoke(player, target);
         internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerRemoved?.Invoke(player, target);
 

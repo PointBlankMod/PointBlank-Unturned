@@ -8,6 +8,7 @@ using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.Plugins;
 using PointBlank.API.Commands;
+using PointBlank.API.Player;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -68,8 +69,8 @@ namespace PointBlank.Services.APIManager
             PlayerEvents.OnPrefixRemoved += OnPrefixChange;
             PlayerEvents.OnSuffixAdded += OnSuffixChange;
             PlayerEvents.OnSuffixRemoved += OnSuffixChange;
-            PlayerEvents.OnGroupAdded += OnGroupChange;
-            PlayerEvents.OnGroupRemoved += OnGroupChange;
+            PointBlankPlayerEvents.OnGroupAdded += OnGroupChange;
+            PointBlankPlayerEvents.OnGroupRemoved += OnGroupChange;
             PlayerEvents.OnPlayerDied += OnPlayerDie;
             PlayerEvents.OnPlayerKill += OnPlayerKill;
 
@@ -111,8 +112,8 @@ namespace PointBlank.Services.APIManager
             PlayerEvents.OnPrefixRemoved -= OnPrefixChange;
             PlayerEvents.OnSuffixAdded -= OnSuffixChange;
             PlayerEvents.OnSuffixRemoved -= OnSuffixChange;
-            PlayerEvents.OnGroupAdded -= OnGroupChange;
-            PlayerEvents.OnGroupRemoved -= OnGroupChange;
+            PointBlankPlayerEvents.OnGroupAdded -= OnGroupChange;
+            PointBlankPlayerEvents.OnGroupRemoved -= OnGroupChange;
             PlayerEvents.OnPlayerDied -= OnPlayerDie;
             PlayerEvents.OnPlayerKill -= OnPlayerKill;
 
@@ -260,8 +261,9 @@ namespace PointBlank.Services.APIManager
                 OnSetVisible(UnturnedServer.Players[i], player);
             }
         }
-        private void OnGroupChange(UnturnedPlayer player, PointBlankGroup group)
+        private void OnGroupChange(PointBlankPlayer pbPlayer, PointBlankGroup group)
         {
+            UnturnedPlayer player = (UnturnedPlayer)pbPlayer;
             player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
             player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
 
