@@ -671,24 +671,28 @@ namespace PointBlank.API.Unturned.Player
         /// Adds a player to the player's player list
         /// </summary>
         /// <param name="player">The player to add to the list</param>
-        public void AddPlayer(UnturnedPlayer player)
+        /// <param name="triggerEvent">Should the event be triggered</param>
+        public void AddPlayer(UnturnedPlayer player, bool triggerEvent = true)
         {
             if (PlayerList.Contains(player))
                 return;
 
-            PlayerEvents.RunListPlayerAdd(this, player);
+            if (triggerEvent)
+                PlayerEvents.RunListPlayerAdd(this, player);
             _PlayerList.Add(player);
         }
         /// <summary>
         /// Removes a player from the player's player list
         /// </summary>
         /// <param name="player">The player to remove from the list</param>
-        public void RemovePlayer(UnturnedPlayer player)
+        /// <param name="triggerEvent">Should the event be triggered</param>
+        public void RemovePlayer(UnturnedPlayer player, bool triggerEvent = true)
         {
             if (!PlayerList.Contains(player))
                 return;
 
-            PlayerEvents.RunListPlayerRemove(this, player);
+            if (triggerEvent)
+                PlayerEvents.RunListPlayerRemove(this, player);
             _PlayerList.Remove(player);
         }
 
@@ -835,7 +839,7 @@ namespace PointBlank.API.Unturned.Player
             for (int i = 0; i < SteamGroups.Length; i++)
                 if (SteamGroups[i].Cooldown != -1)
                     return SteamGroups[i].Cooldown;
-            return -1;
+            return 0;
         }
 
         /// <summary>

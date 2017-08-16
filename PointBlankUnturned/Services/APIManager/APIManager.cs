@@ -177,8 +177,10 @@ namespace PointBlank.Services.APIManager
                 if (ply == player)
                     return;
 
+                if (!player.PlayerList.Contains(ply))
+                    player.AddPlayer(ply, false);
                 if (!ply.PlayerList.Contains(player))
-                    ply.AddPlayer(player);
+                    ply.AddPlayer(player, false);
             });
         }
         private void OnPlayerLeave(UnturnedPlayer player)
@@ -189,7 +191,7 @@ namespace PointBlank.Services.APIManager
                     return;
 
                 if (ply.PlayerList.Contains(player))
-                    ply.RemovePlayer(player);
+                    ply.RemovePlayer(player, false);
             });
             UnturnedServer.RemovePlayer(player);
         }
@@ -334,7 +336,7 @@ namespace PointBlank.Services.APIManager
         {
             if (type == ESteamPacket.CONNECTED)
             {
-                object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
+                /*object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
                 {
                     Typ.BYTE_TYPE,
                     Typ.STEAM_ID_TYPE,
@@ -380,15 +382,14 @@ namespace PointBlank.Services.APIManager
                     info[11] = player.UnturnedNickName;
                 }
 
-                packet = SteamPacker.getBytes(0, out size, info);
+                packet = SteamPacker.getBytes(0, out size, info);*/
             }
             else if(type == ESteamPacket.DISCONNECTED)
             {
                 UnturnedPlayer player = UnturnedPlayer.Get(steamID);
                 SteamPlayer target = Provider.clients[packet[1]];
-                int index = Array.FindIndex(player.PlayerList, a => a.SteamPlayer == target);
 
-                packet[1] = (byte)index;
+                packet[1] = (byte)Array.FindIndex(player.PlayerList, a => a.SteamPlayer == target);
             }
         }
         #endregion
