@@ -23,11 +23,11 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="group">The changed group</param>
         public delegate void GroupsChangedHandler(UnturnedPlayer player, PointBlankGroup group);
         /// <summary>
-        /// Handles invisible player changes of the player
+        /// Handles the player list changes of a specific player
         /// </summary>
         /// <param name="player">The affected player</param>
         /// <param name="target">The changed player</param>
-        public delegate void InvisiblePlayersChangedHandler(UnturnedPlayer player, UnturnedPlayer target);
+        public delegate void PlayerListChangedHandler(UnturnedPlayer player, UnturnedPlayer target);
 
         /// <summary>
         /// Handles prefix changes of the player
@@ -78,13 +78,13 @@ namespace PointBlank.API.Unturned.Player
 
         #region Events
         /// <summary>
-        /// Called when an invisible player is added
+        /// Called when a player is added to the player's player list
         /// </summary>
-        public static event InvisiblePlayersChangedHandler OnInvisiblePlayerAdded;
+        public static event PlayerListChangedHandler OnListPlayerAdded;
         /// <summary>
-        /// Called when an invisible player is removed
+        /// Called when a player is removed from the player's player list
         /// </summary>
-        public static event InvisiblePlayersChangedHandler OnInvisiblePlayerRemoved;
+        public static event PlayerListChangedHandler OnListPlayerRemoved;
 
         /// <summary>
         /// Called when a prefix is added
@@ -123,8 +123,8 @@ namespace PointBlank.API.Unturned.Player
         #endregion
 
         #region Functions
-        internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerAdded?.Invoke(player, target);
-        internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerRemoved?.Invoke(player, target);
+        internal static void RunListPlayerAdd(UnturnedPlayer player, UnturnedPlayer target) => OnListPlayerAdded?.Invoke(player, target);
+        internal static void RunListPlayerRemove(UnturnedPlayer player, UnturnedPlayer target) => OnListPlayerRemoved?.Invoke(player, target);
 
         internal static void RunPrefixAdd(UnturnedPlayer player, string prefix) => OnPrefixAdded?.Invoke(player, prefix);
         internal static void RunPrefixRemove(UnturnedPlayer player, string prefix) => OnPrefixRemoved?.Invoke(player, prefix);

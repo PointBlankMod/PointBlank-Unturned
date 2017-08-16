@@ -24,7 +24,7 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer : PointBlankPlayer
     {
         #region Variables
-        private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
+        private List<UnturnedPlayer> _PlayerList = new List<UnturnedPlayer>();
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
 
@@ -496,9 +496,9 @@ namespace PointBlank.API.Unturned.Player
 
         // Extra data
         /// <summary>
-        /// The players this player can see are in the server
+        /// The player list that the player can see
         /// </summary>
-        public UnturnedPlayer[] InvisiblePlayers => _InvisiblePlayers.ToArray();
+        public UnturnedPlayer[] PlayerList => _PlayerList.ToArray();
         /// <summary>
         /// The steam groups this player is part of
         /// </summary>
@@ -668,28 +668,28 @@ namespace PointBlank.API.Unturned.Player
 
         #region Public Functions
         /// <summary>
-        /// Make a player invisible to this player
+        /// Adds a player to the player's player list
         /// </summary>
-        /// <param name="player">The player to make invisible</param>
-        public void AddInvisiblePlayer(UnturnedPlayer player)
+        /// <param name="player">The player to add to the list</param>
+        public void AddPlayer(UnturnedPlayer player)
         {
-            if (InvisiblePlayers.Contains(player))
+            if (PlayerList.Contains(player))
                 return;
 
-            _InvisiblePlayers.Add(player);
-            PlayerEvents.RunInvisiblePlayerAdd(this, player);
+            PlayerEvents.RunListPlayerAdd(this, player);
+            _PlayerList.Add(player);
         }
         /// <summary>
-        /// Make a player visible to this player
+        /// Removes a player from the player's player list
         /// </summary>
-        /// <param name="player">The player to make visible</param>
-        public void RemoveInvisiblePlayer(UnturnedPlayer player)
+        /// <param name="player">The player to remove from the list</param>
+        public void RemovePlayer(UnturnedPlayer player)
         {
-            if (!InvisiblePlayers.Contains(player))
+            if (!PlayerList.Contains(player))
                 return;
 
-            _InvisiblePlayers.Remove(player);
-            PlayerEvents.RunInvisiblePlayerRemove(this, player);
+            PlayerEvents.RunListPlayerRemove(this, player);
+            _PlayerList.Remove(player);
         }
 
         /// <summary>

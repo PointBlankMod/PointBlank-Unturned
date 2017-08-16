@@ -9,6 +9,7 @@ using PointBlank.API.Services;
 using PointBlank.API.Plugins;
 using PointBlank.API.Commands;
 using PointBlank.API.Player;
+using PointBlank.API.Implements;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -61,8 +62,8 @@ namespace PointBlank.Services.APIManager
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += OnPlayerJoin;
             ServerEvents.OnPlayerDisconnected += OnPlayerLeave;
-            PlayerEvents.OnInvisiblePlayerAdded += OnSetInvisible;
-            PlayerEvents.OnInvisiblePlayerRemoved += OnSetVisible;
+            PlayerEvents.OnListPlayerRemoved += OnListPlayerRemove;
+            PlayerEvents.OnListPlayerAdded += OnListPlayerAdd;
             ServerEvents.OnServerInitialized += OnServerInitialized;
             ServerEvents.OnPacketSent += OnPacketSend;
             PlayerEvents.OnPrefixAdded += OnPrefixChange;
@@ -104,8 +105,8 @@ namespace PointBlank.Services.APIManager
             // Unload pointblank events
             ServerEvents.OnPlayerConnected -= OnPlayerJoin;
             ServerEvents.OnPlayerDisconnected -= OnPlayerLeave;
-            PlayerEvents.OnInvisiblePlayerAdded -= OnSetInvisible;
-            PlayerEvents.OnInvisiblePlayerRemoved -= OnSetVisible;
+            PlayerEvents.OnListPlayerRemoved -= OnListPlayerRemove;
+            PlayerEvents.OnListPlayerAdded -= OnListPlayerAdd;
             ServerEvents.OnServerInitialized -= OnServerInitialized;
             ServerEvents.OnPacketSent -= OnPacketSend;
             PlayerEvents.OnPrefixAdded -= OnPrefixChange;
@@ -170,8 +171,28 @@ namespace PointBlank.Services.APIManager
             foreach (PointBlankGroup g in groups)
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
+
+            UnturnedServer.Players.ForEach((ply) =>
+            {
+                if (ply == player)
+                    return;
+
+                if (!ply.PlayerList.Contains(player))
+                    ply.AddPlayer(player);
+            });
         }
-        private void OnPlayerLeave(UnturnedPlayer player) => UnturnedServer.RemovePlayer(player);
+        private void OnPlayerLeave(UnturnedPlayer player)
+        {
+            UnturnedServer.Players.ForEach((ply) =>
+            {
+                if (ply == player)
+                    return;
+
+                if (ply.PlayerList.Contains(player))
+                    ply.RemovePlayer(player);
+            });
+            UnturnedServer.RemovePlayer(player);
+        }
         private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref UnityEngine.Color color, string text, ref bool visible)
         {
             UnturnedPlayer ply = UnturnedPlayer.Get(player);
@@ -180,21 +201,15 @@ namespace PointBlank.Services.APIManager
             if (c != UnityEngine.Color.clear)
                 color = c;
         }
-        private void OnSetInvisible(UnturnedPlayer player, UnturnedPlayer target)
+        private void OnListPlayerRemove(UnturnedPlayer player, UnturnedPlayer target)
         {
-            List<SteamPlayer> plys = Provider.clients.ToList();
-
-            for (int i = 0; i < player.InvisiblePlayers.Length; i++)
-                if (plys.Contains(player.InvisiblePlayers[i].SteamPlayer) && player.InvisiblePlayers[i] != target)
-                    plys.Remove(player.InvisiblePlayers[i].SteamPlayer);
-            int index = plys.FindIndex(x => x == target.SteamPlayer);
             Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
             {
                 12,
-                (byte)index
+                (byte)(Provider.clients.FindIndex(a => a == target.SteamPlayer))
             }, 2, 0);
         }
-        private void OnSetVisible(UnturnedPlayer player, UnturnedPlayer target)
+        private void OnListPlayerAdd(UnturnedPlayer player, UnturnedPlayer target)
         {
             if (!UnturnedPlayer.IsInServer(target))
                 return;
@@ -243,8 +258,8 @@ namespace PointBlank.Services.APIManager
                 if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
+                UnturnedServer.Players[i].RemovePlayer(player);
+                UnturnedServer.Players[i].AddPlayer(player);
             }
         }
         private void OnSuffixChange(UnturnedPlayer player, string suffix)
@@ -257,8 +272,8 @@ namespace PointBlank.Services.APIManager
                 if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
+                UnturnedServer.Players[i].RemovePlayer(player);
+                UnturnedServer.Players[i].AddPlayer(player);
             }
         }
         private void OnGroupChange(PointBlankPlayer pbPlayer, PointBlankGroup group)
@@ -272,8 +287,8 @@ namespace PointBlank.Services.APIManager
                 if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
+                UnturnedServer.Players[i].RemovePlayer(player);
+                UnturnedServer.Players[i].AddPlayer(player);
             }
         }
         private void OnPlayerDie(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer killer)
@@ -317,56 +332,64 @@ namespace PointBlank.Services.APIManager
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
-            if (type != ESteamPacket.CONNECTED)
-                return;
-
-            object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
+            if (type == ESteamPacket.CONNECTED)
             {
-                Typ.BYTE_TYPE,
-                Typ.STEAM_ID_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.STRING_TYPE,
-                Typ.STRING_TYPE,
-                Typ.VECTOR3_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.BOOLEAN_TYPE,
-                Typ.BOOLEAN_TYPE,
-                Typ.INT32_TYPE,
-                Typ.STEAM_ID_TYPE,
-                Typ.STRING_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.COLOR_TYPE,
-                Typ.COLOR_TYPE,
-                Typ.BOOLEAN_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_TYPE,
-                Typ.INT32_ARRAY_TYPE,
-                Typ.BYTE_TYPE,
-                Typ.STRING_TYPE
-            });
-            UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
+                object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
+                {
+                    Typ.BYTE_TYPE,
+                    Typ.STEAM_ID_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.STRING_TYPE,
+                    Typ.STRING_TYPE,
+                    Typ.VECTOR3_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.BOOLEAN_TYPE,
+                    Typ.BOOLEAN_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.STEAM_ID_TYPE,
+                    Typ.STRING_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.COLOR_TYPE,
+                    Typ.COLOR_TYPE,
+                    Typ.BOOLEAN_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_TYPE,
+                    Typ.INT32_ARRAY_TYPE,
+                    Typ.BYTE_TYPE,
+                    Typ.STRING_TYPE
+                });
+                UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 
-            if(player.SteamID != steamID)
-            {
-                info[3] = player.PlayerName;
-                info[4] = player.CharacterName;
-                info[11] = player.NickName;
+                if (player.SteamID != steamID)
+                {
+                    info[3] = player.PlayerName;
+                    info[4] = player.CharacterName;
+                    info[11] = player.NickName;
+                }
+                else
+                {
+                    info[3] = player.PlayerName;
+                    info[4] = player.UnturnedCharacterName;
+                    info[11] = player.UnturnedNickName;
+                }
+
+                packet = SteamPacker.getBytes(0, out size, info);
             }
-            else
+            else if(type == ESteamPacket.DISCONNECTED)
             {
-                info[3] = player.PlayerName;
-                info[4] = player.UnturnedCharacterName;
-                info[11] = player.UnturnedNickName;
-            }
+                UnturnedPlayer player = UnturnedPlayer.Get(steamID);
+                SteamPlayer target = Provider.clients[packet[1]];
+                int index = Array.FindIndex(player.PlayerList, a => a.SteamPlayer == target);
 
-            packet = SteamPacker.getBytes(0, out size, info);
+                packet[1] = (byte)index;
+            }
         }
         #endregion
     }
