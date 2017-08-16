@@ -272,25 +272,27 @@ namespace PointBlank.API.Steam
             string[] permissions = GetPermissions();
             string[] sPermission = permission.Split('.');
 
-            for (int a = 0; a < sPermission.Length; a++)
+            for (int a = 0; a < permissions.Length; a++)
             {
-                bool found = false;
+                string[] sP = permissions[a].Split('.');
 
-                for (int b = 0; b < permissions.Length; b++)
+                for (int b = 0; b < sPermission.Length; b++)
                 {
-                    string[] sPerm = permissions[b].Split('.');
+                    if (b >= sP.Length)
+                    {
+                        if (sPermission.Length > sP.Length)
+                            break;
 
-                    if (sPerm[a] == "*")
                         return true;
-                    if (sPerm[a] != sPermission[a]) continue;
-                    found = true;
-                    break;
-                }
+                    }
 
-                if (!found)
-                    return false;
+                    if (sP[b] == "*")
+                        return true;
+                    if (sP[b] != sPermission[b])
+                        break;
+                }
             }
-            return true;
+            return false;
         }
         #endregion
     }
