@@ -185,7 +185,7 @@ namespace PointBlank.Services.APIManager
             List<SteamPlayer> plys = Provider.clients.ToList();
 
             for (int i = 0; i < player.InvisiblePlayers.Length; i++)
-                if (plys.Contains(player.InvisiblePlayers[i].SteamPlayer))
+                if (plys.Contains(player.InvisiblePlayers[i].SteamPlayer) && player.InvisiblePlayers[i] != target)
                     plys.Remove(player.InvisiblePlayers[i].SteamPlayer);
             int index = plys.FindIndex(x => x == target.SteamPlayer);
             Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
