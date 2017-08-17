@@ -28,9 +28,11 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            if(args.Length > 0)
+            PointBlankCommand[] commands = PointBlankCommandManager.Commands.Where(a => a.Enabled).ToArray();
+
+            if (args.Length > 0)
             {
-                PointBlankCommand cmd = PointBlankCommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
+                PointBlankCommand cmd = commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
 
                 if(cmd == null)
                 {
@@ -44,19 +46,19 @@ namespace PointBlank.Commands
             int pos = 0;
             while (true)
             {
-                if(pos >= PointBlankCommandManager.Commands.Length)
+                if(pos >= commands.Length)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     break;
                 }
-                string command = PointBlankCommandManager.Commands[pos].Commands[0];
+                string command = commands[pos].Commands[0];
                 if ((send.Length + ("," + command).Length) > ChatManager.LENGTH)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     send = "";
                 }
 
-                send += (string.IsNullOrEmpty(send) ? "" : ",") + PointBlankCommandManager.Commands[pos].Commands[0].ToLower();
+                send += (string.IsNullOrEmpty(send) ? "" : ",") + commands[pos].Commands[0].ToLower();
                 pos++;
             }
         }
