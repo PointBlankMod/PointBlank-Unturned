@@ -5,6 +5,7 @@ using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
@@ -39,9 +40,8 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, cmd.Help, ConsoleColor.Green);
                 return;
             }
-            int pos = 0;
-            int prevPos = 0;
             string send = "";
+            int pos = 0;
             while (true)
             {
                 if(pos >= PointBlankCommandManager.Commands.Length)
@@ -49,14 +49,14 @@ namespace PointBlank.Commands
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     break;
                 }
-                if(pos - prevPos >= 3)
+                string command = PointBlankCommandManager.Commands[pos].Commands[0];
+                if ((send.Length + ("," + command).Length) > ChatManager.LENGTH)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     send = "";
-                    prevPos = pos;
                 }
 
-                send += (string.IsNullOrEmpty(send) ? "" : ",") + PointBlankCommandManager.Commands[pos].Commands[0];
+                send += (string.IsNullOrEmpty(send) ? "" : ",") + PointBlankCommandManager.Commands[pos].Commands[0].ToLower();
                 pos++;
             }
         }

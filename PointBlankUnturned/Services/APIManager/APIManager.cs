@@ -331,12 +331,29 @@ namespace PointBlank.Services.APIManager
             SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
             string plugins = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a)).ToArray());
+            string pluginsRocket = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a) + " - PointBlank").ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
-            SteamGameServer.SetKeyValue("rocketplugins", plugins); // Since unturned only supports the rocket plugin list I need to use this
+            SteamGameServer.SetKeyValue("rocketplugins", "PointBlank - not really a Rocket plugin but a mod loader," + pluginsRocket); // Since unturned only supports the rocket plugin list I need to use this
             PointBlankServer.IsRunning = true;
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
+            if(packet == null)
+            {
+                PointBlankLogging.Log("No packet found!");
+                return;
+            }
+            if(steamID == null)
+            {
+                PointBlankLogging.Log("No steam ID found!");
+                return;
+            }
+            if(steamID == CSteamID.Nil)
+            {
+                PointBlankLogging.Log("SteamID is nil!");
+                return;
+            }
+
             if (type == ESteamPacket.CONNECTED)
             {
                 object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
@@ -372,6 +389,11 @@ namespace PointBlank.Services.APIManager
                 });
                 UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 
+                if(player == null)
+                {
+                    PointBlankLogging.Log("Player not found!");
+                    return;
+                }
                 if (player.SteamID != steamID)
                 {
                     info[3] = player.PlayerName;
