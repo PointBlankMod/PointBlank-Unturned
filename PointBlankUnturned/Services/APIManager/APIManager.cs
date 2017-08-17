@@ -176,9 +176,6 @@ namespace PointBlank.Services.APIManager
 
             UnturnedServer.Players.ForEach((ply) =>
             {
-                if (ply == player)
-                    return;
-
                 if (!player.PlayerList.Contains(ply))
                     player.AddPlayer(ply, false);
                 if (!ply.PlayerList.Contains(player))
@@ -209,7 +206,7 @@ namespace PointBlank.Services.APIManager
         {
             Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
             {
-                12,
+                (byte)12,
                 (byte)(Provider.clients.FindIndex(a => a == target.SteamPlayer))
             }, 2, 0);
         }
@@ -220,7 +217,7 @@ namespace PointBlank.Services.APIManager
 
             byte[] bytes = SteamPacker.getBytes(0, out int size, new object[]
             {
-                11,
+                (byte)11,
                 target.SteamPlayerID.steamID,
                 target.SteamPlayerID.characterID,
                 target.PlayerName,
@@ -338,22 +335,6 @@ namespace PointBlank.Services.APIManager
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
-            if(packet == null)
-            {
-                PointBlankLogging.Log("No packet found!");
-                return;
-            }
-            if(steamID == null)
-            {
-                PointBlankLogging.Log("No steam ID found!");
-                return;
-            }
-            if(steamID == CSteamID.Nil)
-            {
-                PointBlankLogging.Log("SteamID is nil!");
-                return;
-            }
-
             if (type == ESteamPacket.CONNECTED)
             {
                 object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
@@ -389,11 +370,6 @@ namespace PointBlank.Services.APIManager
                 });
                 UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 
-                if(player == null)
-                {
-                    PointBlankLogging.Log("Player not found!");
-                    return;
-                }
                 if (player.SteamID != steamID)
                 {
                     info[3] = player.PlayerName;
