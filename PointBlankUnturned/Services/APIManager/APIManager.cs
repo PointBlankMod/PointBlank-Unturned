@@ -168,9 +168,11 @@ namespace PointBlank.Services.APIManager
         {
             PointBlankGroup[] groups = PointBlankGroupManager.Groups.Where(a => a.Default).ToArray();
 
+            player.Loaded = false;
             foreach (PointBlankGroup g in groups)
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
+            player.Loaded = true;
 
             UnturnedServer.Players.ForEach((ply) =>
             {
@@ -330,13 +332,14 @@ namespace PointBlank.Services.APIManager
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
             string plugins = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a)).ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
+            SteamGameServer.SetKeyValue("rocketplugins", plugins); // Since unturned only supports the rocket plugin list I need to use this
             PointBlankServer.IsRunning = true;
         }
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
             if (type == ESteamPacket.CONNECTED)
             {
-                /*object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
+                object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
                 {
                     Typ.BYTE_TYPE,
                     Typ.STEAM_ID_TYPE,
@@ -382,7 +385,7 @@ namespace PointBlank.Services.APIManager
                     info[11] = player.UnturnedNickName;
                 }
 
-                packet = SteamPacker.getBytes(0, out size, info);*/
+                packet = SteamPacker.getBytes(0, out size, info);
             }
             else if(type == ESteamPacket.DISCONNECTED)
             {
