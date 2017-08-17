@@ -3,7 +3,9 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
+using PointBlank.API;
 using PointBlank.API.Services;
+using PointBlank.API.Implements;
 using PointBlank.Services.APIManager;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -251,9 +253,12 @@ namespace PointBlank.API.Unturned.Server
             for (int i = 0; i < Players.Length; i++)
                 Players[i].Kick("Map is changing.");
 
+            Provider.gameMode = null;
+            Provider.selectedGameModeName = null;
+            PointBlankReflect.GetField<Level>("_isLoaded", PointBlankReflect.STATIC_FLAG).SetValue(null, false);
             Provider.map = mapName;
             Level.load(Level.getLevel(Provider.map));
-            typeof(Provider).GetMethod("loadGameMode", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, new object[0]);
+            PointBlankReflect.GetMethod<Provider>("loadGameMode", PointBlankReflect.STATIC_FLAG).RunMethod(null);
             SteamGameServer.SetMapName(Provider.map);
             SteamGameServer.SetGameTags(string.Concat(new object[]
             {

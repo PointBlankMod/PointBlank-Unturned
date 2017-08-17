@@ -1,6 +1,8 @@
 ﻿using System;
+using PointBlank.API.Server;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Chat;
+using PointBlank.API.Unturned.Server;
 using SDG.Unturned;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
@@ -24,8 +26,6 @@ namespace PointBlank.Commands
 
         public override string DefaultPermission => "unturned.commands.server.map";
 
-        public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
-
         public override int MinimumParams => 1;
         #endregion
 
@@ -37,7 +37,11 @@ namespace PointBlank.Commands
                 return;
             }
 
-            Provider.map = args[0];
+            if (PointBlankServer.IsRunning)
+                UnturnedServer.ChangeMap(args[0]);
+            else
+                Provider.map = args[0];
+            
             UnturnedChat.SendMessage(executor, string.Format(Translations["Map_Set"], args[0]), ConsoleColor.Green);
         }
     }
