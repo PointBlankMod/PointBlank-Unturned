@@ -236,6 +236,8 @@ namespace PointBlank.Services.APIManager
 
             foreach(UnturnedPlayer player in UnturnedServer.Players)
             {
+                if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
+                    continue;
                 JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
                 if(token != null)
@@ -369,6 +371,8 @@ namespace PointBlank.Services.APIManager
         {
             if ((bool)Configurations["WebPermissions"])
                 return;
+            if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
+                return;
             JArray arr = PlayerConfig.Document["Players"] as JArray;
             JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
@@ -395,7 +399,6 @@ namespace PointBlank.Services.APIManager
                     {"Kills", player.TotalKills},
                     {"Deaths", player.TotalDeaths}
                 };
-
 
                 arr.Add(obj);
             }

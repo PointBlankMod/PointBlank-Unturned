@@ -1,5 +1,6 @@
 ﻿using System;
 using PointBlank.API.Groups;
+using PointBlank.API.Unturned.Item;
 using SDG.Unturned;
 
 namespace PointBlank.API.Unturned.Player
@@ -66,6 +67,7 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="cause">The cause of the kill</param>
         /// <param name="victim">The player that got killed</param>
         public delegate void PlayerKillHandler(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim);
+
         /// <summary>
         /// Handles player skill upgrades
         /// </summary>
@@ -74,6 +76,20 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="Skill">Skill being upgraded</param>
         /// <param name="Level">Upgraded level of skill</param>
         public delegate void PlayerSkillUpgradeHandler(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level);
+
+        /*/// <summary>
+        /// Handles item equipping and deequipping
+        /// </summary>
+        /// <param name="player">The affected player</param>
+        /// <param name="item">The targeted item</param>
+        public delegate void PlayerItemEquipHandler(UnturnedPlayer player, UnturnedStoredItem item);
+
+        /// <summary>
+        /// Handles picking up and dropping of items
+        /// </summary>
+        /// <param name="player">The affected player</param>
+        /// <param name="item">The targeted item</param>
+        public delegate void PlayerItemUpdateHandler(UnturnedPlayer player, UnturnedStoredItem item);*/
         #endregion
 
         #region Events
@@ -116,10 +132,29 @@ namespace PointBlank.API.Unturned.Player
         /// Called when a player kills another player
         /// </summary>
         public static event PlayerKillHandler OnPlayerKill;
+
         /// <summary>
         /// Called when a player upgrades their skill
         /// </summary>
         public static event PlayerSkillUpgradeHandler OnPlayerSkillUpgrade;
+
+        /*/// <summary>
+        /// Called when an item is equipped
+        /// </summary>
+        public static event PlayerItemEquipHandler OnPlayerItemEquip;
+        /// <summary>
+        /// Called when an item is deequipped
+        /// </summary>
+        public static event PlayerItemEquipHandler OnPlayerItemDeequip;
+
+        /// <summary>
+        /// Called when a player drops an item
+        /// </summary>
+        public static event PlayerItemUpdateHandler OnPlayerItemDropped;
+        /// <summary>
+        /// Called when a player picks up an item
+        /// </summary>
+        public static event PlayerItemUpdateHandler OnPlayerItemPickup;*/
         #endregion
 
         #region Functions
@@ -148,6 +183,12 @@ namespace PointBlank.API.Unturned.Player
 
         internal static void RunPlayerSkillUpgrade(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level) =>
             OnPlayerSkillUpgrade?.Invoke(Player, Specialty, Skill, Level);
+
+        internal static void RunItemEquip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemEquip?.Invoke(player, item);
+        internal static void RunItemDeequip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemDeequip?.Invoke(player, item);
+
+        internal static void RunItemDrop(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemDropped?.Invoke(player, item);
+        internal static void RunItemPickup(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemPickup?.Invoke(player, item);
         #endregion
     }
 }

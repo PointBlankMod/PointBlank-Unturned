@@ -493,6 +493,10 @@ namespace PointBlank.API.Unturned.Player
         /// Vehicles the player has locked
         ///</summary>
         public UnturnedVehicle[] LockedVehicles => UnturnedServer.Vehicles.Where(v => v.LockedOwner == SteamID || (IsInQuestGroup && QuestGroupID == v.LockedGroup)).ToArray();
+        /// <summary>
+        /// The current storage the player is looking in
+        /// </summary>
+        public InteractableStorage Storage => Inventory.storage;
 
         // Extra data
         /// <summary>

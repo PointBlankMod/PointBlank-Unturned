@@ -96,7 +96,20 @@ namespace PointBlank.API.Unturned.Barricade
         /// <summary>
         /// Health of barricade
         /// </summary>
-        public ushort Health => Barricade.health;
+        public ushort Health
+        {
+            get => Barricade.health;
+            set
+            {
+                if (value == Health)
+                    return;
+
+                if (Health < value)
+                    Repair((ushort)(value - Health));
+                if (Health > value)
+                    Damage((ushort)(Health - value));
+            }
+        }
         /// <summary>
         /// State of barricade
         /// </summary>
@@ -131,7 +144,6 @@ namespace PointBlank.API.Unturned.Barricade
         /// <param name="Barricade">The unturned Barricade instance</param>
         /// <returns>The instance of the custom Barricade class</returns>
         public static UnturnedBarricade FindBarricade(UBarricade Barricade) => UnturnedServer.Barricades.FirstOrDefault(a => a.Barricade == Barricade);
-
         /// <summary>
         /// Finds a Barricade based on the Barricade data
         /// </summary>
@@ -152,21 +164,6 @@ namespace PointBlank.API.Unturned.Barricade
         /// </summary>
         /// <param name="amount">The amount to repair it by</param>
         public void Repair(ushort amount) => Barricade.askRepair(amount);
-
-        /// <summary>
-        /// Set the health of the barricade
-        /// </summary>
-        /// <param name="health">The health you want the barricade to have</param>
-        public void SetHealth(ushort health)
-        {
-            if (health == Health)
-                return;
-
-            if(Health < health)
-                Repair((ushort)(health - Health));
-            if (Health > health)
-                Damage((ushort)(Health - health));
-        }
 
         /*/// <summary>
         /// Duplicate the barricade

@@ -36,7 +36,20 @@ namespace PointBlank.API.Unturned.Structure
         /// <summary>
         /// The structure health
         /// </summary>
-        public ushort Health => Structure.health;
+        public ushort Health
+        {
+            get => Structure.health;
+            set
+            {
+                if (value == Health)
+                    return;
+
+                if (Health < value)
+                    Repair((ushort)(value - Health));
+                if (Health > value)
+                    Damage((ushort)(Health - value));
+            }
+        }
         /// <summary>
         /// The structure ID
         /// </summary>
@@ -115,25 +128,10 @@ namespace PointBlank.API.Unturned.Structure
         /// <param name="amount">The amount to repair it by</param>
         public void Repair(ushort amount) => Structure.askRepair(amount);
 
-        /// <summary>
-        /// Set the health of the structure
-        /// </summary>
-        /// <param name="health">The health you want the structure to have</param>
-        public void SetHealth(ushort health)
-        {
-            if (health == Health)
-                return;
-
-            if(Health < health)
-                Repair((ushort)(health - Health));
-            if (Health > health)
-                Damage((ushort)(Health - health));
-        }
-
-        /// <summary>
+        /*/// <summary>
         /// Duplicate the structure
         /// </summary>
-        /*public UnturnedStructure Duplicate()
+        public UnturnedStructure Duplicate()
         {
             UnturnedStructure Dupe = Create(new StructureData(new UStructure((ushort)(UnturnedServer.Structures.Length + 1), Structure.health, Structure.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
 

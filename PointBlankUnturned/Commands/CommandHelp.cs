@@ -28,7 +28,7 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            PointBlankCommand[] commands = PointBlankCommandManager.Commands.Where(a => a.Enabled).ToArray();
+            PointBlankCommand[] commands = PointBlankCommandManager.Commands.Where(a => a.Enabled && HasPermission(executor, a.Permission)).ToArray();
 
             if (args.Length > 0)
             {
@@ -61,6 +61,14 @@ namespace PointBlank.Commands
                 send += (string.IsNullOrEmpty(send) ? "" : ",") + commands[pos].Commands[0].ToLower();
                 pos++;
             }
+        }
+
+        private bool HasPermission(PointBlankPlayer player, string permission)
+        {
+            if (PointBlankPlayer.IsServer(player))
+                return true;
+
+            return player.HasPermission(permission);
         }
     }
 }
