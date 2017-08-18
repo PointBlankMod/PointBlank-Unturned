@@ -184,11 +184,11 @@ namespace PointBlank.API.Unturned.Player
         internal static void RunPlayerSkillUpgrade(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level) =>
             OnPlayerSkillUpgrade?.Invoke(Player, Specialty, Skill, Level);
 
-        internal static void RunItemEquip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemEquip?.Invoke(player, item);
+        /*internal static void RunItemEquip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemEquip?.Invoke(player, item);
         internal static void RunItemDeequip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemDeequip?.Invoke(player, item);
 
         internal static void RunItemDrop(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemDropped?.Invoke(player, item);
-        internal static void RunItemPickup(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemPickup?.Invoke(player, item);
+        internal static void RunItemPickup(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemPickup?.Invoke(player, item);*/
         #endregion
     }
 }

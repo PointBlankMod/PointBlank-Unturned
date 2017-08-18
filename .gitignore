@@ -291,3 +291,4 @@ __pycache__/
 *.xsd.cs
 PointBlankUpdater/PointBlankUpdater_Unturned.json
 Update_PointBlank.bat
+UpdaterCore/Compile.bat
