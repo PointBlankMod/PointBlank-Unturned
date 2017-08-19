@@ -89,6 +89,8 @@
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
     <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
     <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
+    <Compile Include="API\Unturned\Zombie\UnturnedZombie.cs" />
+    <Compile Include="API\Unturned\Zombie\ZombieEvents.cs" />
     <Compile Include="Commands\CommandAdmin.cs" />
     <Compile Include="Commands\CommandAdmins.cs" />
     <Compile Include="Commands\CommandAirdrop.cs" />
@@ -163,6 +165,8 @@
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />
     <Compile Include="Framework\Overrides\_VehicleManager.cs" />
+    <Compile Include="Framework\Overrides\_Zombie.cs" />
+    <Compile Include="Framework\Overrides\_ZombieManager.cs" />
     <Compile Include="Framework\Translations\CommandTranslations.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -133,18 +133,8 @@ namespace PointBlank.Services.APIManager
         #endregion
 
         #region Event Functions
-        private void OnItemDropAdded(Transform model, InteractableItem item)
-        {
-            UnturnedItem itm = UnturnedItem.Create(item);
-
-            ServerEvents.RunItemCreated(itm);
-        }
-        private void OnItemDropRemoved(Transform model, InteractableItem item)
-        {
-            UnturnedItem itm = UnturnedItem.Create(item);
-
-            ServerEvents.RunItemRemoved(itm);
-        }
+        private void OnItemDropAdded(Transform model, InteractableItem item) => ServerEvents.RunItemCreated(item);
+        private void OnItemDropRemoved(Transform model, InteractableItem item) => ServerEvents.RunItemRemoved(UnturnedItem.Create(item));
 
         private void OnPlayerPreConnect(ValidateAuthTicketResponse_t AuthTicket, ref bool valid)
         {

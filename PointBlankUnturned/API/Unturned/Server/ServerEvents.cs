@@ -6,6 +6,7 @@ using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
+using PointBlank.API.Unturned.Zombie;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -71,6 +72,12 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="item">The affected item</param>
         public delegate void ItemUpdateHandler(UnturnedItem item);
+
+        /// <summary>
+        /// Used for handling zombies
+        /// </summary>
+        /// <param name="zombie">The affected zombie</param>
+        public delegate void ZombieStatusHandler(UnturnedZombie zombie);
         #endregion
 
         #region Events
@@ -173,6 +180,15 @@ namespace PointBlank.API.Unturned.Server
         /// Called when an item is removed
         /// </summary>
         public static event ItemUpdateHandler OnItemRemoved;
+
+        /// <summary>
+        /// Called when a zombie is created
+        /// </summary>
+        public static event ZombieStatusHandler OnZombieCreated;
+        /// <summary>
+        /// Called when a zombie is removed
+        /// </summary>
+        public static event ZombieStatusHandler OnZombieRemoved;
         #endregion
 
         #region Functions
@@ -213,7 +229,14 @@ namespace PointBlank.API.Unturned.Server
         internal static void RunRainUpdated(ELightingRain status) => OnRainUpdated?.Invoke(status);
 
         internal static void RunVehicleCreated(InteractableVehicle vehicle) => OnVehicleCreated?.Invoke(UnturnedVehicle.Create(vehicle));
-        internal static void RunVehicleRemoved(InteractableVehicle vehicle) => OnVehicleRemoved?.Invoke(UnturnedVehicle.Create(vehicle));
+        internal static void RunVehicleRemoved(UnturnedVehicle vehicle)
+        {
+            if (OnVehicleRemoved == null)
+                return;
+
+            OnVehicleRemoved(vehicle);
+            UnturnedServer.RemoveVehicle(vehicle);
+        }
 
         internal static void RunStructureCreated(StructureData structure, ref bool cancel) => OnStructureCreated?.Invoke(UnturnedStructure.Create(structure), ref cancel);
         internal static void RunStructureRemoved(UnturnedStructure structure, ref bool cancel)
@@ -240,8 +263,25 @@ namespace PointBlank.API.Unturned.Server
         internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
         internal static void RunConsoleOutput(ref object text, ref ConsoleColor color, ref bool cancel) => OnConsoleOutput?.Invoke(ref text, ref color, ref cancel);
 
-        internal static void RunItemCreated(UnturnedItem item) => OnItemCreated?.Invoke(item);
-        internal static void RunItemRemoved(UnturnedItem item) => OnItemRemoved?.Invoke(item);
+        internal static void RunItemCreated(InteractableItem item) => OnItemCreated?.Invoke(UnturnedItem.Create(item));
+        internal static void RunItemRemoved(UnturnedItem item)
+        {
+            if (OnItemRemoved == null)
+                return;
+
+            OnItemRemoved(item);
+            UnturnedServer.RemoveItem(item);
+        }
+
+        internal static void RunZombieCreated(SDG.Unturned.Zombie zombie) => OnZombieCreated?.Invoke(UnturnedZombie.Create(zombie));
+        internal static void RunZombieRemoved(UnturnedZombie zombie)
+        {
+            if (OnZombieRemoved == null)
+                return;
+
+            OnZombieRemoved(zombie);
+            UnturnedServer.RemoveZombie(zombie);
+        }
         #endregion
     }
 }

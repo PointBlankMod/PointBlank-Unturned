@@ -12,6 +12,7 @@ using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
+using PointBlank.API.Unturned.Zombie;
 using Steamworks;
 using UPlayer = SDG.Unturned.Player;
 
@@ -29,6 +30,7 @@ namespace PointBlank.API.Unturned.Server
         private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
         private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
         private static HashSet<UnturnedItem> _Items = new HashSet<UnturnedItem>();
+        private static HashSet<UnturnedZombie> _Zombies = new HashSet<UnturnedZombie>();
         #endregion
 
         #region Properties
@@ -56,6 +58,10 @@ namespace PointBlank.API.Unturned.Server
         /// Items within the server
         /// </summary>
         public static UnturnedItem[] Items => _Items.ToArray();
+        /// <summary>
+        /// The currently spawned zombies in the server
+        /// </summary>
+        public static UnturnedZombie[] Zombies => _Zombies.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -187,6 +193,27 @@ namespace PointBlank.API.Unturned.Server
             _Items.Remove(itm);
             return true;
         }
+
+        internal static UnturnedZombie AddZombie(UnturnedZombie zombie)
+        {
+            UnturnedZombie zmb = Zombies.FirstOrDefault(a => a.Zombie == zombie.Zombie);
+
+            if (zmb != null)
+                return zmb;
+
+            _Zombies.Add(zombie);
+            return zombie;
+        }
+        internal static bool RemoveZombie(UnturnedZombie zombie)
+        {
+            UnturnedZombie zmb = Zombies.FirstOrDefault(a => a.Zombie == zombie.Zombie);
+
+            if (zmb == null)
+                return false;
+
+            _Zombies.Remove(zombie);
+            return true;
+        }
         #endregion
 
         #region Public Functions
@@ -250,12 +277,23 @@ namespace PointBlank.API.Unturned.Server
             if (!Level.exists(mapName))
                 return false;
 
+            // Kick players
             for (int i = 0; i < Players.Length; i++)
                 Players[i].Kick("Map is changing.");
 
+            // Reset PointBlank
+            _Vehicles.Clear();
+            _Structures.Clear();
+            _Items.Clear();
+            _Barricades.Clear();
+            _Zombies.Clear();
+
+            // Reset Unturned
             Provider.gameMode = null;
             Provider.selectedGameModeName = null;
             PointBlankReflect.GetField<Level>("_isLoaded", PointBlankReflect.STATIC_FLAG).SetValue(null, false);
+
+            // Setup map
             Provider.map = mapName;
             Level.load(Level.getLevel(Provider.map));
             PointBlankReflect.GetMethod<Provider>("loadGameMode", PointBlankReflect.STATIC_FLAG).RunMethod(null);
