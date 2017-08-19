@@ -9,10 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C7E8ED13
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{8B0994C9-5661-4353-9314-7AFD5E17A3B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdaterCore", "UpdaterCore\UpdaterCore.csproj", "{990CA1D0-36AE-4E17-9854-A1D58A43E50D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,14 +23,6 @@ Global
 		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B0994C9-5661-4353-9314-7AFD5E17A3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B0994C9-5661-4353-9314-7AFD5E17A3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B0994C9-5661-4353-9314-7AFD5E17A3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B0994C9-5661-4353-9314-7AFD5E17A3B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{990CA1D0-36AE-4E17-9854-A1D58A43E50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{990CA1D0-36AE-4E17-9854-A1D58A43E50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{990CA1D0-36AE-4E17-9854-A1D58A43E50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{990CA1D0-36AE-4E17-9854-A1D58A43E50D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
