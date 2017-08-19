@@ -20,7 +20,7 @@ namespace PointBlank.Framework.Overrides
         private static MethodInfo mi_alert = PointBlankReflect.GetMethod<Zombie>("alert", PointBlankReflect.INSTANCE_FLAG);
         #endregion
 
-        [Detour(typeof(Zombie), "init", BindingFlags.Instance | BindingFlags.Public)]
+        //[Detour(typeof(Zombie), "init", BindingFlags.Instance | BindingFlags.Public)]
         public static void init(this Zombie zombie)
         {
             ServerEvents.RunZombieCreated(zombie);
@@ -28,7 +28,7 @@ namespace PointBlank.Framework.Overrides
             DetourManager.CallOriginal(mi_init, zombie);
         }
 
-        [Detour(typeof(Zombie), "stop", BindingFlags.NonPublic | BindingFlags.Instance)]
+        //[Detour(typeof(Zombie), "stop", BindingFlags.NonPublic | BindingFlags.Instance)]
         public static void stop(this Zombie zombie)
         {
             ServerEvents.RunZombieRemoved(UnturnedZombie.Create(zombie));
@@ -36,7 +36,7 @@ namespace PointBlank.Framework.Overrides
             DetourManager.CallOriginal(mi_stop, zombie);
         }
 
-        [Detour(typeof(Zombie), "alert", BindingFlags.Public | BindingFlags.Instance)]
+        //[Detour(typeof(Zombie), "alert", BindingFlags.Public | BindingFlags.Instance)]
         public static void alert(this Zombie zombie, Player player)
         {
             bool cancel = false;
