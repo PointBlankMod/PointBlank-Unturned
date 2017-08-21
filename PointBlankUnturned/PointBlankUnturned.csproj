@@ -173,7 +173,6 @@
     <Compile Include="Services\APIManager\APIManager.cs" />
     <Compile Include="Services\APIManager\InfoManager.cs" />
     <Compile Include="Services\Launcher\Launcher.cs" />
-    <Compile Include="Services\APIUpdateChecker\APIUpdateChecker.cs" />
     <Compile Include="Services\WebPermissions\WebPremissions.cs" />
   </ItemGroup>
   <ItemGroup />

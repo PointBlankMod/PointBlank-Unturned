@@ -10,6 +10,7 @@ using PointBlank.API.Plugins;
 using PointBlank.API.Commands;
 using PointBlank.API.Player;
 using PointBlank.API.Implements;
+using PointBlank.API.Extension;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -24,12 +25,6 @@ namespace PointBlank.Services.APIManager
 {
     internal class APIManager : PointBlankService
     {
-        #region Variables
-        // Thread variables
-        private static Thread tGame;
-        private static bool RunThread = true;
-        #endregion
-
         #region Properties
         public override int LaunchIndex => 2;
         #endregion
@@ -37,11 +32,7 @@ namespace PointBlank.Services.APIManager
         public override void Load()
         {
             // Setup thread
-            tGame = new Thread(new ThreadStart(delegate ()
-            {
-                while (RunThread)
-                    ServerEvents.RunThreadTick();
-            }));
+            ExtensionEvents.OnAPITick += ServerEvents.RunThreadTick;
 
             // Setup events
             Provider.onEnemyConnected += ServerEvents.RunPlayerConnected;
@@ -79,13 +70,12 @@ namespace PointBlank.Services.APIManager
             StructureEvents.OnSalvageStructure += ServerEvents.RunStructureRemoved;
             BarricadeEvents.OnBarricadeDestroy += ServerEvents.RunBarricadeRemoved;
             BarricadeEvents.OnBarricadeSalvage += ServerEvents.RunBarricadeRemoved;
-
-            // Run code
-            tGame.Start();
         }
 
         public override void Unload()
         {
+            ExtensionEvents.OnAPITick -= ServerEvents.RunThreadTick;
+
             // Unload events
             Provider.onEnemyConnected -= ServerEvents.RunPlayerConnected;
             Provider.onEnemyDisconnected -= ServerEvents.RunPlayerDisconnected;
@@ -122,10 +112,6 @@ namespace PointBlank.Services.APIManager
             StructureEvents.OnSalvageStructure -= ServerEvents.RunStructureRemoved;
             BarricadeEvents.OnBarricadeDestroy -= ServerEvents.RunBarricadeRemoved;
             BarricadeEvents.OnBarricadeSalvage -= ServerEvents.RunBarricadeRemoved;
-
-            // Stop the thread
-            RunThread = false;
-            tGame.Abort();
         }
 
         #region Mono Functions
