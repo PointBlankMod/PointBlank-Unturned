@@ -127,5 +127,9 @@ namespace PointBlank.API.Unturned.Zombie
             return z ?? new UnturnedZombie(zombie);
         }
         #endregion
+
+        #region Functions
+        public void Stun() => PointBlankReflect.GetMethod<SDG.Unturned.Zombie>("stun", PointBlankReflect.INSTANCE_FLAG).RunMethod(Zombie);
+        #endregion
     }
 }
