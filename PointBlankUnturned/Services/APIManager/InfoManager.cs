@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
-using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Steam;
 using PointBlank.API.Groups;

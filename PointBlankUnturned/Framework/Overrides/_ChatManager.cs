@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using SDG.Unturned;
-using Steamworks;
 using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Unturned.Player;
+using SDG.Unturned;
+using Steamworks;
 using CM = SDG.Unturned.ChatManager;
 
 namespace PointBlank.Framework.Overrides
@@ -35,7 +35,7 @@ namespace PointBlank.Framework.Overrides
                 return;
 
             // Restore original
-            DetourManager.CallOriginal(mi_askChat, CM.instance, player.SteamID, mode, text);
+            PointBlankDetourManager.CallOriginal(mi_askChat, CM.instance, player.SteamID, mode, text);
         }
     }
 }

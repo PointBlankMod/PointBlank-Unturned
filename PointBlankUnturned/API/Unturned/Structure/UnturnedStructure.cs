@@ -1,8 +1,8 @@
 using System.Linq;
-using SDG.Unturned;
-using UStructure = SDG.Unturned.Structure;
-using UnityEngine;
 using PointBlank.API.Unturned.Server;
+using SDG.Unturned;
+using UnityEngine;
+using UStructure = SDG.Unturned.Structure;
 
 namespace PointBlank.API.Unturned.Structure
 {

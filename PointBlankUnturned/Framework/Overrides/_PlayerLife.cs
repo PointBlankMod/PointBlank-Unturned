@@ -26,7 +26,7 @@ namespace PointBlank.Framework.Overrides
             if (cancel) return;
             
             object[] paramaters = new object[] { amount, newRagdoll, newCause, newLimb, newKiller, null };
-            DetourManager.CallOriginal(mi_doDamage, life, paramaters);
+            PointBlankDetourManager.CallOriginal(mi_doDamage, life, paramaters);
             kill = (EPlayerKill)paramaters[5];
         }
     }

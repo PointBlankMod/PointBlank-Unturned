@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using System.Linq;
-using SDG.Unturned;
 using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Vehicle;
+using SDG.Unturned;
 
 namespace PointBlank.Framework.Overrides
 {
@@ -22,7 +22,7 @@ namespace PointBlank.Framework.Overrides
         {
             ServerEvents.RunVehicleCreated(vehicle);
 
-            DetourManager.CallOriginal(mi_init, vehicle, new object[0]);
+            PointBlankDetourManager.CallOriginal(mi_init, vehicle, new object[0]);
         }
         
         [Detour(typeof(InteractableVehicle), "askDamageTire", BindingFlags.Public | BindingFlags.Instance)]
@@ -38,7 +38,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleTireDamage(UVehicle, ref index, ref cancel);
 
             if (!cancel)
-                DetourManager.CallOriginal(mi_askDamageTire, Vehicle, index);
+                PointBlankDetourManager.CallOriginal(mi_askDamageTire, Vehicle, index);
         }
         
         [Detour(typeof(InteractableVehicle), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
@@ -51,7 +51,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleDamage(vehicle, ref amount, ref canRepair, ref cancel);
             
             if(!cancel)
-                DetourManager.CallOriginal(mi_askDamage, Vehicle, amount, canRepair);
+                PointBlankDetourManager.CallOriginal(mi_askDamage, Vehicle, amount, canRepair);
         }
         
         [Detour(typeof(InteractableVehicle), "askRepair", BindingFlags.Public | BindingFlags.Instance)]
@@ -65,7 +65,7 @@ namespace PointBlank.Framework.Overrides
             VehicleEvents.RunVehicleRepair(vehicle, ref amount, ref cancel);
 
             if (!cancel)
-                DetourManager.CallOriginal(mi_askRepair, Vehicle, amount);
+                PointBlankDetourManager.CallOriginal(mi_askRepair, Vehicle, amount);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace PointBlank.Framework.Overrides
                 ServerEvents.RunVehicleRemoved(UnturnedVehicle.Create(vehicle));
             }
 
-            DetourManager.CallOriginal(mi_tellVehicleDestroy, VehicleManager.instance, steamID, instanceID);
+            PointBlankDetourManager.CallOriginal(mi_tellVehicleDestroy, VehicleManager.instance, steamID, instanceID);
         }
         
         [SteamCall]

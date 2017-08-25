@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using SDG.Unturned;
-using UnityEngine;
 using PointBlank.API;
 using PointBlank.API.Implements;
 using PointBlank.API.Unturned;
@@ -8,6 +6,8 @@ using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Detour;
 using Steamworks;
+using SDG.Unturned;
+using UnityEngine;
 
 namespace PointBlank.Framework.Overrides
 {

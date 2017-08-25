@@ -24,7 +24,7 @@ namespace PointBlank.Framework.Overrides
 
             // Run the original function
             if (!cancel)
-                DetourManager.CallOriginal(mi_askDamage, barricade, amount);
+                PointBlankDetourManager.CallOriginal(mi_askDamage, barricade, amount);
         }
 
         [Detour(typeof(Barricade), "askRepair", BindingFlags.Instance | BindingFlags.Public)]
@@ -38,7 +38,7 @@ namespace PointBlank.Framework.Overrides
 
             // Run the original function
             if (!cancel)
-                DetourManager.CallOriginal(mi_askRepair, barricade, amount);
+                PointBlankDetourManager.CallOriginal(mi_askRepair, barricade, amount);
         }
     }
 }

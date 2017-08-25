@@ -175,7 +175,9 @@
     <Compile Include="Services\Launcher\Launcher.cs" />
     <Compile Include="Services\WebPermissions\WebPremissions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="API\Unturned\Animal\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

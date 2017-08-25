@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
+using PointBlank.API.IPC;
 using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
-using PointBlank.API.IPC;
-using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.Launcher
 {
@@ -20,11 +19,11 @@ namespace PointBlank.Services.Launcher
                 return;
 
             // Set the configuration
-            IPCM.IPCType = EIPCType.CONSOLE;
+            PointBlankIPCManager.IPCType = EIPCType.CONSOLE;
 
             // Setup the keys
-            IPCM.AddKey("PlayerCount", UnturnedServer.Players.Length.ToString());
-            IPCM.AddKey("Players", (UnturnedServer.Players.Length > 0 ? string.Join(",", UnturnedServer.Players.Select(a => a.PlayerName).ToArray()) : ""));
+            PointBlankIPCManager.AddKey("PlayerCount", UnturnedServer.Players.Length.ToString());
+            PointBlankIPCManager.AddKey("Players", (UnturnedServer.Players.Length > 0 ? string.Join(",", UnturnedServer.Players.Select(a => a.PlayerName).ToArray()) : ""));
 
             // Setup the events
             ServerEvents.OnPlayerConnected += OnPlayerUpdate;
@@ -46,11 +45,11 @@ namespace PointBlank.Services.Launcher
         #region Event Functions
         private void OnPlayerUpdate(UnturnedPlayer player)
         {
-            IPCM.SetValue("PlayerCount", UnturnedServer.Players.Length.ToString());
-            IPCM.SetValue("Players", string.Join(",", UnturnedServer.Players.Select(a => a.PlayerName).ToArray()));
+            PointBlankIPCManager.SetValue("PlayerCount", UnturnedServer.Players.Length.ToString());
+            PointBlankIPCManager.SetValue("Players", string.Join(",", UnturnedServer.Players.Select(a => a.PlayerName).ToArray()));
         }
 
-        private void OnServerOutput(ref object text, ref ConsoleColor color, ref bool cancel) => IPCM.HookOutput(text.ToString());
+        private void OnServerOutput(ref object text, ref ConsoleColor color, ref bool cancel) => PointBlankIPCManager.HookOutput(text.ToString());
         #endregion
     }
 }

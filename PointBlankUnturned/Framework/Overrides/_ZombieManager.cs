@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Reflection;
 using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Zombie;
@@ -21,7 +17,7 @@ namespace PointBlank.Framework.Overrides
         {
             ZombieEvents.RunZombieStun(UnturnedZombie.Create(zombie), ref stun);
 
-            DetourManager.CallOriginal(mi_sendZombieStun, null, stun);
+            PointBlankDetourManager.CallOriginal(mi_sendZombieStun, null, stun);
         }
     }
 }

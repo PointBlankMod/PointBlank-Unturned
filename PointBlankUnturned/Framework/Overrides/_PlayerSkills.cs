@@ -24,7 +24,7 @@ namespace PointBlank.Framework.Overrides
             
             PlayerEvents.RunPlayerSkillUpgrade(Player, speciality, index, level);
 
-            DetourManager.CallOriginal(mi_tellSkill, Skills, steamID, speciality, index, level);
+            PointBlankDetourManager.CallOriginal(mi_tellSkill, Skills, steamID, speciality, index, level);
         }
     }
 }

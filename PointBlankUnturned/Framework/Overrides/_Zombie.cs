@@ -1,8 +1,5 @@
-﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
+﻿using System.Reflection;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Implements;
@@ -31,7 +28,7 @@ namespace PointBlank.Framework.Overrides
         {
             ServerEvents.RunZombieCreated(zombie);
 
-            DetourManager.CallOriginal(mi_init, zombie);
+            PointBlankDetourManager.CallOriginal(mi_init, zombie);
         }
 
         [Detour(typeof(Zombie), "stop", BindingFlags.NonPublic | BindingFlags.Instance)]
@@ -39,7 +36,7 @@ namespace PointBlank.Framework.Overrides
         {
             ServerEvents.RunZombieRemoved(UnturnedZombie.Create(zombie));
 
-            DetourManager.CallOriginal(mi_stop, zombie);
+            PointBlankDetourManager.CallOriginal(mi_stop, zombie);
         }
 
         [Detour(typeof(Zombie), "alert", BindingFlags.Public | BindingFlags.Instance)]
@@ -52,7 +49,7 @@ namespace PointBlank.Framework.Overrides
             if (cancel)
                 return;
             player = ply.Player;
-            DetourManager.CallOriginal(mi_alert, zombie, player);
+            PointBlankDetourManager.CallOriginal(mi_alert, zombie, player);
         }
 
         [Detour(typeof(Zombie), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
