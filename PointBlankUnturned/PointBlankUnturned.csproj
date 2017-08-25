@@ -70,6 +70,8 @@
     <Compile Include="API\Steam\SteamGroupEvents.cs" />
     <Compile Include="API\Steam\SteamGroupManager.cs" />
     <Compile Include="API\Steam\SteamPlayer.cs" />
+    <Compile Include="API\Unturned\Animal\AnimalEvents.cs" />
+    <Compile Include="API\Unturned\Animal\UnturnedAnimal.cs" />
     <Compile Include="API\Unturned\Barricade\BarricadeEvents.cs" />
     <Compile Include="API\Unturned\Barricade\UnturnedBarricade.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
@@ -154,6 +156,8 @@
     <Compile Include="Commands\CommandWhitelisted.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configurations\APIConfigurations.cs" />
+    <Compile Include="Framework\Overrides\_Animal.cs" />
+    <Compile Include="Framework\Overrides\_AnimalManager.cs" />
     <Compile Include="Framework\Overrides\_Barricade.cs" />
     <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
@@ -175,9 +179,7 @@
     <Compile Include="Services\Launcher\Launcher.cs" />
     <Compile Include="Services\WebPermissions\WebPremissions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\Unturned\Animal\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

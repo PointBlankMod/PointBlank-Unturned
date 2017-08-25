@@ -12,6 +12,7 @@ using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
 using PointBlank.API.Unturned.Zombie;
+using PointBlank.API.Unturned.Animal;
 using Steamworks;
 using UPlayer = SDG.Unturned.Player;
 
@@ -30,6 +31,7 @@ namespace PointBlank.API.Unturned.Server
         private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
         private static HashSet<UnturnedItem> _Items = new HashSet<UnturnedItem>();
         private static HashSet<UnturnedZombie> _Zombies = new HashSet<UnturnedZombie>();
+        private static HashSet<UnturnedAnimal> _Animals = new HashSet<UnturnedAnimal>();
         #endregion
 
         #region Properties
@@ -37,10 +39,12 @@ namespace PointBlank.API.Unturned.Server
         /// The currently online players
         /// </summary>
         public static UnturnedPlayer[] Players => _Players.ToArray();
+#if DEBUG
         /// <summary>
         /// All players that have connected to the server
         /// </summary>
         public static StoredPlayer[] StoredPlayers => _StoredPlayers.ToArray();
+#endif
         /// <summary>
         /// All vehicles on the server
         /// </summary>
@@ -61,6 +65,10 @@ namespace PointBlank.API.Unturned.Server
         /// The currently spawned zombies in the server
         /// </summary>
         public static UnturnedZombie[] Zombies => _Zombies.ToArray();
+        /// <summary>
+        /// The currently spawned animals in the server
+        /// </summary>
+        public static UnturnedAnimal[] Animals => _Animals.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -211,6 +219,27 @@ namespace PointBlank.API.Unturned.Server
                 return false;
 
             _Zombies.Remove(zombie);
+            return true;
+        }
+
+        internal static UnturnedAnimal AddAnimal(UnturnedAnimal animal)
+        {
+            UnturnedAnimal ani = Animals.FirstOrDefault(a => a.Animal == animal.Animal);
+
+            if (ani != null)
+                return ani;
+
+            _Animals.Add(animal);
+            return animal;
+        }
+        internal static bool RemoveAnimal(UnturnedAnimal animal)
+        {
+            UnturnedAnimal ani = Animals.FirstOrDefault(a => a.Animal == animal.Animal);
+
+            if (ani != null)
+                return false;
+
+            _Animals.Remove(animal);
             return true;
         }
         #endregion

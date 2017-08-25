@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
 using PointBlank.API.Unturned.Zombie;
+using PointBlank.API.Unturned.Animal;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -78,6 +79,12 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="zombie">The affected zombie</param>
         public delegate void ZombieStatusHandler(UnturnedZombie zombie);
+
+        /// <summary>
+        /// Used for handling animals
+        /// </summary>
+        /// <param name="animal">The affected animal</param>
+        public delegate void AnimalStatusHandler(UnturnedAnimal animal);
         #endregion
 
         #region Events
@@ -189,6 +196,15 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a zombie is removed
         /// </summary>
         public static event ZombieStatusHandler OnZombieRemoved;
+
+        /// <summary>
+        /// Called when an animal is created
+        /// </summary>
+        public static event AnimalStatusHandler OnAnimalCreated;
+        /// <summary>
+        /// Called when an animal is removed
+        /// </summary>
+        public static event AnimalStatusHandler OnAnimalRemoved;
         #endregion
 
         #region Functions
@@ -281,6 +297,16 @@ namespace PointBlank.API.Unturned.Server
 
             OnZombieRemoved(zombie);
             UnturnedServer.RemoveZombie(zombie);
+        }
+
+        internal static void RunAnimalCreated(SDG.Unturned.Animal animal) => OnAnimalCreated?.Invoke(UnturnedAnimal.Create(animal));
+        internal static void RunAnimalRemoved(UnturnedAnimal animal)
+        {
+            if (OnAnimalRemoved == null)
+                return;
+
+            OnAnimalRemoved(animal);
+            UnturnedServer.RemoveAnimal(animal);
         }
         #endregion
     }
