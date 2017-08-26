@@ -18,6 +18,28 @@ namespace PointBlank
             if ((!Provider.isServer && !Dedicator.isDedicated))
                 return;
 
+            DedicatedUGC.installed += Started;
+        }
+
+        public void shutdown()
+        {
+            if ((!Provider.isServer && !Dedicator.isDedicated))
+                return;
+
+            DedicatedUGC.installed -= Started;
+
+            // Run code
+            PointBlank.Shutdown();
+
+            // Set the variables
+            Instance = null;
+            PointBlank = null;
+        }
+        #endregion
+
+        #region Event Functions
+        private void Started()
+        {
             // Set the variables
             Instance = this;
             PointBlankServer.ServerLocation = ServerInfo.ServerPath;
@@ -26,19 +48,6 @@ namespace PointBlank
             // Run code
             PointBlank.Initialize();
             Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
-        }
-
-        public void shutdown()
-        {
-            if ((!Provider.isServer && !Dedicator.isDedicated))
-                return;
-
-            // Run code
-            PointBlank.Shutdown();
-
-            // Set the variables
-            Instance = null;
-            PointBlank = null;
         }
         #endregion
     }
