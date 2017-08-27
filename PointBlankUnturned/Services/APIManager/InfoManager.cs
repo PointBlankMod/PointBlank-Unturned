@@ -14,16 +14,14 @@ namespace PointBlank.Services.APIManager
 {
     internal class InfoManager : PointBlankService
     {
-        #region Info
-        public static readonly string SteamGroupPath = PointBlankServer.ConfigurationsPath + "/SteamGroups";
-        public static readonly string PlayerPath = PointBlankServer.ConfigurationsPath + "/Players";
-        #endregion
-
         #region Variables
         private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties
+        public static string SteamGroupPath => PointBlankServer.ConfigurationsPath + "/SteamGroups";
+        public static string PlayerPath => PointBlankServer.ConfigurationsPath + "/Players";
+
         public UniversalData UniSteamGoupConfig { get; private set; }
         public UniversalData UniPlayerConfig { get; private set; }
 

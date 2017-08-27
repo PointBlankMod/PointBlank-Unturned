@@ -18,6 +18,9 @@ namespace PointBlank
             if ((!Provider.isServer && !Dedicator.isDedicated))
                 return;
 
+            Instance = this;
+            PointBlankServer.ServerLocation = ServerInfo.ServerPath;
+
             DedicatedUGC.installed += Started;
         }
 
@@ -41,8 +44,6 @@ namespace PointBlank
         private void Started()
         {
             // Set the variables
-            Instance = this;
-            PointBlankServer.ServerLocation = ServerInfo.ServerPath;
             PointBlank = new PointBlank();
 
             // Run code

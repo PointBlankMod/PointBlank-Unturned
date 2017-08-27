@@ -7,15 +7,15 @@ namespace PointBlank.Framework.Configurations
 {
     internal class APIConfigurations : IConfigurable
     {
-        public string ConfigurationDirectory => "";
+        public override string ConfigurationDirectory => "";
 
-        public ConfigurationList Configurations => new ConfigurationList()
+        public override ConfigurationList DefaultConfigurations => new ConfigurationList()
         {
             { "WebPermissions", false },
             { "WebPermissionsSite", "http://127.0.0.1/index.php?serverName=TestServer&file={0}" },
             { "WebPermissionsInterval", 600 },
         };
 
-        public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.APIConfigurations;
+        public override Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.APIConfigurations;
     }
 }

@@ -10,18 +10,16 @@ namespace PointBlank.Services.WebPermissions
 {
     internal class WebPremissions : PointBlankService
     {
-        #region Info
-        public static readonly string SteamGroupPath = PointBlankServer.ConfigurationsPath + "/SteamGroups.dat";
-        public static readonly string PlayerPath = PointBlankServer.ConfigurationsPath + "/Players.dat";
-        public static readonly string GroupPath = PointBlankServer.ConfigurationsPath + "/Groups.dat";
-        #endregion
-
         #region Variables
         private DateTime LastUpdate;
         private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties
+        public static string SteamGroupPath => PointBlankServer.ConfigurationsPath + "/SteamGroups.dat";
+        public static string PlayerPath => PointBlankServer.ConfigurationsPath + "/Players.dat";
+        public static string GroupPath => PointBlankServer.ConfigurationsPath + "/Groups.dat";
+
         public override int LaunchIndex => 0;
 
         public override bool AutoStart { get; set; } = false;

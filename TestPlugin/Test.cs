@@ -7,12 +7,12 @@ namespace TestPlugin
 {
     public class Test : PointBlankPlugin
     {
-        public override TranslationList Translations => new TranslationList()
+        public override TranslationList DefaultTranslations => new TranslationList()
         {
             { "test", "This is a test" }
         };
 
-        public override ConfigurationList Configurations => new ConfigurationList()
+        public override ConfigurationList DefaultConfigurations => new ConfigurationList()
         {
             { "test", "hello" },
             { "lolz", "smth" },

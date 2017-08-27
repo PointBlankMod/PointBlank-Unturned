@@ -7,9 +7,9 @@ namespace PointBlank.Framework.Translations
 {
     internal class CommandTranslations : ITranslatable
     {
-        public string TranslationDirectory => null;
+        public override string TranslationDirectory => null;
 
-        public TranslationList Translations => new TranslationList()
+        public override TranslationList DefaultTranslations => new TranslationList()
         {
             //------------------------------------- UNTURNED COMMANDS -----------------------------------------//
             // Base for commands
@@ -406,6 +406,6 @@ namespace PointBlank.Framework.Translations
             { "PointBlank_Invalid", "Invalid option!" }
         };
 
-        public Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+        public override Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
     }
 }
