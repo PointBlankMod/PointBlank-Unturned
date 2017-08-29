@@ -4,6 +4,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
+using PointBlank.API.Permissions;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 using SDG.Unturned;
 
@@ -63,7 +64,7 @@ namespace PointBlank.Commands
             }
         }
 
-        private bool HasPermission(PointBlankPlayer player, string permission)
+        private bool HasPermission(PointBlankPlayer player, PointBlankPermission permission)
         {
             if (PointBlankPlayer.IsServer(player))
                 return true;

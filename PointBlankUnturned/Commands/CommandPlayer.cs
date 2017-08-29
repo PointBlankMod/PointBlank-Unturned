@@ -71,7 +71,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            UnturnedChat.SendMessage(executor, string.Join(",", ply.Permissions), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Join(",", ply.Permissions.Select(a => a.Permission).ToArray()), ConsoleColor.Green);
         }
 
         private void Groups(PointBlankPlayer executor, string[] args)

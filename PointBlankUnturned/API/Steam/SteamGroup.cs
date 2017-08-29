@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
+using PointBlank.API.Permissions;
 
 namespace PointBlank.API.Steam
 {
@@ -10,7 +11,7 @@ namespace PointBlank.API.Steam
     public class SteamGroup
     {
         #region Variables
-        private List<string> _Permissions = new List<string>();
+        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
         private List<SteamGroup> _Inherits = new List<SteamGroup>();
 
         private List<string> _Prefixes = new List<string>();
@@ -46,7 +47,7 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The group permissions
         /// </summary>
-        public string[] Permissions => _Permissions.ToArray();
+        public PointBlankPermission[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// The group inherits
         /// </summary>
@@ -90,7 +91,6 @@ namespace PointBlank.API.Steam
             if (downloadData)
                 DownloadData();
         }
-
         /// <summary>
         /// The steam group instance using async
         /// </summary>
@@ -143,17 +143,42 @@ namespace PointBlank.API.Steam
         /// <param name="permission">The permission to add</param>
         public void AddPermission(string permission)
         {
+            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+
+            if (perm == null)
+                return;
+            AddPermission(perm);
+        }
+        /// <summary>
+        /// Add a permission to the steam group
+        /// </summary>
+        /// <param name="permission">The permission to add</param>
+        public void AddPermission(PointBlankPermission permission)
+        {
             if (_Permissions.Contains(permission))
                 return;
 
             _Permissions.Add(permission);
             SteamGroupEvents.RunPermissionAdded(this, permission);
         }
+
         /// <summary>
         /// Remove a permission from the steam group
         /// </summary>
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(string permission)
+        {
+            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+
+            if (perm == null)
+                return;
+            RemovePermission(perm);
+        }
+        /// <summary>
+        /// Remove a permission from the steam group
+        /// </summary>
+        /// <param name="permission">The permission to remove</param>
+        public void RemovePermission(PointBlankPermission permission)
         {
             if (!_Permissions.Contains(permission))
                 return;
@@ -174,6 +199,7 @@ namespace PointBlank.API.Steam
             _Prefixes.Add(prefix);
             SteamGroupEvents.RunPrefixAdded(this, prefix);
         }
+
         /// <summary>
         /// Remove a prefix from the steam group
         /// </summary>
@@ -199,6 +225,7 @@ namespace PointBlank.API.Steam
             _Suffixes.Add(suffix);
             SteamGroupEvents.RunSuffixAdded(this, suffix);
         }
+
         /// <summary>
         /// Removes a suffix from the steam group
         /// </summary>
@@ -226,6 +253,7 @@ namespace PointBlank.API.Steam
             _Inherits.Add(group);
             SteamGroupEvents.RunInheritAdded(this, group);
         }
+
         /// <summary>
         /// Removes an inherit from the steam group
         /// </summary>
@@ -243,14 +271,14 @@ namespace PointBlank.API.Steam
         /// Gets the list of all permissions including inheritences
         /// </summary>
         /// <returns>The list of all permissions including inheritences</returns>
-        public string[] GetPermissions()
+        public PointBlankPermission[] GetPermissions()
         {
-            List<string> permissions = new List<string>();
+            List<PointBlankPermission> permissions = new List<PointBlankPermission>();
 
             permissions.AddRange(Permissions);
             PointBlankTools.ForeachLoop<SteamGroup>(Inherits, delegate (int index, SteamGroup value)
             {
-                PointBlankTools.ForeachLoop<string>(value.GetPermissions(), delegate (int i, string v)
+                PointBlankTools.ForeachLoop<PointBlankPermission>(value.GetPermissions(), delegate (int i, PointBlankPermission v)
                 {
                     if (permissions.Contains(v))
                         return;
@@ -269,12 +297,25 @@ namespace PointBlank.API.Steam
         /// <returns>If the steam group has the permission specified</returns>
         public bool HasPermission(string permission)
         {
-            string[] permissions = GetPermissions();
-            string[] sPermission = permission.Split('.');
+            PointBlankPermission perm = new PointBlankPermission(permission);
+
+            if (perm == null)
+                return false;
+            return HasPermission(perm);
+        }
+        /// <summary>
+        /// Checks if the steam group has the permission specified
+        /// </summary>
+        /// <param name="permission">The permission to check for</param>
+        /// <returns>If the steam group has the permission specified</returns>
+        public bool HasPermission(PointBlankPermission permission)
+        {
+            PointBlankPermission[] permissions = GetPermissions();
+            string[] sPermission = permission.Permission.Split('.');
 
             for (int a = 0; a < permissions.Length; a++)
             {
-                string[] sP = permissions[a].Split('.');
+                string[] sP = permissions[a].Permission.Split('.');
 
                 for (int b = 0; b < sPermission.Length; b++)
                 {

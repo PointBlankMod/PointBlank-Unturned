@@ -1,4 +1,6 @@
-﻿namespace PointBlank.API.Steam
+﻿using PointBlank.API.Permissions;
+
+namespace PointBlank.API.Steam
 {
     /// <summary>
     /// List of events for steam groups
@@ -17,7 +19,7 @@
         /// </summary>
         /// <param name="permission">The permission affected</param>
         /// <param name="instance">The effect steam group's instance</param>
-        public delegate void PermissionEventHandler(SteamGroup instance, string permission);
+        public delegate void PermissionEventHandler(SteamGroup instance, PointBlankPermission permission);
         /// <summary>
         /// Handler for any inherit based event
         /// </summary>
@@ -89,23 +91,18 @@
 
         #region Functions
         internal static void RunSteamGroupAdded(SteamGroup g) => OnSteamGroupAdded?.Invoke(g);
-
         internal static void RunSteamGroupRemoved(SteamGroup g) => OnSteamGroupRemoved?.Invoke(g);
 
-        internal static void RunPermissionAdded(SteamGroup instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
-
-        internal static void RunPermissionRemoved(SteamGroup instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
+        internal static void RunPermissionAdded(SteamGroup instance, PointBlankPermission permission) => OnPermissionAdded?.Invoke(instance, permission);
+        internal static void RunPermissionRemoved(SteamGroup instance, PointBlankPermission permission) => OnPermissionRemoved?.Invoke(instance, permission);
 
         internal static void RunPrefixAdded(SteamGroup instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
-
         internal static void RunPrefixRemoved(SteamGroup instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);
 
         internal static void RunSuffixAdded(SteamGroup instance, string suffix) => OnSuffixAdded?.Invoke(instance, suffix);
-
         internal static void RunSuffixRemoved(SteamGroup instance, string suffix) => OnSuffixRemoved?.Invoke(instance, suffix);
 
         internal static void RunInheritAdded(SteamGroup instance, SteamGroup group) => OnInheritAdded?.Invoke(instance, @group);
-
         internal static void RunInheritRemoved(SteamGroup instance, SteamGroup group) => OnInheritRemoved?.Invoke(instance, @group);
 
         #endregion

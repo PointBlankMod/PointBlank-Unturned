@@ -5,6 +5,7 @@ using PointBlank.API.Steam;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.Collections;
+using PointBlank.API.Permissions;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
@@ -119,7 +120,7 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken token in (JArray)obj["Permissions"])
                     {
-                        if (g.Permissions.Contains((string)token))
+                        if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token)))
                             continue;
 
                         g.AddPermission((string)token);
@@ -127,7 +128,7 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    if (g.Permissions.Contains((string)obj["Permissions"]))
+                    if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)obj["Permissions"])))
                         continue;
 
                     g.AddPermission((string)obj["Permissions"]);
@@ -294,7 +295,7 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken t in (JArray)token["Permissions"])
                     {
-                        if (player.Permissions.Contains((string)t))
+                        if (player.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)t)))
                             continue;
 
                         player.AddPermission((string)t);
@@ -302,7 +303,7 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    if (!player.Permissions.Contains((string)token["Permissions"]))
+                    if (!player.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token["Permissions"])))
                         player.AddPermission((string)token["Permissions"]);
                 }
                 if(token["Groups"] is JArray)

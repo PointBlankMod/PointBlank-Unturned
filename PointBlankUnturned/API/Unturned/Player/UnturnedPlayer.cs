@@ -7,6 +7,7 @@ using Steamworks;
 using UnityEngine;
 using PointBlank.API.Implements;
 using PointBlank.API.Player;
+using PointBlank.API.Permissions;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Item;
@@ -791,7 +792,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="permission">The permission to check for</param>
         /// <returns>If the player has the specified permission</returns>
-        public override bool HasPermission(string permission)
+        public override bool HasPermission(PointBlankPermission permission)
         {
             if (IsAdmin)
                 return true;
@@ -802,11 +803,11 @@ namespace PointBlank.API.Unturned.Player
                 if (SteamGroups[i].HasPermission(permission))
                     return true;
 
-            string[] sPermission = permission.Split('.');
+            string[] sPermission = permission.Permission.Split('.');
 
             for (int a = 0; a < Permissions.Length; a++)
             {
-                string[] sP = Permissions[a].Split('.');
+                string[] sP = Permissions[a].Permission.Split('.');
 
                 for (int b = 0; b < sPermission.Length; b++)
                 {
