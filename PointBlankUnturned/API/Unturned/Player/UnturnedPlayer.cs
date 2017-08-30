@@ -543,7 +543,6 @@ namespace PointBlank.API.Unturned.Player
             // Set the variables
             this.SteamPlayer = steamplayer;
             this.Steam = new SP(SteamID.m_SteamID);
-            this.Cooldown = -1;
             this.Deaths = 0;
             this.TotalDeaths = 0;
             this.Kills = 0;
@@ -829,22 +828,24 @@ namespace PointBlank.API.Unturned.Player
         }
 
         /// <summary>
-        /// Gets the command cooldown for the player
+        /// Checks if the player has a cooldown on a specific permission
         /// </summary>
-        /// <returns>The command cooldown for the player</returns>
-        public override int GetCooldown()
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        /// <returns>If the player has a cooldown or not</returns>
+        public override bool HasCooldown(PointBlankPermission permission)
         {
             if (HasPermission("pointblank.nocooldown"))
-                return 0;
-            if (Cooldown != -1)
-                return Cooldown;
+                return false;
+
+            if (PointBlankPermissionManager.HasCooldown(this, permission))
+                return true;
             for (int i = 0; i < Groups.Length; i++)
-                if (Groups[i].Cooldown != -1)
-                    return Groups[i].Cooldown;
-            for (int i = 0; i < SteamGroups.Length; i++)
-                if (SteamGroups[i].Cooldown != -1)
-                    return SteamGroups[i].Cooldown;
-            return 0;
+                if (PointBlankPermissionManager.HasCooldown(Groups[i], permission))
+                    return true;
+            for(int i = 0; i < SteamGroups.Length; i++)
+                if (PointBlankPermissionManager.HasCooldown(SteamGroups[i], permission))
+                    return true;
+            return false;
         }
 
         /// <summary>

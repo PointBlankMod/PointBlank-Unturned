@@ -120,18 +120,18 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken token in (JArray)obj["Permissions"])
                     {
-                        if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token)))
+                        if (g.Permissions.Contains(token.ToObject<PointBlankPermission>()))
                             continue;
 
-                        g.AddPermission((string)token);
+                        g.AddPermission(token.ToObject<PointBlankPermission>());
                     }
                 }
                 else
                 {
-                    if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)obj["Permissions"])))
+                    if (g.Permissions.Contains(obj["Permissions"].ToObject<PointBlankPermission>()))
                         continue;
 
-                    g.AddPermission((string)obj["Permissions"]);
+                    g.AddPermission(obj["Permissions"].ToObject<PointBlankPermission>());
                 }
                 if(obj["Prefixes"] is JArray)
                 {
@@ -240,7 +240,6 @@ namespace PointBlank.Services.APIManager
 
                 if(token != null)
                 {
-                    token["Cooldown"] = player.Cooldown;
                     token["Permissions"] = JToken.FromObject(player.Permissions);
                     token["Prefixes"] = JToken.FromObject(player.Prefixes);
                     token["Suffixes"] = JToken.FromObject(player.Suffixes);
@@ -257,7 +256,6 @@ namespace PointBlank.Services.APIManager
                         {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
                         {"Prefixes", JToken.FromObject(player.Prefixes)},
                         {"Suffixes", JToken.FromObject(player.Suffixes)},
-                        {"Cooldown", player.Cooldown},
                         {"Kills", player.TotalKills},
                         {"Deaths", player.TotalDeaths}
                     };
@@ -287,7 +285,6 @@ namespace PointBlank.Services.APIManager
                 player.RemoveSuffix(player.Suffixes[0]);
             if(token != null)
             {
-                player.Cooldown = (int)token["Cooldown"];
                 player.TotalKills = (int)token["Kills"];
                 player.TotalDeaths = (int)token["Deaths"];
 
@@ -295,16 +292,16 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken t in (JArray)token["Permissions"])
                     {
-                        if (player.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)t)))
+                        if (player.Permissions.Contains(t.ToObject<PointBlankPermission>()))
                             continue;
 
-                        player.AddPermission((string)t);
+                        player.AddPermission(t.ToObject<PointBlankPermission>());
                     }
                 }
                 else
                 {
-                    if (!player.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token["Permissions"])))
-                        player.AddPermission((string)token["Permissions"]);
+                    if (!player.Permissions.Contains(token["Permissions"].ToObject<PointBlankPermission>()))
+                        player.AddPermission(token["Permissions"].ToObject<PointBlankPermission>());
                 }
                 if(token["Groups"] is JArray)
                 {
@@ -376,7 +373,6 @@ namespace PointBlank.Services.APIManager
 
             if (token != null)
             {
-                token["Cooldown"] = player.Cooldown;
                 token["Permissions"] = JToken.FromObject(player.Permissions);
                 token["Prefixes"] = JToken.FromObject(player.Prefixes);
                 token["Suffixes"] = JToken.FromObject(player.Suffixes);
@@ -393,7 +389,6 @@ namespace PointBlank.Services.APIManager
                     {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
                     {"Prefixes", JToken.FromObject(player.Prefixes)},
                     {"Suffixes", JToken.FromObject(player.Suffixes)},
-                    {"Cooldown", player.Cooldown},
                     {"Kills", player.TotalKills},
                     {"Deaths", player.TotalDeaths}
                 };

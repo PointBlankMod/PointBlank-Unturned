@@ -100,7 +100,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            PointBlankGroupManager.AddGroup(args[1], args[2], false, -1, Color.clear);
+            PointBlankGroupManager.AddGroup(args[1], args[2], false, Color.clear);
             UnturnedChat.SendMessage(executor, Translations["Group_Added"], ConsoleColor.Green);
         }
 

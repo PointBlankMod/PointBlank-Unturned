@@ -8,7 +8,7 @@ namespace PointBlank.API.Steam
     /// <summary>
     /// The steam group instance
     /// </summary>
-    public class SteamGroup
+    public class SteamGroup : IPermitable
     {
         #region Variables
         private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
@@ -143,7 +143,7 @@ namespace PointBlank.API.Steam
         /// <param name="permission">The permission to add</param>
         public void AddPermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
@@ -168,7 +168,7 @@ namespace PointBlank.API.Steam
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
