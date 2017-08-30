@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Newtonsoft.Json.Linq;
+using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Steam;
 using PointBlank.API.Groups;
@@ -283,7 +284,7 @@ namespace PointBlank.Services.APIManager
                 player.RemovePrefix(player.Prefixes[0]);
             while (player.Suffixes.Length > 0)
                 player.RemoveSuffix(player.Suffixes[0]);
-            if(token != null)
+            if (token != null)
             {
                 player.TotalKills = (int)token["Kills"];
                 player.TotalDeaths = (int)token["Deaths"];
