@@ -787,65 +787,47 @@ namespace PointBlank.API.Unturned.Player
         }
 
         /// <summary>
-        /// Checks if the player has the specified permission
+        /// Gets all permissions attached to the user
         /// </summary>
-        /// <param name="permission">The permission to check for</param>
-        /// <returns>If the player has the specified permission</returns>
-        public override bool HasPermission(PointBlankPermission permission)
+        /// <returns>The list of permissions attached to the user</returns>
+        public override PointBlankPermission[] GetPermissions()
         {
-            if (IsAdmin)
-                return true;
-            for(int i = 0; i < Groups.Length; i++)
-                if (Groups[i].HasPermission(permission))
-                    return true;
-            for(int i = 0; i < SteamGroups.Length; i++)
-                if (SteamGroups[i].HasPermission(permission))
-                    return true;
+            List<PointBlankPermission> permissions = Permissions.ToList();
 
-            string[] sPermission = permission.Permission.Split('.');
-
-            for (int a = 0; a < Permissions.Length; a++)
+            for (int i = 0; i < Groups.Length; i++)
             {
-                string[] sP = Permissions[a].Permission.Split('.');
-
-                for (int b = 0; b < sPermission.Length; b++)
+                foreach (PointBlankPermission perm in Groups[i].GetPermissions())
                 {
-                    if (b >= sP.Length)
+                    PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
+                    if (cPerm != null)
                     {
-                        if (sPermission.Length > sP.Length)
-                            break;
-
-                        return true;
+                        if (cPerm.Cooldown > perm.Cooldown)
+                            cPerm.Cooldown = perm.Cooldown;
                     }
-
-                    if (sP[b] == "*")
-                        return true;
-                    if (sP[b] != sPermission[b])
-                        break;
+                    else
+                    {
+                        permissions.Add(perm);
+                    }
                 }
             }
-            return false;
-        }
+            for (int i = 0; i < SteamGroups.Length; i++)
+            {
+                foreach (PointBlankPermission perm in SteamGroups[i].GetPermissions())
+                {
+                    PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
+                    if (cPerm != null)
+                    {
+                        if (cPerm.Cooldown > perm.Cooldown)
+                            cPerm.Cooldown = perm.Cooldown;
+                    }
+                    else
+                    {
+                        permissions.Add(perm);
+                    }
+                }
+            }
 
-        /// <summary>
-        /// Checks if the player has a cooldown on a specific permission
-        /// </summary>
-        /// <param name="permission">The permission the cooldown is applied to</param>
-        /// <returns>If the player has a cooldown or not</returns>
-        public override bool HasCooldown(PointBlankPermission permission)
-        {
-            if (HasPermission("pointblank.nocooldown"))
-                return false;
-
-            if (PointBlankPermissionManager.HasCooldown(this, permission))
-                return true;
-            for (int i = 0; i < Groups.Length; i++)
-                if (PointBlankPermissionManager.HasCooldown(Groups[i], permission))
-                    return true;
-            for(int i = 0; i < SteamGroups.Length; i++)
-                if (PointBlankPermissionManager.HasCooldown(SteamGroups[i], permission))
-                    return true;
-            return false;
+            return permissions.ToArray();
         }
 
         /// <summary>

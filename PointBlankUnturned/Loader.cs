@@ -2,6 +2,7 @@
 using SDG.Unturned;
 using PointBlank.API.Server;
 using PointBlank.API;
+using PointBlank.API.Unturned.Server;
 
 namespace PointBlank
 {
@@ -49,6 +50,7 @@ namespace PointBlank
             // Run code
             PointBlank.Initialize();
             Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
+            ServerEvents.RunServerInitialized();
         }
         #endregion
     }
