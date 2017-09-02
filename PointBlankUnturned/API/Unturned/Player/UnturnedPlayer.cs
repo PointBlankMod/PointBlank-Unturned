@@ -799,15 +799,11 @@ namespace PointBlank.API.Unturned.Player
                 foreach (PointBlankPermission perm in Groups[i].GetPermissions())
                 {
                     PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
-                    if (cPerm != null)
-                    {
+
+                    if (cPerm != null && cPerm.Cooldown != null && perm.Cooldown != null)
                         if (cPerm.Cooldown > perm.Cooldown)
-                            cPerm.Cooldown = perm.Cooldown;
-                    }
-                    else
-                    {
-                        permissions.Add(perm);
-                    }
+                            permissions.Remove(cPerm);
+                    permissions.Add(perm);
                 }
             }
             for (int i = 0; i < SteamGroups.Length; i++)
@@ -815,19 +811,16 @@ namespace PointBlank.API.Unturned.Player
                 foreach (PointBlankPermission perm in SteamGroups[i].GetPermissions())
                 {
                     PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
-                    if (cPerm != null)
-                    {
+
+                    if (cPerm != null && cPerm.Cooldown != null && perm.Cooldown != null)
                         if (cPerm.Cooldown > perm.Cooldown)
-                            cPerm.Cooldown = perm.Cooldown;
-                    }
-                    else
-                    {
-                        permissions.Add(perm);
-                    }
+                            permissions.Remove(cPerm);
+                    permissions.Add(perm);
                 }
             }
 
             return permissions.ToArray();
+
         }
 
         /// <summary>
