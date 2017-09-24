@@ -13,7 +13,7 @@ namespace PointBlank.Commands
     public class CommandHelp : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -47,19 +47,23 @@ namespace PointBlank.Commands
             int pos = 0;
             while (true)
             {
-                if(pos >= commands.Length)
+				if (!executor.HasPermission(commands[pos].Permission))
+					continue;
+
+				if (pos >= commands.Length)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     break;
                 }
                 string command = commands[pos].Commands[0];
+				
                 if ((send.Length + ("," + command).Length) > ChatManager.LENGTH)
                 {
                     UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
                     send = "";
                 }
 
-                send += (string.IsNullOrEmpty(send) ? "" : ",") + commands[pos].Commands[0].ToLower();
+                send += (string.IsNullOrEmpty(send) ? "" : ", ") + commands[pos].Commands[0].ToLower();
                 pos++;
             }
         }

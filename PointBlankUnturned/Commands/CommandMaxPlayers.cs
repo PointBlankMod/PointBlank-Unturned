@@ -11,12 +11,12 @@ namespace PointBlank.Commands
     public class CommandMaxPlayers : PointBlankCommand
     {
         #region Info
-        public static readonly byte MIN_NUMBER = 1;
-        public static readonly byte MAX_NUMBER = 48;
+        public static readonly byte MinNumber = 1;
+        public static readonly byte MaxNumber = 48;
         #endregion
 
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -40,14 +40,14 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if(max > MAX_NUMBER)
+            if(max > MaxNumber)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooHigh"], MaxNumber), ConsoleColor.Red);
                 return;
             }
-            else if(max < MIN_NUMBER)
+            else if(max < MinNumber)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooLow"], MIN_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooLow"], MinNumber), ConsoleColor.Red);
                 return;
             }
 

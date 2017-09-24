@@ -11,12 +11,12 @@ namespace PointBlank.Commands
     public class CommandName : PointBlankCommand
     {
         #region Info
-        private static readonly byte MIN_LENGTH = 5;
-        private static readonly byte MAX_LENGTH = 50;
+        private static readonly byte MinLength = 5;
+        private static readonly byte MaxLength = 50;
         #endregion
 
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -36,14 +36,14 @@ namespace PointBlank.Commands
         {
             string name = string.Join(" ", args);
 
-            if(name.Length > MAX_LENGTH)
+            if(name.Length > MaxLength)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Name_TooLong"], MAX_LENGTH), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Name_TooLong"], MaxLength), ConsoleColor.Red);
                 return;
             }
-            else if(name.Length < MIN_LENGTH)
+            else if(name.Length < MinLength)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Name_TooShort"], MIN_LENGTH), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Name_TooShort"], MinLength), ConsoleColor.Red);
                 return;
             }
 

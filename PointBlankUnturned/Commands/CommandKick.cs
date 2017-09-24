@@ -12,7 +12,7 @@ namespace PointBlank.Commands
     public class CommandKick : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -41,7 +41,7 @@ namespace PointBlank.Commands
             }
             reason = args.Length < 2 ? Translations["Kick_Reason"] : args[1];
 
-            Provider.kick(ply.SteamID, reason);
+            Provider.kick(ply.SteamId, reason);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Kick_Kicked"], ply.PlayerName), ConsoleColor.Green);
         }
     }

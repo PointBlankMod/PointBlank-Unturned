@@ -10,14 +10,14 @@ using PointBlank.API.Permissions;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
-using Config = PointBlank.Framework.Configurations.APIConfigurations;
+using PointBlank.Framework.Configurations;
 
 namespace PointBlank.Services.APIManager
 {
     internal class InfoManager : PointBlankService
     {
         #region Variables
-        private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
+        private ConfigurationList _configurations = PointBlankUnturnedEnvironment.ApiConfigurations[typeof(ApiConfigurations)].Configurations;
         #endregion
 
         #region Properties
@@ -73,7 +73,7 @@ namespace PointBlank.Services.APIManager
             SteamGroupManager.Loaded = false;
             foreach(JObject obj in (JArray)SteamGroupConfig.Document["SteamGroups"])
             {
-                if (SteamGroupManager.Groups.Count(a => a.ID == (ulong)obj["Steam64"]) > 0)
+                if (SteamGroupManager.Groups.Count(a => a.Id == (ulong)obj["Steam64"]) > 0)
                     continue;
 
                 SteamGroup g = new SteamGroup((ulong)obj["Steam64"], false, false);
@@ -83,7 +83,7 @@ namespace PointBlank.Services.APIManager
 
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
-                JObject obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID) as JObject;
+                JObject obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.Id) as JObject;
 
                 while (g.Inherits.Length > 0)
                     g.RemoveInherit(g.Inherits[0]);
@@ -100,7 +100,7 @@ namespace PointBlank.Services.APIManager
                     {
                         if (string.IsNullOrEmpty((string)token))
                             continue;
-                        SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)token));
+                        SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.Id == ulong.Parse((string)token));
 
                         if (i == null || g.Inherits.Contains(i) || g == i)
                             continue;
@@ -111,7 +111,7 @@ namespace PointBlank.Services.APIManager
                 {
                     if (string.IsNullOrEmpty((string)obj["Inherits"]))
                         continue;
-                    SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)obj["Inherits"]));
+                    SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.Id == ulong.Parse((string)obj["Inherits"]));
 
                     if (i == null || g.Inherits.Contains(i) || g == i)
                         continue;
@@ -199,24 +199,24 @@ namespace PointBlank.Services.APIManager
                 if (g.Ignore)
                     continue;
 
-                var obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID);
+                var obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.Id);
                 if (obj != null)
                 {
                     obj["Permissions"] = JToken.FromObject(g.Permissions);
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
-                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID.ToString()));
+                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.Id.ToString()));
                     obj["Cooldown"] = g.Cooldown;
                 }
                 else
                 {
                     obj = new JObject();
 
-                    ((JObject)obj).Add("Steam64", g.ID);
+                    ((JObject)obj).Add("Steam64", g.Id);
                     ((JObject)obj).Add("Permissions", JToken.FromObject(g.Permissions));
                     ((JObject)obj).Add("Prefixes", JToken.FromObject(g.Prefixes));
                     ((JObject)obj).Add("Suffixes", JToken.FromObject(g.Suffixes));
-                    ((JObject)obj).Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
+                    ((JObject)obj).Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.Id)));
                     ((JObject)obj).Add("Cooldown", g.Cooldown);
 
                     ((JArray)SteamGroupConfig.Document["SteamGroups"]).Add(obj);
@@ -229,7 +229,7 @@ namespace PointBlank.Services.APIManager
 
         internal void SavePlayers() // Force save players
         {
-            if ((bool)Configurations["WebPermissions"])
+            if ((bool)_configurations["WebPermissions"])
                 return;
             JArray arr = PlayerConfig.Document["Players"] as JArray;
 
@@ -237,7 +237,7 @@ namespace PointBlank.Services.APIManager
             {
                 if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
                     continue;
-                JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
+                JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamId.ToString());
 
                 if(token != null)
                 {
@@ -252,7 +252,7 @@ namespace PointBlank.Services.APIManager
                 {
                     JObject obj = new JObject
                     {
-                        {"Steam64", player.SteamID.ToString()},
+                        {"Steam64", player.SteamId.ToString()},
                         {"Permissions", JToken.FromObject(player.Permissions)},
                         {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
                         {"Prefixes", JToken.FromObject(player.Prefixes)},
@@ -273,7 +273,7 @@ namespace PointBlank.Services.APIManager
         internal void OnPlayerJoin(UnturnedPlayer player)
         {
             JArray arr = PlayerConfig.Document["Players"] as JArray;
-            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
+            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamId.ToString());
 
             player.Loaded = false;
             while (player.Permissions.Length > 0)
@@ -365,12 +365,12 @@ namespace PointBlank.Services.APIManager
 
         internal void OnPlayerLeave(UnturnedPlayer player)
         {
-            if ((bool)Configurations["WebPermissions"])
+            if ((bool)_configurations["WebPermissions"])
                 return;
             if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
                 return;
             JArray arr = PlayerConfig.Document["Players"] as JArray;
-            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
+            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamId.ToString());
 
             if (token != null)
             {
@@ -385,7 +385,7 @@ namespace PointBlank.Services.APIManager
             {
                 JObject obj = new JObject
                 {
-                    {"Steam64", player.SteamID.ToString()},
+                    {"Steam64", player.SteamId.ToString()},
                     {"Permissions", JToken.FromObject(player.Permissions)},
                     {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
                     {"Prefixes", JToken.FromObject(player.Prefixes)},

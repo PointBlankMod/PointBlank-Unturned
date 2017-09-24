@@ -8,14 +8,14 @@ namespace PointBlank.API.Unturned
     /// </summary>
     public static class OwnershipTool
     {
-        public static bool checkToggle(ulong player, ulong group)
+        public static bool CheckToggle(ulong player, ulong group)
         {
-            return !Dedicator.isDedicated && OwnershipTool.checkToggle(Provider.client, player, SDG.Unturned.Player.player.quests.groupID, group);
+            return !Dedicator.isDedicated && OwnershipTool.CheckToggle(Provider.client, player, SDG.Unturned.Player.player.quests.groupID, group);
         }
 
-        public static bool checkToggle(CSteamID player_0, ulong player_1, CSteamID group_0, ulong group_1)
+        public static bool CheckToggle(CSteamID player0, ulong player1, CSteamID group0, ulong group1)
         {
-            return (Provider.isServer && !Dedicator.isDedicated) || player_0.m_SteamID == player_1 || (group_0 != CSteamID.Nil && group_0.m_SteamID == group_1);
+            return (Provider.isServer && !Dedicator.isDedicated) || player0.m_SteamID == player1 || (group0 != CSteamID.Nil && group0.m_SteamID == group1);
         }
     }
 }

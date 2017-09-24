@@ -13,7 +13,7 @@ namespace PointBlank.Commands
     public class CommandSpy : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -47,7 +47,7 @@ namespace PointBlank.Commands
                 if(player == (UnturnedPlayer)executor)
                     return;
 
-                player.Player.sendScreenshot(((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, null);
+                player.Player.sendScreenshot(((UnturnedPlayer)executor)?.SteamId ?? CSteamID.Nil, null);
                 UnturnedChat.SendMessage(executor, string.Format(Translations["Spy_Spy"], player.PlayerName), ConsoleColor.Red);
             });
         }

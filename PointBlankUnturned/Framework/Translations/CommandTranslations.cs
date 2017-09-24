@@ -406,6 +406,6 @@ namespace PointBlank.Framework.Translations
             { "PointBlank_Invalid", "Invalid option!" }
         };
 
-        public override Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+        public override Dictionary<Type, ITranslatable> TranslationDictionary => PointBlankUnturnedEnvironment.ServiceTranslations;
     }
 }

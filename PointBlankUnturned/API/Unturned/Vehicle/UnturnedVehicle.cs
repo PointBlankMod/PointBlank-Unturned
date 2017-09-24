@@ -24,7 +24,7 @@ namespace PointBlank.API.Unturned.Vehicle
         /// <summary>
         /// The ID of the vehicle
         /// </summary>
-        public uint InstanceID => Vehicle.instanceID;
+        public uint InstanceId => Vehicle.instanceID;
 
         // Vehicle information
         /// <summary>
@@ -87,7 +87,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.isLocked;
             set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     LockedOwner,
                     LockedGroup,
                     value
@@ -101,7 +101,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.lockedOwner;
             set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     value,
                     LockedGroup,
                     IsLocked
@@ -115,7 +115,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.lockedGroup;
             set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     LockedOwner,
                     value,
                     IsLocked
@@ -137,7 +137,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.headlightsOn;
             set => VehicleManager.instance.channel.send("tellVehicleHeadlights", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     value
                 });
         }
@@ -149,7 +149,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.sirensOn;
             set => VehicleManager.instance.channel.send("tellVehicleSirens", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     value
                 });
         }
@@ -161,7 +161,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.fuel;
             set => VehicleManager.instance.channel.send("tellVehicleFuel", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     value
                 });
         }
@@ -173,7 +173,7 @@ namespace PointBlank.API.Unturned.Vehicle
             get => Vehicle.health;
             set => VehicleManager.instance.channel.send("tellVehicleHealth", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
-                    InstanceID,
+                    InstanceId,
                     value
                 });
         }

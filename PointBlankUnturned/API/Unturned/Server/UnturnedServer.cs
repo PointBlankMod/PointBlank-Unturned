@@ -24,51 +24,51 @@ namespace PointBlank.API.Unturned.Server
     public static class UnturnedServer
     {
         #region Variables
-        private static HashSet<UnturnedPlayer> _Players = new HashSet<UnturnedPlayer>();
-        private static HashSet<StoredPlayer> _StoredPlayers = new HashSet<StoredPlayer>();
-        private static HashSet<UnturnedVehicle> _Vehicles = new HashSet<UnturnedVehicle>();
-        private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
-        private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
-        private static HashSet<UnturnedItem> _Items = new HashSet<UnturnedItem>();
-        private static HashSet<UnturnedZombie> _Zombies = new HashSet<UnturnedZombie>();
-        private static HashSet<UnturnedAnimal> _Animals = new HashSet<UnturnedAnimal>();
+        private static HashSet<UnturnedPlayer> _players = new HashSet<UnturnedPlayer>();
+        private static HashSet<StoredPlayer> _storedPlayers = new HashSet<StoredPlayer>();
+        private static HashSet<UnturnedVehicle> _vehicles = new HashSet<UnturnedVehicle>();
+        private static HashSet<UnturnedStructure> _structures = new HashSet<UnturnedStructure>();
+        private static HashSet<UnturnedBarricade> _barricades = new HashSet<UnturnedBarricade>();
+        private static HashSet<UnturnedItem> _items = new HashSet<UnturnedItem>();
+        private static HashSet<UnturnedZombie> _zombies = new HashSet<UnturnedZombie>();
+        private static HashSet<UnturnedAnimal> _animals = new HashSet<UnturnedAnimal>();
         #endregion
 
         #region Properties
         /// <summary>
         /// The currently online players
         /// </summary>
-        public static UnturnedPlayer[] Players => _Players.ToArray();
+        public static UnturnedPlayer[] Players => _players.ToArray();
 #if DEBUG
         /// <summary>
         /// All players that have connected to the server
         /// </summary>
-        public static StoredPlayer[] StoredPlayers => _StoredPlayers.ToArray();
+        public static StoredPlayer[] StoredPlayers => _storedPlayers.ToArray();
 #endif
         /// <summary>
         /// All vehicles on the server
         /// </summary>
-        public static UnturnedVehicle[] Vehicles => _Vehicles.ToArray();
+        public static UnturnedVehicle[] Vehicles => _vehicles.ToArray();
         /// <summary>
         /// Structures within the server
         /// </summary>
-        public static UnturnedStructure[] Structures => _Structures.ToArray();
+        public static UnturnedStructure[] Structures => _structures.ToArray();
         /// <summary>
         /// Barricades within the server
         /// </summary>
-        public static UnturnedBarricade[] Barricades => _Barricades.ToArray();
+        public static UnturnedBarricade[] Barricades => _barricades.ToArray();
         /// <summary>
         /// Items within the server
         /// </summary>
-        public static UnturnedItem[] Items => _Items.ToArray();
+        public static UnturnedItem[] Items => _items.ToArray();
         /// <summary>
         /// The currently spawned zombies in the server
         /// </summary>
-        public static UnturnedZombie[] Zombies => _Zombies.ToArray();
+        public static UnturnedZombie[] Zombies => _zombies.ToArray();
         /// <summary>
         /// The currently spawned animals in the server
         /// </summary>
-        public static UnturnedAnimal[] Animals => _Animals.ToArray();
+        public static UnturnedAnimal[] Animals => _animals.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -103,7 +103,7 @@ namespace PointBlank.API.Unturned.Server
             if (ply != null)
                 return ply;
 
-            _Players.Add(player);
+            _players.Add(player);
             return player;
         }
         internal static bool RemovePlayer(UnturnedPlayer player)
@@ -113,7 +113,7 @@ namespace PointBlank.API.Unturned.Server
             if (ply == null)
                 return false;
 
-            _Players.Remove(ply);
+            _players.Remove(ply);
             return true;
         }
 
@@ -124,7 +124,7 @@ namespace PointBlank.API.Unturned.Server
             if (stru != null)
                 return stru;
 
-            _Structures.Add(structure);
+            _structures.Add(structure);
             return structure;
         }
         internal static bool RemoveStructure(UnturnedStructure structure)
@@ -134,28 +134,24 @@ namespace PointBlank.API.Unturned.Server
             if (stru == null)
                 return false;
 
-            _Structures.Remove(stru);
+            _structures.Remove(stru);
             return true;
         }
 
-        internal static UnturnedBarricade AddBarricade(UnturnedBarricade Barricade)
+        internal static UnturnedBarricade AddBarricade(UnturnedBarricade barricade)
         {
-            UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
-
             if (barricade != null)
                 return barricade;
 
-            _Barricades.Add(Barricade);
-            return Barricade;
+            _barricades.Add(barricade);
+            return barricade;
         }
-        internal static bool RemoveBarricade(UnturnedBarricade Barricade)
+        internal static bool RemoveBarricade(UnturnedBarricade barricade)
         {
-            UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
-
             if (barricade == null)
                 return false;
 
-            _Barricades.Remove(barricade);
+            _barricades.Remove(barricade);
             return true;
         }
 
@@ -166,7 +162,7 @@ namespace PointBlank.API.Unturned.Server
             if (veh != null)
                 return veh;
 
-            _Vehicles.Add(vehicle);
+            _vehicles.Add(vehicle);
             return vehicle;
         }
         internal static bool RemoveVehicle(UnturnedVehicle vehicle)
@@ -176,7 +172,7 @@ namespace PointBlank.API.Unturned.Server
             if (veh == null)
                 return false;
 
-            _Vehicles.Remove(vehicle);
+            _vehicles.Remove(vehicle);
             return true;
         }
 
@@ -187,7 +183,7 @@ namespace PointBlank.API.Unturned.Server
             if (itm != null)
                 return itm;
 
-            _Items.Add(item);
+            _items.Add(item);
             return item;
         }
         internal static bool RemoveItem(UnturnedItem item)
@@ -197,7 +193,7 @@ namespace PointBlank.API.Unturned.Server
             if (itm == null)
                 return false;
 
-            _Items.Remove(itm);
+            _items.Remove(itm);
             return true;
         }
 
@@ -208,7 +204,7 @@ namespace PointBlank.API.Unturned.Server
             if (zmb != null)
                 return zmb;
 
-            _Zombies.Add(zombie);
+            _zombies.Add(zombie);
             return zombie;
         }
         internal static bool RemoveZombie(UnturnedZombie zombie)
@@ -218,7 +214,7 @@ namespace PointBlank.API.Unturned.Server
             if (zmb == null)
                 return false;
 
-            _Zombies.Remove(zombie);
+            _zombies.Remove(zombie);
             return true;
         }
 
@@ -229,7 +225,7 @@ namespace PointBlank.API.Unturned.Server
             if (ani != null)
                 return ani;
 
-            _Animals.Add(animal);
+            _animals.Add(animal);
             return animal;
         }
         internal static bool RemoveAnimal(UnturnedAnimal animal)
@@ -239,7 +235,7 @@ namespace PointBlank.API.Unturned.Server
             if (ani != null)
                 return false;
 
-            _Animals.Remove(animal);
+            _animals.Remove(animal);
             return true;
         }
         #endregion
@@ -279,21 +275,21 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Gets the unturned player instance based on steam player id instance
         /// </summary>
-        /// <param name="playerID">The steam player id instance</param>
+        /// <param name="playerId">The steam player id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer GetPlayer(SteamPlayerID playerID) => Players.FirstOrDefault(a => a.SteamPlayerID == playerID);
+        public static UnturnedPlayer GetPlayer(SteamPlayerID playerId) => Players.FirstOrDefault(a => a.SteamPlayerId == playerId);
         /// <summary>
         /// Gets the unturned player instance based on steam id instance
         /// </summary>
-        /// <param name="steamID">The steam id instance</param>
+        /// <param name="steamId">The steam id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer GetPlayer(CSteamID steamID) => Players.FirstOrDefault(a => a.SteamID == steamID);
+        public static UnturnedPlayer GetPlayer(CSteamID steamId) => Players.FirstOrDefault(a => a.SteamId == steamId);
         /// <summary>
         /// Gets the unturned player instance based on steam64 ID
         /// </summary>
         /// <param name="steam64">The steam64 ID</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer GetPlayer(ulong steam64) => Players.FirstOrDefault(a => a.SteamID.m_SteamID == steam64);
+        public static UnturnedPlayer GetPlayer(ulong steam64) => Players.FirstOrDefault(a => a.SteamId.m_SteamID == steam64);
 
         /// <summary>
         /// Changes the map
@@ -310,11 +306,11 @@ namespace PointBlank.API.Unturned.Server
                 Players[i].Kick("Map is changing.");
 
             // Reset PointBlank
-            _Vehicles.Clear();
-            _Structures.Clear();
-            _Items.Clear();
-            _Barricades.Clear();
-            _Zombies.Clear();
+            _vehicles.Clear();
+            _structures.Clear();
+            _items.Clear();
+            _barricades.Clear();
+            _zombies.Clear();
 
             // Reset Unturned
             Provider.gameMode = null;

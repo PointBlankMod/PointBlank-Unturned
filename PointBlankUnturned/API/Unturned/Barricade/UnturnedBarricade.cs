@@ -44,7 +44,7 @@ namespace PointBlank.API.Unturned.Barricade
         /// <summary>
         /// ID of barricade
         /// </summary>
-        public ushort ID => Asset.id;
+        public ushort Id => Asset.id;
 
         // GameObject information
         /// <summary>
@@ -141,9 +141,9 @@ namespace PointBlank.API.Unturned.Barricade
         /// <summary>
         /// Finds a Barricade based on the unturned Barricade instance
         /// </summary>
-        /// <param name="Barricade">The unturned Barricade instance</param>
+        /// <param name="barricade">The unturned Barricade instance</param>
         /// <returns>The instance of the custom Barricade class</returns>
-        public static UnturnedBarricade FindBarricade(UBarricade Barricade) => UnturnedServer.Barricades.FirstOrDefault(a => a.Barricade == Barricade);
+        public static UnturnedBarricade FindBarricade(UBarricade barricade) => UnturnedServer.Barricades.FirstOrDefault(a => a.Barricade == barricade);
         /// <summary>
         /// Finds a Barricade based on the Barricade data
         /// </summary>

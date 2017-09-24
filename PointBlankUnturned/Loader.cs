@@ -1,8 +1,10 @@
-﻿using SDG.Framework.Modules;
+﻿using System;
+using SDG.Framework.Modules;
 using SDG.Unturned;
 using PointBlank.API.Server;
 using PointBlank.API;
 using PointBlank.API.Unturned.Server;
+using PointBlank.Framework.Console;
 
 namespace PointBlank
 {
@@ -16,13 +18,22 @@ namespace PointBlank
         #region Nexus Interface
         public void initialize()
         {
-            if ((!Provider.isServer && !Dedicator.isDedicated))
+            if (!Provider.isServer && !Dedicator.isDedicated)
                 return;
 
             Instance = this;
             PointBlankServer.ServerLocation = ServerInfo.ServerPath;
 
-            DedicatedUGC.installed += Started;
+			DedicatedUGC.installed += Started;    
+			
+			// Start Console I/O
+	        if (!LinuxConsoleUtils.IsLinux)
+				return;
+
+	        LinuxConsoleInput.Init();
+	        LinuxConsoleOutput.Init();
+
+	        LinuxConsoleOutput.WriteLine("Linux console I/O initialized.", ConsoleColor.Blue);
         }
 
         public void shutdown()
@@ -44,14 +55,20 @@ namespace PointBlank
         #region Event Functions
         private void Started()
         {
-            // Set the variables
-            PointBlank = new PointBlank();
+			// Set the variables
+			Instance = this;
+			PointBlank = new PointBlank();
 
             // Run code
             PointBlank.Initialize();
-            Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
             ServerEvents.RunServerInitialized();
-        }
+
+			// PB Console I/O
+			if (LinuxConsoleUtils.IsLinux)
+				LinuxConsoleOutput.PostPbInit();
+			else
+				Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
+		}
         #endregion
     }
 }

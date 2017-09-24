@@ -25,9 +25,9 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Used for handling player joins before connection is started
         /// </summary>
-        /// <param name="steamID">The player's steam ID</param>
+        /// <param name="steamId">The player's steam ID</param>
         /// <param name="reject">The rejection reason(leave null to accept)</param>
-        public delegate void PlayerPreConnectHandler(CSteamID steamID, ref ESteamRejection? reject);
+        public delegate void PlayerPreConnectHandler(CSteamID steamId, ref ESteamRejection? reject);
 
         /// <summary>
         /// Used for handling vehicles
@@ -52,13 +52,13 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Used for handling unturned packet sending
         /// </summary>
-        /// <param name="steamID">The steamID to send to</param>
+        /// <param name="steamId">The steamID to send to</param>
         /// <param name="type">The packet type to send</param>
         /// <param name="packet">The packet bytes to send</param>
         /// <param name="size">The size of the packet</param>
         /// <param name="channel">The channel to send it on</param>
         /// <param name="cancel">Should the packet be canceled</param>
-        public delegate void PacketSentHandler(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel);
+        public delegate void PacketSentHandler(ref CSteamID steamId, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel);
 
         /// <summary>
         /// Used for handling the console output that unturned sends
@@ -216,7 +216,7 @@ namespace PointBlank.API.Unturned.Server
 
         internal static void RunPlayerConnected(SteamPlayer player) => OnPlayerConnected?.Invoke(UnturnedPlayer.Create(player));
         internal static void RunPlayerDisconnected(SteamPlayer player) => OnPlayerDisconnected?.Invoke(UnturnedPlayer.Create(player));
-        internal static void RunPlayerPreConnect(CSteamID steamID, ref ESteamRejection? reject) => OnPlayerPreConnect?.Invoke(steamID, ref reject);
+        internal static void RunPlayerPreConnect(CSteamID steamId, ref ESteamRejection? reject) => OnPlayerPreConnect?.Invoke(steamId, ref reject);
 
         internal static void RunDayNight(bool isDay)
         {
@@ -276,7 +276,7 @@ namespace PointBlank.API.Unturned.Server
                 UnturnedServer.RemoveBarricade(barricade);
         }
 
-        internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
+        internal static void RunPacketSent(ref CSteamID steamId, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel) => OnPacketSent?.Invoke(ref steamId, ref type, ref packet, ref size, ref channel, ref cancel);
         internal static void RunConsoleOutput(ref object text, ref ConsoleColor color, ref bool cancel) => OnConsoleOutput?.Invoke(ref text, ref color, ref cancel);
 
         internal static void RunItemCreated(InteractableItem item) => OnItemCreated?.Invoke(UnturnedItem.Create(item));

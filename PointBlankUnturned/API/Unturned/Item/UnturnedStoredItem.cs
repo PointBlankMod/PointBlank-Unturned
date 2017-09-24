@@ -47,11 +47,11 @@ namespace PointBlank.API.Unturned.Item
         /// <summary>
         /// The size of the item in the inventory(X axis)
         /// </summary>
-        public byte Size_X => Jar.size_x;
+        public byte SizeX => Jar.size_x;
         /// <summary>
         /// The size of the item in the inventory(Y axis)
         /// </summary>
-        public byte Size_Y => Jar.size_y;
+        public byte SizeY => Jar.size_y;
         /// <summary>
         /// The X position of the item in the inventory
         /// </summary>
@@ -65,7 +65,7 @@ namespace PointBlank.API.Unturned.Item
         /// <summary>
         /// The item ID
         /// </summary>
-        public ushort ID => Item.id;
+        public ushort Id => Item.id;
         /// <summary>
         /// How durable is the item
         /// </summary>

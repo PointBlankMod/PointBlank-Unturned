@@ -26,7 +26,7 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The steam64 ID of the user
         /// </summary>
-        public ulong ID { get; private set; }
+        public ulong Id { get; private set; }
 
         /// <summary>
         /// Is the profile visible/non private
@@ -35,7 +35,7 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// Is the user VAC banned from any game
         /// </summary>
-        public bool IsVACBanned { get; private set; }
+        public bool IsVacBanned { get; private set; }
         /// <summary>
         /// Is the user trade banned
         /// </summary>
@@ -53,13 +53,13 @@ namespace PointBlank.API.Steam
         public SteamPlayer(ulong id)
         {
             // Set the variables
-            this.ID = id;
+            this.Id = id;
 
             // Setup the XML
             try
             {
                 XmlDocument document = new XmlDocument();
-                document.Load($"http://steamcommunity.com/profiles/{ID.ToString()}/?xml=1");
+                document.Load($"http://steamcommunity.com/profiles/{Id.ToString()}/?xml=1");
                 XmlNode root = document.DocumentElement;
 
                 // Set the data
@@ -67,7 +67,7 @@ namespace PointBlank.API.Steam
                 {
                     Name = root.SelectSingleNode("steamID").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
                     IsVisible = (int.Parse(root.SelectSingleNode("visibilityState").InnerText) > 0);
-                    IsVACBanned = (int.Parse(root.SelectSingleNode("vacBanned").InnerText) > 0);
+                    IsVacBanned = (int.Parse(root.SelectSingleNode("vacBanned").InnerText) > 0);
                     IsTradeBanned = (root.SelectSingleNode("tradeBanState").InnerText != "None");
                     IsLimited = (int.Parse(root.SelectSingleNode("isLimitedAccount").InnerText) > 0);
 
@@ -75,26 +75,26 @@ namespace PointBlank.API.Steam
                     switch (privacystate)
                     {
                         case "public":
-                            PrivacyState = EPrivacyState.PUBLIC;
+                            PrivacyState = EPrivacyState.Public;
                             break;
                         case "friendsonly":
-                            PrivacyState = EPrivacyState.FRIENDS_ONLY;
+                            PrivacyState = EPrivacyState.FriendsOnly;
                             break;
                         case "private":
-                            PrivacyState = EPrivacyState.PRIVATE;
+                            PrivacyState = EPrivacyState.Private;
                             break;
                         default:
-                            PrivacyState = EPrivacyState.NONE;
+                            PrivacyState = EPrivacyState.None;
                             break;
                     }
 
-                    if(PrivacyState == EPrivacyState.PUBLIC)
+                    if(PrivacyState == EPrivacyState.Public)
                     {
                         List<SteamGroup> groups = new List<SteamGroup>();
                         foreach (XmlNode node in root.SelectNodes("groups/group"))
                         {
                             ulong i = ulong.Parse(node.SelectSingleNode("groupID64").InnerText);
-                            SteamGroup group = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == i);
+                            SteamGroup group = SteamGroupManager.Groups.FirstOrDefault(a => a.Id == i);
 
                             if (group == null)
                             {
@@ -114,16 +114,16 @@ namespace PointBlank.API.Steam
                 {
                     Name = "";
                     Groups = new SteamGroup[0];
-                    PrivacyState = EPrivacyState.NONE;
+                    PrivacyState = EPrivacyState.None;
                     IsVisible = false;
-                    IsVACBanned = false;
+                    IsVacBanned = false;
                     IsTradeBanned = false;
                     IsLimited = false;
                 }
             }
             catch (Exception ex)
             {
-                PointBlankLogging.LogError("Issue occurred when getting info for " + ID, ex);
+                PointBlankLogging.LogError("Issue occurred when getting info for " + Id, ex);
             }
         }
     }

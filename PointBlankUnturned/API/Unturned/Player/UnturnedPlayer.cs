@@ -25,9 +25,9 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer : PointBlankPlayer
     {
         #region Variables
-        private List<UnturnedPlayer> _PlayerList = new List<UnturnedPlayer>();
-        private List<string> _Prefixes = new List<string>();
-        private List<string> _Suffixes = new List<string>();
+        private List<UnturnedPlayer> _playerList = new List<UnturnedPlayer>();
+        private List<string> _prefixes = new List<string>();
+        private List<string> _suffixes = new List<string>();
 
         private readonly FieldInfo _fiItems = typeof(Items).GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
         #endregion
@@ -45,7 +45,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The steam player ID instance
         /// </summary>
-        public SteamPlayerID SteamPlayerID => SteamPlayer.playerID;
+        public SteamPlayerID SteamPlayerId => SteamPlayer.playerID;
         /// <summary>
         /// The steam information about the player
         /// </summary>
@@ -91,14 +91,14 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player's name
         /// </summary>
-        public string PlayerName => SteamPlayerID.playerName;
+        public string PlayerName => SteamPlayerId.playerName;
         /// <summary>
         /// The character's name
         /// </summary>
         public string CharacterName
         {
-            get => SteamPlayerID.characterName;
-            set => SteamPlayerID.characterName = value;
+            get => SteamPlayerId.characterName;
+            set => SteamPlayerId.characterName = value;
         }
         /// <summary>
         /// The character name without modifications
@@ -107,22 +107,22 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player's steam ID
         /// </summary>
-        public CSteamID SteamID => SteamPlayerID.steamID;
+        public CSteamID SteamId => SteamPlayerId.steamID;
         /// <summary>
         /// The character's ID
         /// </summary>
-        public byte CharacterID
+        public byte CharacterId
         {
-            get => SteamPlayerID.characterID;
-            set => SteamPlayerID.characterID = value;
+            get => SteamPlayerId.characterID;
+            set => SteamPlayerId.characterID = value;
         }
         /// <summary>
         /// The player's nick name
         /// </summary>
         public string NickName
         {
-            get => SteamPlayerID.nickName;
-            set => SteamPlayerID.nickName = value;
+            get => SteamPlayerId.nickName;
+            set => SteamPlayerId.nickName = value;
         }
         /// <summary>
         /// The nickname without modifications
@@ -139,9 +139,9 @@ namespace PointBlank.API.Unturned.Player
             set
             {
                 if (value)
-                    SteamAdminlist.admin(SteamID, CSteamID.Nil);
+                    SteamAdminlist.admin(SteamId, CSteamID.Nil);
                 else
-                    SteamAdminlist.unadmin(SteamID);
+                    SteamAdminlist.unadmin(SteamId);
             }
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player the owner
         /// </summary>
-        public bool IsOwner => SteamAdminlist.ownerID == SteamID;
+        public bool IsOwner => SteamAdminlist.ownerID == SteamId;
 
         // Player information
         /// <summary>
@@ -403,7 +403,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The currently equipped item ID
         /// </summary>
-        public ushort EquippedItemID => Equipment.itemID;
+        public ushort EquippedItemId => Equipment.itemID;
         /// <summary>
         /// Is the currently equpped item a primary
         /// </summary>
@@ -447,19 +447,19 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player loading (Thanks Trojaner)
         ///</summary>
-        public bool IsLoading => Provider.pending.Contains(Provider.pending.Find((c) => c.playerID.steamID == SteamID));
+        public bool IsLoading => Provider.pending.Contains(Provider.pending.Find((c) => c.playerID.steamID == SteamId));
         /// <summary>
         /// IP of the player
         ///</summary>
-        public string IP => Parser.getIPFromUInt32(SteamIP);
+        public string Ip => Parser.getIPFromUInt32(SteamIp);
         /// <summary>
         /// The steam defined IP of the player
         /// </summary>
-        public uint SteamIP
+        public uint SteamIp
         {
             get
             {
-                SteamGameServerNetworking.GetP2PSessionState(SteamID, out P2PSessionState_t state);
+                SteamGameServerNetworking.GetP2PSessionState(SteamId, out P2PSessionState_t state);
 
                 return state.m_nRemoteIP;
             }
@@ -489,11 +489,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The ID of the quest group
         /// </summary>
-        public CSteamID QuestGroupID => Player.quests.groupID;
+        public CSteamID QuestGroupId => Player.quests.groupID;
         /// <summary>
         /// Vehicles the player has locked
         ///</summary>
-        public UnturnedVehicle[] LockedVehicles => UnturnedServer.Vehicles.Where(v => v.LockedOwner == SteamID || (IsInQuestGroup && QuestGroupID == v.LockedGroup)).ToArray();
+        public UnturnedVehicle[] LockedVehicles => UnturnedServer.Vehicles.Where(v => v.LockedOwner == SteamId || (IsInQuestGroup && QuestGroupId == v.LockedGroup)).ToArray();
         /// <summary>
         /// The current storage the player is looking in
         /// </summary>
@@ -503,7 +503,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player list that the player can see
         /// </summary>
-        public UnturnedPlayer[] PlayerList => _PlayerList.ToArray();
+        public UnturnedPlayer[] PlayerList => _playerList.ToArray();
         /// <summary>
         /// The steam groups this player is part of
         /// </summary>
@@ -511,11 +511,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The prefixes of the player
         /// </summary>
-        public string[] Prefixes => _Prefixes.ToArray();
+        public string[] Prefixes => _prefixes.ToArray();
         /// <summary>
         /// The suffixes of the player
         /// </summary>
-        public string[] Suffixes => _Suffixes.ToArray();
+        public string[] Suffixes => _suffixes.ToArray();
         /// <summary>
         /// The number of kills since the player connected
         /// </summary>
@@ -542,7 +542,7 @@ namespace PointBlank.API.Unturned.Player
         {
             // Set the variables
             this.SteamPlayer = steamplayer;
-            this.Steam = new SP(SteamID.m_SteamID);
+            this.Steam = new SP(SteamId.m_SteamID);
             this.Deaths = 0;
             this.TotalDeaths = 0;
             this.Kills = 0;
@@ -595,15 +595,15 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Gets the unturned player instance based on steam player id instance
         /// </summary>
-        /// <param name="playerID">The steam player id instance</param>
+        /// <param name="playerId">The steam player id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(SteamPlayerID playerID) => UnturnedServer.GetPlayer(playerID);
+        public static UnturnedPlayer Get(SteamPlayerID playerId) => UnturnedServer.GetPlayer(playerId);
         /// <summary>
         /// Gets the unturned player instance based on steam id instance
         /// </summary>
-        /// <param name="steamID">The steam id instance</param>
+        /// <param name="steamId">The steam id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(CSteamID steamID) => UnturnedServer.GetPlayer(steamID);
+        public static UnturnedPlayer Get(CSteamID steamId) => UnturnedServer.GetPlayer(steamId);
         /// <summary>
         /// Gets the unturned player instance based on steam64 ID
         /// </summary>
@@ -683,7 +683,7 @@ namespace PointBlank.API.Unturned.Player
 
             if (triggerEvent)
                 PlayerEvents.RunListPlayerAdd(this, player);
-            _PlayerList.Add(player);
+            _playerList.Add(player);
         }
         /// <summary>
         /// Removes a player from the player's player list
@@ -697,7 +697,7 @@ namespace PointBlank.API.Unturned.Player
 
             if (triggerEvent)
                 PlayerEvents.RunListPlayerRemove(this, player);
-            _PlayerList.Remove(player);
+            _playerList.Remove(player);
         }
 
         /// <summary>
@@ -709,7 +709,7 @@ namespace PointBlank.API.Unturned.Player
             if (Prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Add(prefix);
+            _prefixes.Add(prefix);
             if (Loaded)
                 PlayerEvents.RunPrefixAdd(this, prefix);
         }
@@ -722,7 +722,7 @@ namespace PointBlank.API.Unturned.Player
             if (!Prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Remove(prefix);
+            _prefixes.Remove(prefix);
             if (Loaded)
                 PlayerEvents.RunPrefixRemove(this, prefix);
         }
@@ -752,7 +752,7 @@ namespace PointBlank.API.Unturned.Player
             if (Suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Add(suffix);
+            _suffixes.Add(suffix);
             if (Loaded)
                 PlayerEvents.RunSuffixAdd(this, suffix);
         }
@@ -765,7 +765,7 @@ namespace PointBlank.API.Unturned.Player
             if (!Suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Remove(suffix);
+            _suffixes.Remove(suffix);
             if (Loaded)
                 PlayerEvents.RunSuffixRemove(this, suffix);
         }
@@ -843,69 +843,69 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="message">The message to tell the player</param>
         /// <param name="color">The color of the message</param>
         /// <param name="mode">The mode of the message</param>
-        public override void SendMessage(object message, Color color) => ChatManager.say(SteamID, message.ToString(), color);
+        public override void SendMessage(object message, Color color) => ChatManager.say(SteamId, message.ToString(), color);
         /// <summary>
         /// Fake sends the message to look like the player sent it
         /// </summary>
         /// <param name="message">The message to send</param>
         /// <param name="color">The color of the message</param>
-        public void ForceSay(string message, Color color) => CM.FakeMessage(SteamID, message, color);
+        public void ForceSay(string message, Color color) => CM.FakeMessage(SteamId, message, color);
         #endregion
 
         #region Unturned Functions
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
-        /// <param name="ID">The item ID to find</param>
+        /// <param name="id">The item ID to find</param>
         /// <returns>If the player has the specific item in their inventory</returns>
-        public bool HasItem(ushort ID)
+        public bool HasItem(ushort id)
         {
-            if (EquippedItemID == ID) return true;
+            if (EquippedItemId == id) return true;
 
-            return (Inventory.search(ID, true, true).Count > 0); // The easy way
+            return (Inventory.search(id, true, true).Count > 0); // The easy way
         }
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
-        /// <param name="Item">The item to find</param>
+        /// <param name="item">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(UnturnedStoredItem Item) => HasItem(Item.ID);
+        public bool HasItem(UnturnedStoredItem item) => HasItem(item.Id);
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
-        /// <param name="Name">The item to find</param>
+        /// <param name="name">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(string Name) => HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
+        public bool HasItem(string name) => HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, name)).id);
 
         /// <summary>
         /// Gives the player an item
         /// </summary>
-        /// <param name="ID">The ID of the item</param>
+        /// <param name="id">The ID of the item</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(ushort ID) => ItemTool.tryForceGiveItem(Player, ID, 1);
+        public bool GiveItem(ushort id) => ItemTool.tryForceGiveItem(Player, id, 1);
         /// <summary>
         /// Gives the player an item
         /// </summary>
         /// <param name="ID">The item instance to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(UnturnedStoredItem Item) => GiveItem(Item.ID);
+        public bool GiveItem(UnturnedStoredItem item) => GiveItem(item.Id);
         /// <summary>
         /// Gives the player an item
         /// </summary>
         /// <param name="ID">The name of the item to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(String Name) => GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        public bool GiveItem(String name) => GiveItem((Assets.find(EAssetType.ITEM, name) as ItemAsset).id);
 
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
-        /// <param name="ID">The ID of the item to remove</param>
+        /// <param name="id">The ID of the item to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(ushort ID)
+        public bool RemoveItem(ushort id)
         {
-            if (EquippedItemID == ID)
+            if (EquippedItemId == id)
                 Equipment.dequip();
-            InventorySearch search = Inventory.search(ID, true, true).FirstOrDefault();
+            InventorySearch search = Inventory.search(id, true, true).FirstOrDefault();
 
             if (search == null)
                 return false;
@@ -917,26 +917,26 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
-        /// <param name="Item">The item instance to remove</param>
+        /// <param name="item">The item instance to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(UnturnedStoredItem Item) => RemoveItem(Item.ID);
+        public bool RemoveItem(UnturnedStoredItem item) => RemoveItem(item.Id);
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
-        /// <param name="Name">The item's name to remove</param>
+        /// <param name="name">The item's name to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(string Name) => RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        public bool RemoveItem(string name) => RemoveItem((Assets.find(EAssetType.ITEM, name) as ItemAsset).id);
 
         /// <summary>
         /// Sends effect to the player
         /// </summary>
         /// <param name="id">The effect id to trigger</param>
-        public void SendEffect(ushort id) => EffectManager.instance.tellEffectPoint(SteamID, id, Position);
+        public void SendEffect(ushort id) => EffectManager.instance.tellEffectPoint(SteamId, id, Position);
         /// <summary>
         /// Clear effect by id
         /// </summary>
         /// <param name="id">The effect id to clear</param>
-        public void ClearEffect(ushort id) => EffectManager.instance.tellEffectClearByID(SteamID, id);
+        public void ClearEffect(ushort id) => EffectManager.instance.tellEffectClearByID(SteamId, id);
 
         /// <summary>
         /// Dequip the player's equipped item
@@ -953,13 +953,13 @@ namespace PointBlank.API.Unturned.Player
         /// Disconnects the player
         /// </summary>
         /// <param name="message">Message displayed when kicked</param>
-        public void Kick(string message) => Provider.kick(SteamID, message);
+        public void Kick(string message) => Provider.kick(SteamId, message);
 
         /// <summary>
         /// Executes a message as the player(commands included)
         /// </summary>
         /// <param name="message">The message to execute as the player</param>
-        public void Sudo(string message) => ChatManager.instance.askChat(SteamID, (byte)EChatMode.GLOBAL, message);
+        public void Sudo(string message) => ChatManager.instance.askChat(SteamId, (byte)EChatMode.GLOBAL, message);
         #endregion
 
         #region Override Functions

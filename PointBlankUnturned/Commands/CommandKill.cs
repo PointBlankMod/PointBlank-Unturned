@@ -15,7 +15,7 @@ namespace PointBlank.Commands
     public class CommandKill : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -51,7 +51,7 @@ namespace PointBlank.Commands
                     return;
                 }
 
-                player.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, out EPlayerKill kill);
+                player.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, ((UnturnedPlayer)executor)?.SteamId ?? CSteamID.Nil, out EPlayerKill kill);
                 UnturnedChat.SendMessage(executor, string.Format(Translations["Kill_Killed"], player.PlayerName), ConsoleColor.Green);
             });
         }

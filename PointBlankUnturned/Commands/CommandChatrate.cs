@@ -11,12 +11,12 @@ namespace PointBlank.Commands
     public class CommandChatrate : PointBlankCommand
     {
         #region Info
-        private static readonly float MIN_NUMBER = 1f;
-        private static readonly float MAX_NUMBER = 60f;
+        private static readonly float MinNumber = 1f;
+        private static readonly float MaxNumber = 60f;
         #endregion
 
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -39,14 +39,14 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Chatrate_Invalid"], ConsoleColor.Red);
                 return;
             }
-            if(rate < MIN_NUMBER)
+            if(rate < MinNumber)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooLow"], MIN_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooLow"], MinNumber), ConsoleColor.Red);
                 return;
             }
-            else if(rate > MAX_NUMBER)
+            else if(rate > MaxNumber)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooHigh"], MaxNumber), ConsoleColor.Red);
                 return;
             }
 

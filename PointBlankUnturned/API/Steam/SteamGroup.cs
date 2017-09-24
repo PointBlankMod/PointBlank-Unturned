@@ -11,11 +11,11 @@ namespace PointBlank.API.Steam
     public class SteamGroup : IPermitable
     {
         #region Variables
-        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
-        private List<SteamGroup> _Inherits = new List<SteamGroup>();
+        private List<PointBlankPermission> _permissions = new List<PointBlankPermission>();
+        private List<SteamGroup> _inherits = new List<SteamGroup>();
 
-        private List<string> _Prefixes = new List<string>();
-        private List<string> _Suffixes = new List<string>();
+        private List<string> _prefixes = new List<string>();
+        private List<string> _suffixes = new List<string>();
         #endregion
 
         #region Properties
@@ -26,7 +26,7 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The steam group ID
         /// </summary>
-        public ulong ID { get; private set; }
+        public ulong Id { get; private set; }
         /// <summary>
         /// The amount of members in the group
         /// </summary>
@@ -47,20 +47,20 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The group permissions
         /// </summary>
-        public PointBlankPermission[] Permissions => _Permissions.ToArray();
+        public PointBlankPermission[] Permissions => _permissions.ToArray();
         /// <summary>
         /// The group inherits
         /// </summary>
-        public SteamGroup[] Inherits => _Inherits.ToArray();
+        public SteamGroup[] Inherits => _inherits.ToArray();
 
         /// <summary>
         /// The group prefixes
         /// </summary>
-        public string[] Prefixes => _Prefixes.ToArray();
+        public string[] Prefixes => _prefixes.ToArray();
         /// <summary>
         /// The group suffixes
         /// </summary>
-        public string[] Suffixes => _Suffixes.ToArray();
+        public string[] Suffixes => _suffixes.ToArray();
 
         /// <summary>
         /// The group cooldown for commands
@@ -83,7 +83,7 @@ namespace PointBlank.API.Steam
         public SteamGroup(ulong id, int cooldown = -1, bool downloadData = false, bool ignore = true)
         {
             // Set the variables
-            this.ID = id;
+            this.Id = id;
             this.Cooldown = cooldown;
             this.Ignore = ignore;
 
@@ -100,7 +100,7 @@ namespace PointBlank.API.Steam
         public SteamGroup(ulong id, bool downloadData = false, bool ignore = true)
         {
             // Set the variables
-            this.ID = id;
+            this.Id = id;
             this.Ignore = ignore;
 
             // Run the code
@@ -115,7 +115,7 @@ namespace PointBlank.API.Steam
         public void DownloadData()
         {
             XmlDocument document = new XmlDocument();
-            document.Load($"http://steamcommunity.com/gid/{ID.ToString()}/memberslistxml/?xml=1");
+            document.Load($"http://steamcommunity.com/gid/{Id.ToString()}/memberslistxml/?xml=1");
             XmlNode root = document.DocumentElement;
 
             // Set the data
@@ -155,10 +155,10 @@ namespace PointBlank.API.Steam
         /// <param name="permission">The permission to add</param>
         public void AddPermission(PointBlankPermission permission)
         {
-            if (_Permissions.Contains(permission))
+            if (_permissions.Contains(permission))
                 return;
 
-            _Permissions.Add(permission);
+            _permissions.Add(permission);
             SteamGroupEvents.RunPermissionAdded(this, permission);
         }
 
@@ -180,10 +180,10 @@ namespace PointBlank.API.Steam
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(PointBlankPermission permission)
         {
-            if (!_Permissions.Contains(permission))
+            if (!_permissions.Contains(permission))
                 return;
 
-            _Permissions.Remove(permission);
+            _permissions.Remove(permission);
             SteamGroupEvents.RunPermissionRemoved(this, permission);
         }
 
@@ -193,10 +193,10 @@ namespace PointBlank.API.Steam
         /// <param name="prefix">The prefix to add</param>
         public void AddPrefix(string prefix)
         {
-            if (_Prefixes.Contains(prefix))
+            if (_prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Add(prefix);
+            _prefixes.Add(prefix);
             SteamGroupEvents.RunPrefixAdded(this, prefix);
         }
 
@@ -206,10 +206,10 @@ namespace PointBlank.API.Steam
         /// <param name="prefix">The prefix to remove</param>
         public void RemovePrefix(string prefix)
         {
-            if (!_Prefixes.Contains(prefix))
+            if (!_prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Remove(prefix);
+            _prefixes.Remove(prefix);
             SteamGroupEvents.RunPrefixRemoved(this, prefix);
         }
 
@@ -219,10 +219,10 @@ namespace PointBlank.API.Steam
         /// <param name="suffix">The suffix to add</param>
         public void AddSuffix(string suffix)
         {
-            if (_Suffixes.Contains(suffix))
+            if (_suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Add(suffix);
+            _suffixes.Add(suffix);
             SteamGroupEvents.RunSuffixAdded(this, suffix);
         }
 
@@ -232,10 +232,10 @@ namespace PointBlank.API.Steam
         /// <param name="suffix">The suffix to remove</param>
         public void RemoveSuffix(string suffix)
         {
-            if (!_Suffixes.Contains(suffix))
+            if (!_suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Remove(suffix);
+            _suffixes.Remove(suffix);
             SteamGroupEvents.RunSuffixRemoved(this, suffix);
         }
 
@@ -245,12 +245,12 @@ namespace PointBlank.API.Steam
         /// <param name="group">The group to add to inherits</param>
         public void AddInherit(SteamGroup group)
         {
-            if (_Inherits.Contains(group))
+            if (_inherits.Contains(group))
                 return;
-            if (_Inherits.Count(a => a.ID == group.ID) > 0)
+            if (_inherits.Count(a => a.Id == group.Id) > 0)
                 return;
 
-            _Inherits.Add(group);
+            _inherits.Add(group);
             SteamGroupEvents.RunInheritAdded(this, group);
         }
 
@@ -260,10 +260,10 @@ namespace PointBlank.API.Steam
         /// <param name="group">The inherit to remove</param>
         public void RemoveInherit(SteamGroup group)
         {
-            if (!_Inherits.Contains(group))
+            if (!_inherits.Contains(group))
                 return;
 
-            _Inherits.Remove(group);
+            _inherits.Remove(group);
             SteamGroupEvents.RunInheritRemoved(this, group);
         }
 

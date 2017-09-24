@@ -24,7 +24,7 @@ namespace PointBlank.API.Unturned.Animal
         /// <summary>
         /// The animal ID
         /// </summary>
-        public ushort ID => Animal.id;
+        public ushort Id => Animal.id;
         /// <summary>
         /// The health of the animal
         /// </summary>

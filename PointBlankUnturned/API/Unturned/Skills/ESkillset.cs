@@ -5,8 +5,8 @@
     /// </summary>
     public enum ESkillset
     {
-        OFFENSE,
-        DEFENSE,
-        SUPPORT
+        Offense,
+        Defense,
+        Support
     }
 }

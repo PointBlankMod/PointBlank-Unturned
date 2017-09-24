@@ -5,13 +5,13 @@
     /// </summary>
     public enum ESkillOffense
     {
-        OVERKILL,
-        SHARPSHOOTER,
-        DEXTERITY,
-        CARDIO,
-        EXERCISE,
-        DIVING,
-        PARKOUR
+        Overkill,
+        Sharpshooter,
+        Dexterity,
+        Cardio,
+        Exercise,
+        Diving,
+        Parkour
     }
 
     /// <summary>
@@ -19,13 +19,13 @@
     /// </summary>
     public enum ESkillDefense
     {
-        SNEAKYBEAKY,
-        VITALITY,
-        IMMUNITY,
-        TOUGHNESS,
-        STRENGTH,
-        WARMBLOODED,
-        SURVIVAL
+        Sneakybeaky,
+        Vitality,
+        Immunity,
+        Toughness,
+        Strength,
+        Warmblooded,
+        Survival
     }
 
     /// <summary>
@@ -33,13 +33,13 @@
     /// </summary>
     public enum ESkillSupport
     {
-        HEALING,
-        CRAFTING,
-        OUTDOORS,
-        COOKING,
-        FISHING,
-        AGRICULTURE,
-        MECHANIC,
-        ENGINEER
+        Healing,
+        Crafting,
+        Outdoors,
+        Cooking,
+        Fishing,
+        Agriculture,
+        Mechanic,
+        Engineer
     }
 }

@@ -14,7 +14,7 @@ namespace PointBlank.Commands
     public class CommandSlay : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -40,9 +40,9 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamBlacklist.ban(ply.SteamID, ply.SteamIP, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, (args.Length > 1 ? args[1] : "Undefined"), SteamBlacklist.PERMANENT);
+            SteamBlacklist.ban(ply.SteamId, ply.SteamIp, ((UnturnedPlayer)executor)?.SteamId ?? CSteamID.Nil, (args.Length > 1 ? args[1] : "Undefined"), SteamBlacklist.PERMANENT);
             if (ply.SteamPlayer.player != null)
-                ply.Player.life.askDamage(255, Vector3.up * 101f, EDeathCause.KILL, ELimb.SKULL, ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil, out EPlayerKill ePlayerKill);
+                ply.Player.life.askDamage(255, Vector3.up * 101f, EDeathCause.KILL, ELimb.SKULL, ((UnturnedPlayer)executor)?.SteamId ?? CSteamID.Nil, out EPlayerKill ePlayerKill);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Slay_Slay"], ply.PlayerName), ConsoleColor.Red);
         }
     }

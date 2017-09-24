@@ -5,7 +5,7 @@ using PointBlank.API.Interfaces;
 
 namespace PointBlank.Framework.Configurations
 {
-    internal class APIConfigurations : IConfigurable
+    internal class ApiConfigurations : IConfigurable
     {
         public override string ConfigurationDirectory => "";
 
@@ -16,6 +16,6 @@ namespace PointBlank.Framework.Configurations
             { "WebPermissionsInterval", 600 },
         };
 
-        public override Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.APIConfigurations;
+        public override Dictionary<Type, IConfigurable> ConfigurationDictionary => PointBlankUnturnedEnvironment.ApiConfigurations;
     }
 }
