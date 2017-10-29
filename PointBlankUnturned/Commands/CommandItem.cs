@@ -15,7 +15,7 @@ namespace PointBlank.Commands
     public class CommandItem : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {

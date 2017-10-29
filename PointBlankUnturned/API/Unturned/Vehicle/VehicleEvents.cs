@@ -13,42 +13,42 @@ namespace PointBlank.API.Unturned.Vehicle
         /// <summary>
         /// Handles entering of the vehicle
         /// </summary>
-        /// <param name="vehicle">Vehicle Player is entering</param>
+        /// <param name="Vehicle">Vehicle Player is entering</param>
         /// <param name="Seat">Seat in which the Player is entering</param>
         /// <param name="player">Player that is entering the vehicle</param>
-        public delegate void VehicleEnterHandler(UnturnedVehicle vehicle, ref SDG.Unturned.Player player, ref bool cancel);
+        public delegate void VehicleEnterHandler(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel);
         
         /// <summary>
         /// Handles exiting of the vehicle
         /// </summary>
-        /// <param name="vehicle">Vehicle in which a player is exiting</param>
+        /// <param name="Vehicle">Vehicle in which a player is exiting</param>
         /// <param name="Seat">Seat in which the player is exiting the vehicle from</param>
         /// <param name="Point">Point in which the player will be expelled</param>
         /// <param name="Angle">Angle in which the player will be expelled</param>
         /// <param name="ForceUpdate">Whether or not to call PlayerMovement.updateVehicle</param>
-        public delegate void VehicleExitHandler(UnturnedVehicle vehicle, ref SDG.Unturned.Player player, ref bool cancel);
+        public delegate void VehicleExitHandler(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel);
 
         /// <summary>
         /// Handles damage to tires of the vehicle
         /// </summary>
-        /// <param name="vehicle">Vehicle whose tires are being damaged</param>
-        /// <param name="index">Index or tire in which is receiving damage</param>
-        public delegate void VehicleTireDamageHandler(UnturnedVehicle vehicle, ref int index, ref bool cancel);
+        /// <param name="Vehicle">Vehicle whose tires are being damaged</param>
+        /// <param name="Index">Index or tire in which is receiving damage</param>
+        public delegate void VehicleTireDamageHandler(UnturnedVehicle Vehicle, ref int Index, ref bool cancel);
 
         /// <summary>
         /// Handles damage to vehicle
         /// </summary>
-        /// <param name="vehicle">Vehicle receiving damage</param>
-        /// <param name="amount">Amount of damage given to vehicle</param>
-        /// <param name="canRepair">Whether or not the damage can be repaired</param>
-        public delegate void VehicleDamageHandler(UnturnedVehicle vehicle, ref ushort amount, ref bool canRepair, ref bool cancel);
+        /// <param name="Vehicle">Vehicle receiving damage</param>
+        /// <param name="Amount">Amount of damage given to vehicle</param>
+        /// <param name="CanRepair">Whether or not the damage can be repaired</param>
+        public delegate void VehicleDamageHandler(UnturnedVehicle Vehicle, ref ushort Amount, ref bool CanRepair, ref bool cancel);
 
         /// <summary>
         /// Handles repairs to vehicle
         /// </summary>
-        /// <param name="vehicle">Vehicle receiving repairs</param>
-        /// <param name="amount">Amount of health given in repair</param>
-        public delegate void VehicleRepairHandler(UnturnedVehicle vehicle, ref ushort amount, ref bool cancel);
+        /// <param name="Vehicle">Vehicle receiving repairs</param>
+        /// <param name="Amount">Amount of health given in repair</param>
+        public delegate void VehicleRepairHandler(UnturnedVehicle Vehicle, ref ushort Amount, ref bool cancel);
         #endregion
 
         #region Events
@@ -79,18 +79,18 @@ namespace PointBlank.API.Unturned.Vehicle
         #endregion
         
         #region Functions
-        internal static void RunVehicleEnter(UnturnedVehicle vehicle, ref SDG.Unturned.Player player, ref bool cancel) =>
-            OnVehicleEnter?.Invoke(vehicle, ref player, ref cancel);
+        internal static void RunVehicleEnter(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel) =>
+            OnVehicleEnter?.Invoke(Vehicle, ref Player, ref cancel);
 
-        internal static void RunVehicleExit(UnturnedVehicle vehicle, ref SDG.Unturned.Player player, ref bool cancel) =>
-            OnVehicleExit?.Invoke(vehicle, ref player, ref cancel);
+        internal static void RunVehicleExit(UnturnedVehicle Vehicle, ref SDG.Unturned.Player Player, ref bool cancel) =>
+            OnVehicleExit?.Invoke(Vehicle, ref Player, ref cancel);
 
-        internal static void RunVehicleTireDamage(UnturnedVehicle vehicle, ref int index, ref bool cancel) => OnVehicleTireDamage?.Invoke(vehicle, ref index, ref cancel);
+        internal static void RunVehicleTireDamage(UnturnedVehicle Vehicle, ref int Index, ref bool cancel) => OnVehicleTireDamage?.Invoke(Vehicle, ref Index, ref cancel);
 
-        internal static void RunVehicleDamage(UnturnedVehicle vehicle, ref ushort amount, ref bool canRepair, ref bool cancel) =>
-            OnVehicleDamage?.Invoke(vehicle, ref amount, ref canRepair, ref cancel);
+        internal static void RunVehicleDamage(UnturnedVehicle Vehicle, ref ushort Amount, ref bool CanRepair, ref bool cancel) =>
+            OnVehicleDamage?.Invoke(Vehicle, ref Amount, ref CanRepair, ref cancel);
 
-        internal static void RunVehicleRepair(UnturnedVehicle vehicle, ref ushort amount, ref bool cancel) => OnVehicleRepair?.Invoke(vehicle, ref amount, ref cancel);
+        internal static void RunVehicleRepair(UnturnedVehicle Vehicle, ref ushort Amount, ref bool cancel) => OnVehicleRepair?.Invoke(Vehicle, ref Amount, ref cancel);
         #endregion
     }
 }

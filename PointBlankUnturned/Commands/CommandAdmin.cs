@@ -13,7 +13,7 @@ namespace PointBlank.Commands
     public class CommandAdmin : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -33,11 +33,11 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            CSteamID steamId = CSteamID.Nil;
+            CSteamID steamID = CSteamID.Nil;
 
             if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
-                if (!PlayerTool.tryGetSteamID(args[0], out steamId))
+                if (!PlayerTool.tryGetSteamID(args[0], out steamID))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
@@ -45,13 +45,13 @@ namespace PointBlank.Commands
             }
             else
             {
-                steamId = player.SteamId;
+                steamID = player.SteamID;
             }
 
             if (UnturnedPlayer.IsServer(executor))
-                SteamAdminlist.admin(steamId, CSteamID.Nil);
+                SteamAdminlist.admin(steamID, CSteamID.Nil);
             else
-                SteamAdminlist.admin(steamId, ((UnturnedPlayer)executor).SteamId);
+                SteamAdminlist.admin(steamID, ((UnturnedPlayer)executor).SteamID);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Admin_Set"], player), ConsoleColor.Green);
         }
     }

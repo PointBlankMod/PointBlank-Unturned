@@ -4,15 +4,15 @@ using PointBlank.API.Services;
 using PointBlank.API.Collections;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Extension;
-using PointBlank.Framework.Configurations;
+using Config = PointBlank.Framework.Configurations.APIConfigurations;
 
 namespace PointBlank.Services.WebPermissions
 {
     internal class WebPremissions : PointBlankService
     {
         #region Variables
-        private DateTime _lastUpdate;
-        private ConfigurationList _configurations = PointBlankUnturnedEnvironment.ApiConfigurations[typeof(ApiConfigurations)].Configurations;
+        private DateTime LastUpdate;
+        private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties
@@ -27,7 +27,7 @@ namespace PointBlank.Services.WebPermissions
 
         public override void Load()
         {
-            if (!(bool)_configurations["WebPermissions"])
+            if (!(bool)Configurations["WebPermissions"])
                 return;
 
             // Set the events
@@ -36,7 +36,7 @@ namespace PointBlank.Services.WebPermissions
 
         public override void Unload()
         {
-            if (!(bool)_configurations["WebPermissions"])
+            if (!(bool)Configurations["WebPermissions"])
                 return;
 
             // Set the events
@@ -46,12 +46,12 @@ namespace PointBlank.Services.WebPermissions
         #region Thread Functions
         private void DownloadPermissions()
         {
-            if(_lastUpdate == null || (DateTime.Now - _lastUpdate).TotalSeconds > (int)_configurations["WebPermissionsInterval"])
+            if(LastUpdate == null || (DateTime.Now - LastUpdate).TotalSeconds > (int)Configurations["WebPermissionsInterval"])
             {
-                WebsiteData.DownloadFile(string.Format((string)_configurations["WebPermissionsSite"], "SteamGroups.dat"), SteamGroupPath);
-                WebsiteData.DownloadFile(string.Format((string)_configurations["WebPermissionsSite"], "Players.dat"), PlayerPath);
-                WebsiteData.DownloadFile(string.Format((string)_configurations["WebPermissionsSite"], "Groups.dat"), GroupPath);
-                _lastUpdate = DateTime.Now;
+                WebsiteData.DownloadFile(string.Format((string)Configurations["WebPermissionsSite"], "SteamGroups.dat"), SteamGroupPath);
+                WebsiteData.DownloadFile(string.Format((string)Configurations["WebPermissionsSite"], "Players.dat"), PlayerPath);
+                WebsiteData.DownloadFile(string.Format((string)Configurations["WebPermissionsSite"], "Groups.dat"), GroupPath);
+                LastUpdate = DateTime.Now;
             }
         }
         #endregion

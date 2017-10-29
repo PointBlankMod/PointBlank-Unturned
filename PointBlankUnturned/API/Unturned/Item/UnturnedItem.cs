@@ -71,7 +71,7 @@ namespace PointBlank.API.Unturned.Item
         /// <summary>
         /// The item ID
         /// </summary>
-        public ushort Id => Item.id;
+        public ushort ID => Item.id;
         /// <summary>
         /// How durable is the item
         /// </summary>

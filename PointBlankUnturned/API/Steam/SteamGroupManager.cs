@@ -8,14 +8,14 @@ namespace PointBlank.API.Steam
     public static class SteamGroupManager
     {
         #region Variables
-        private static Dictionary<ulong, SteamGroup> _groups = new Dictionary<ulong, SteamGroup>();
+        private static Dictionary<ulong, SteamGroup> _Groups = new Dictionary<ulong, SteamGroup>();
         #endregion
 
         #region Properties
         /// <summary>
         /// The steam group list on the server
         /// </summary>
-        public static SteamGroup[] Groups => _groups.Values.ToArray();
+        public static SteamGroup[] Groups => _Groups.Values.ToArray();
 
         /// <summary>
         /// Is the steam group manager loaded(this is for events)
@@ -30,9 +30,9 @@ namespace PointBlank.API.Steam
         /// <param name="group">The steam group to add</param>
         public static void AddSteamGroup(SteamGroup group)
         {
-            if (_groups.ContainsKey(group.Id))
+            if (_Groups.ContainsKey(group.ID))
                 return;
-            _groups.Add(group.Id, group);
+            _Groups.Add(group.ID, group);
 
             if (Loaded)
                 SteamGroupEvents.RunSteamGroupAdded(group);
@@ -40,15 +40,15 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// Creates and adds a steam group to the server
         /// </summary>
-        /// <param name="id">The ID of the steam group</param>
+        /// <param name="ID">The ID of the steam group</param>
         /// <param name="cooldown">The command cooldown of the steam group</param>
-        public static void AddSteamGroup(ulong id, int cooldown)
+        public static void AddSteamGroup(ulong ID, int cooldown)
         {
-            if (_groups.ContainsKey(id))
+            if (_Groups.ContainsKey(ID))
                 return;
-            SteamGroup group = new SteamGroup(id, cooldown);
+            SteamGroup group = new SteamGroup(ID, cooldown);
 
-            _groups.Add(id, group);
+            _Groups.Add(ID, group);
 
             if (Loaded)
                 SteamGroupEvents.RunSteamGroupAdded(group);
@@ -60,9 +60,9 @@ namespace PointBlank.API.Steam
         /// <param name="group">The group to remove</param>
         public static void RemoveSteamGroup(SteamGroup group)
         {
-            if (!_groups.ContainsValue(group))
+            if (!_Groups.ContainsValue(group))
                 return;
-            _groups.Remove(group.Id);
+            _Groups.Remove(group.ID);
 
             if (Loaded)
                 SteamGroupEvents.RunSteamGroupRemoved(group);
@@ -70,14 +70,14 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// Removes a steam group from the server
         /// </summary>
-        /// <param name="id">The steam group ID to remove</param>
-        public static void RemoveSteamGroup(ulong id)
+        /// <param name="ID">The steam group ID to remove</param>
+        public static void RemoveSteamGroup(ulong ID)
         {
-            if (_groups.ContainsKey(id))
+            if (_Groups.ContainsKey(ID))
                 return;
-            SteamGroup group = _groups[id];
+            SteamGroup group = _Groups[ID];
 
-            _groups.Remove(id);
+            _Groups.Remove(ID);
 
             if (Loaded)
                 SteamGroupEvents.RunSteamGroupRemoved(group);
@@ -86,19 +86,19 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// Finds a steam group in the server and returns it
         /// </summary>
-        /// <param name="id">The steam64 ID of the group</param>
+        /// <param name="ID">The steam64 ID of the group</param>
         /// <returns>The steam group instance</returns>
-        public static SteamGroup Find(ulong id) => Groups.FirstOrDefault(a => a.Id == id);
+        public static SteamGroup Find(ulong ID) => Groups.FirstOrDefault(a => a.ID == ID);
 
         /// <summary>
         /// Tries to find the steam group by ID and returns it
         /// </summary>
-        /// <param name="id">The steam64 of the steam group</param>
+        /// <param name="ID">The steam64 of the steam group</param>
         /// <param name="group">The returned instace of the found steam group</param>
         /// <returns>Has the group been found</returns>
-        public static bool TryFindSteamGroup(ulong id, out SteamGroup group)
+        public static bool TryFindSteamGroup(ulong ID, out SteamGroup group)
         {
-            SteamGroup g = Find(id);
+            SteamGroup g = Find(ID);
 
             group = g;
             return g != null;

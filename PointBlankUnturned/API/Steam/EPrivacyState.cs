@@ -5,9 +5,9 @@
     /// </summary>
     public enum EPrivacyState
     {
-        Public,
-        FriendsOnly,
-        Private,
-        None
+        PUBLIC,
+        FRIENDS_ONLY,
+        PRIVATE,
+        NONE
     }
 }

@@ -32,7 +32,7 @@ namespace PointBlank.API
         /// <summary>
         /// Returns the server ID
         /// </summary>
-        public static string ServerId => Provider.serverID;
+        public static string ServerID => Provider.serverID;
 
         /// <summary>
         /// Returns the server save location
@@ -47,7 +47,7 @@ namespace PointBlank.API
         /// <summary>
         /// Returns if the server is VAC secure or not
         /// </summary>
-        public static bool IsVacSecure => Provider.configData.Server.VAC_Secure;
+        public static bool IsVACSecure => Provider.configData.Server.VAC_Secure;
 
         /// <summary>
         /// Returns the max players allowed on the server
@@ -72,7 +72,7 @@ namespace PointBlank.API
         /// <summary>
         /// Returns if the server is PvP
         /// </summary>
-        public static bool IsPvp => Provider.isPvP;
+        public static bool IsPVP => Provider.isPvP;
 
         /// <summary>
         /// Returns if the server has cheats

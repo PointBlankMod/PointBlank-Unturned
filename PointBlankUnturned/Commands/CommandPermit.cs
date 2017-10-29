@@ -13,7 +13,7 @@ namespace PointBlank.Commands
     public class CommandPermit : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -37,7 +37,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamWhitelist.whitelist(id, args[1], ((UnturnedPlayer)executor)?.SteamId ?? CSteamID.Nil);
+            SteamWhitelist.whitelist(id, args[1], ((UnturnedPlayer)executor)?.SteamID ?? CSteamID.Nil);
             UnturnedChat.SendMessage(executor, string.Format(Translations["Permit_Added"], id), ConsoleColor.Green);
         }
     }

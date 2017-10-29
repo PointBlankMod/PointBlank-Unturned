@@ -53,7 +53,7 @@ namespace PointBlank.API.Unturned.Structure
         /// <summary>
         /// The structure ID
         /// </summary>
-        public ushort Id => Structure.asset.id;
+        public ushort ID => Structure.asset.id;
         /// <summary>
         /// The name of the structure
         /// </summary>
@@ -69,7 +69,7 @@ namespace PointBlank.API.Unturned.Structure
         /// <summary>
         /// ID of structure asset
         /// </summary>
-        public ushort AssetId => Structure.asset.id;
+        public ushort AssetID => Structure.asset.id;
         #endregion
 
         /// <summary>

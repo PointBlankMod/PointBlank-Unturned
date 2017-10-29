@@ -13,7 +13,7 @@ namespace PointBlank.Commands
     public class CommandUnpermit : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -33,11 +33,11 @@ namespace PointBlank.Commands
 
         public override void Execute(PointBlankPlayer executor, string[] args)
         {
-            CSteamID steamId = CSteamID.Nil;
+            CSteamID steamID = CSteamID.Nil;
             
             if(!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
-                if (!PlayerTool.tryGetSteamID(args[0], out steamId))
+                if (!PlayerTool.tryGetSteamID(args[0], out steamID))
                 {
                     UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
@@ -45,15 +45,15 @@ namespace PointBlank.Commands
             }
             else
             {
-                steamId = player.SteamId;
+                steamID = player.SteamID;
             }
 
-            if (!SteamWhitelist.unwhitelist(steamId))
+            if (!SteamWhitelist.unwhitelist(steamID))
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_NotWhitelisted"], steamId), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_NotWhitelisted"], steamID), ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_Unpermit"], steamId), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_Unpermit"], steamID), ConsoleColor.Green);
         }
     }
 }

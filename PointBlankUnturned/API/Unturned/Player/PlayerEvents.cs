@@ -71,11 +71,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Handles player skill upgrades
         /// </summary>
-        /// <param name="player">Player who upgraded their skill</param>
+        /// <param name="Player">Player who upgraded their skill</param>
         /// <param name="Skillset">Skillset in which skill that is being upgraded belongs to</param>
-        /// <param name="skill">Skill being upgraded</param>
-        /// <param name="level">Upgraded level of skill</param>
-        public delegate void PlayerSkillUpgradeHandler(UnturnedPlayer player, Byte specialty, Byte skill, Byte level);
+        /// <param name="Skill">Skill being upgraded</param>
+        /// <param name="Level">Upgraded level of skill</param>
+        public delegate void PlayerSkillUpgradeHandler(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level);
 
         /*/// <summary>
         /// Handles item equipping and deequipping
@@ -181,8 +181,8 @@ namespace PointBlank.API.Unturned.Player
             OnPlayerKill(damager, ref cause, ref ply);
         }
 
-        internal static void RunPlayerSkillUpgrade(UnturnedPlayer player, Byte specialty, Byte skill, Byte level) =>
-            OnPlayerSkillUpgrade?.Invoke(player, specialty, skill, level);
+        internal static void RunPlayerSkillUpgrade(UnturnedPlayer Player, Byte Specialty, Byte Skill, Byte Level) =>
+            OnPlayerSkillUpgrade?.Invoke(Player, Specialty, Skill, Level);
 
         /*internal static void RunItemEquip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemEquip?.Invoke(player, item);
         internal static void RunItemDeequip(UnturnedPlayer player, UnturnedStoredItem item) => OnPlayerItemDeequip?.Invoke(player, item);

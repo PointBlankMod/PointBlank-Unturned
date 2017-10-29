@@ -20,7 +20,7 @@ namespace PointBlank.API.Unturned.Zombie
         /// <summary>
         /// The zombie's ID
         /// </summary>
-        public ushort Id => Zombie.id;
+        public ushort ID => Zombie.id;
         /// <summary>
         /// Is the zombie a boss zombie
         /// </summary>
@@ -64,19 +64,19 @@ namespace PointBlank.API.Unturned.Zombie
         /// <summary>
         /// The zombie's shirt item ID
         /// </summary>
-        public ushort ShirtId => LevelZombies.tables[Type].slots[0].table[Zombie.shirt].item;
+        public ushort ShirtID => LevelZombies.tables[Type].slots[0].table[Zombie.shirt].item;
         /// <summary>
         /// The zombie's pants item ID
         /// </summary>
-        public ushort PantsId => LevelZombies.tables[Type].slots[1].table[Zombie.pants].item;
+        public ushort PantsID => LevelZombies.tables[Type].slots[1].table[Zombie.pants].item;
         /// <summary>
         /// The zombie's hat item ID
         /// </summary>
-        public ushort HatId => LevelZombies.tables[Type].slots[2].table[Zombie.hat].item;
+        public ushort HatID => LevelZombies.tables[Type].slots[2].table[Zombie.hat].item;
         /// <summary>
         /// The zombie's gear item ID
         /// </summary>
-        public ushort GearId => LevelZombies.tables[Type].slots[3].table[Zombie.gear].item;
+        public ushort GearID => LevelZombies.tables[Type].slots[3].table[Zombie.gear].item;
         /// <summary>
         /// Is the zombie dead
         /// </summary>

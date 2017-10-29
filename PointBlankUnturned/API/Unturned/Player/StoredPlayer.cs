@@ -8,11 +8,11 @@ namespace PointBlank.API.Unturned.Player
     {
         #region Properties
 
-        public CSteamID SteamId;
+        public CSteamID SteamID;
 
         public List<String> CharacterNames;
 
-        public List<String> Ps;
+        public List<String> IPs;
 
         public List<String> SteamNames;
 
@@ -20,11 +20,11 @@ namespace PointBlank.API.Unturned.Player
         
         #endregion
         
-        public StoredPlayer(CSteamID steamId, List<String> characterNames, List<String> ips, List<String> steamNames, DateTime lastLogin)
+        public StoredPlayer(CSteamID steamID, List<String> characterNames, List<String> ips, List<String> steamNames, DateTime lastLogin)
         {
-            SteamId = steamId;
+            SteamID = steamID;
             CharacterNames = characterNames;
-            Ps = ips;
+            IPs = ips;
             SteamNames = steamNames;
             LastLogin = lastLogin;
         }

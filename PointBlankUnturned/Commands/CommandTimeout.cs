@@ -11,12 +11,12 @@ namespace PointBlank.Commands
     public class CommandTimeout : PointBlankCommand
     {
         #region Info
-        private static readonly ushort MinNumber = 50;
-        private static readonly ushort MaxNumber = 10000;
+        private static readonly ushort MIN_NUMBER = 50;
+        private static readonly ushort MAX_NUMBER = 10000;
         #endregion
 
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -39,14 +39,14 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Timeout_Invalid"], ConsoleColor.Red);
                 return;
             }
-            if(timeout > MaxNumber)
+            if(timeout > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Timeout_TooHigh"], MaxNumber), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Timeout_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
-            else if(timeout < MinNumber)
+            else if(timeout < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Timeout_TooLow"], MinNumber), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Timeout_TooLow"], MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
 

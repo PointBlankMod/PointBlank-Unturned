@@ -21,7 +21,7 @@ using Typ = SDG.Unturned.Types;
 
 namespace PointBlank.Services.APIManager
 {
-    internal class ApiManager : PointBlankService
+    internal class APIManager : PointBlankService
     {
         #region Properties
         public override int LaunchIndex => 2;
@@ -120,16 +120,16 @@ namespace PointBlank.Services.APIManager
         private void OnItemDropAdded(Transform model, InteractableItem item) => ServerEvents.RunItemCreated(item);
         private void OnItemDropRemoved(Transform model, InteractableItem item) => ServerEvents.RunItemRemoved(UnturnedItem.Create(item));
 
-        private void OnPlayerPreConnect(ValidateAuthTicketResponse_t authTicket, ref bool valid)
+        private void OnPlayerPreConnect(ValidateAuthTicketResponse_t AuthTicket, ref bool valid)
         {
             ESteamRejection? reject = null;
 
             try
             {
-                ServerEvents.RunPlayerPreConnect(authTicket.m_SteamID, ref reject);
+                ServerEvents.RunPlayerPreConnect(AuthTicket.m_SteamID, ref reject);
                 if (reject.HasValue)
                 {
-                    Provider.reject(authTicket.m_SteamID, reject.Value);
+                    Provider.reject(AuthTicket.m_SteamID, reject.Value);
                     valid = false;
                 }
             }
@@ -141,10 +141,12 @@ namespace PointBlank.Services.APIManager
         private void OnPlayerJoin(UnturnedPlayer player)
         {
             PointBlankGroup[] groups = PointBlankGroupManager.Groups.Where(a => a.Default).ToArray();
-			
+
+            player.Loaded = false;
             foreach (PointBlankGroup g in groups)
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
+            player.Loaded = true;
 
             UnturnedServer.Players.ForEach((ply) =>
             {
@@ -153,10 +155,7 @@ namespace PointBlank.Services.APIManager
                 if (!ply.PlayerList.Contains(player))
                     ply.AddPlayer(player, false);
             });
-
-			player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
-			player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
-		}
+        }
         private void OnPlayerLeave(UnturnedPlayer player)
         {
             UnturnedServer.Players.ForEach((ply) =>
@@ -179,7 +178,7 @@ namespace PointBlank.Services.APIManager
         }
         private void OnListPlayerRemove(UnturnedPlayer player, UnturnedPlayer target)
         {
-            Provider.send(player.SteamId, ESteamPacket.DISCONNECTED, new byte[]
+            Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
             {
                 (byte)12,
                 (byte)(Provider.clients.FindIndex(a => a == target.SteamPlayer))
@@ -193,17 +192,17 @@ namespace PointBlank.Services.APIManager
             byte[] bytes = SteamPacker.getBytes(0, out int size, new object[]
             {
                 (byte)11,
-                target.SteamPlayerId.steamID,
-                target.SteamPlayerId.characterID,
+                target.SteamPlayerID.steamID,
+                target.SteamPlayerID.characterID,
                 target.PlayerName,
-				target.GetPrefix() + target.UnturnedCharacterName + target.GetSuffix(),
+                target.CharacterName,
                 target.SteamPlayer.model.transform.position,
                 (byte)(target.SteamPlayer.model.transform.rotation.eulerAngles.y / 2f),
                 target.SteamPlayer.isPro,
                 target.SteamPlayer.isAdmin && !Provider.hideAdmins,
                 target.SteamPlayer.channel,
                 target.SteamPlayer.playerID.group,
-				target.GetPrefix() + target.UnturnedNickName + target.GetSuffix(),
+                target.NickName,
                 target.SteamPlayer.face,
                 target.SteamPlayer.hair,
                 target.SteamPlayer.beard,
@@ -222,7 +221,7 @@ namespace PointBlank.Services.APIManager
                 target.SteamPlayer.language
             });
 
-            Provider.send(player.SteamId, ESteamPacket.CONNECTED, bytes, size, 0);
+            Provider.send(player.SteamID, ESteamPacket.CONNECTED, bytes, size, 0);
         }
         private void OnPrefixChange(UnturnedPlayer player, string prefix)
         {
@@ -231,11 +230,11 @@ namespace PointBlank.Services.APIManager
 
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
-                if (UnturnedServer.Players[i].SteamId == player.SteamId)
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
-				UnturnedServer.Players[i].RemovePlayer(player);
-				UnturnedServer.AddPlayer(player);
+                UnturnedServer.Players[i].RemovePlayer(player);
+                UnturnedServer.Players[i].AddPlayer(player);
             }
         }
         private void OnSuffixChange(UnturnedPlayer player, string suffix)
@@ -245,7 +244,7 @@ namespace PointBlank.Services.APIManager
 
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
-                if (UnturnedServer.Players[i].SteamId == player.SteamId)
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
                 UnturnedServer.Players[i].RemovePlayer(player);
@@ -260,7 +259,7 @@ namespace PointBlank.Services.APIManager
 
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
-                if (UnturnedServer.Players[i].SteamId == player.SteamId)
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
                     continue;
 
                 UnturnedServer.Players[i].RemovePlayer(player);
@@ -300,7 +299,7 @@ namespace PointBlank.Services.APIManager
 
         private void OnServerInitialized()
         {
-            SteamGameServer.SetKeyValue("unturned", Provider.APP_VERSION);
+            SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
             string plugins = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a)).ToArray());
             string pluginsRocket = string.Join(",", PointBlankPluginManager.LoadedPlugins.Select(a => PointBlankPluginManager.GetPluginName(a) + " - PointBlank").ToArray());
@@ -308,11 +307,11 @@ namespace PointBlank.Services.APIManager
             SteamGameServer.SetKeyValue("rocketplugins", "PointBlank - not really a Rocket plugin but a mod loader," + pluginsRocket); // Since unturned only supports the rocket plugin list I need to use this
             PointBlankServer.IsRunning = true;
         }
-        private void OnPacketSend(ref CSteamID steamId, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
+        private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
             if (type == ESteamPacket.CONNECTED)
             {
-                object[] info = SteamPacker.getObjects(steamId, 0, 0, packet, new Type[]
+                object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
                 {
                     Typ.BYTE_TYPE,
                     Typ.STEAM_ID_TYPE,
@@ -345,7 +344,7 @@ namespace PointBlank.Services.APIManager
                 });
                 UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 
-                if (player.SteamId != steamId)
+                if (player.SteamID != steamID)
                 {
                     info[3] = player.PlayerName;
                     info[4] = player.CharacterName;
@@ -362,7 +361,7 @@ namespace PointBlank.Services.APIManager
             }
             else if(type == ESteamPacket.DISCONNECTED)
             {
-                UnturnedPlayer player = UnturnedPlayer.Get(steamId);
+                UnturnedPlayer player = UnturnedPlayer.Get(steamID);
                 SteamPlayer target = Provider.clients[packet[1]];
 
                 packet[1] = (byte)Array.FindIndex(player.PlayerList, a => a.SteamPlayer == target);

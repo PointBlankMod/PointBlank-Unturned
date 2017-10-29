@@ -11,11 +11,11 @@ namespace PointBlank.Commands
     public class CommandQueue : PointBlankCommand
     {
         #region Info
-        private static readonly byte MaxNumber = 64;
+        private static readonly byte MAX_NUMBER = 64;
         #endregion
 
         #region Properties
-        public TranslationList Translations = PointBlankUnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {
@@ -38,9 +38,9 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translations["Queue_Invalid"], ConsoleColor.Red);
                 return;
             }
-            if(queue > MaxNumber)
+            if(queue > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translations["Queue_TooHigh"], MaxNumber), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Queue_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
 
