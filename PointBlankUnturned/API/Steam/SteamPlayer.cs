@@ -98,7 +98,7 @@ namespace PointBlank.API.Steam
 
                             if (group == null)
                             {
-                                group = new SteamGroup(i, -1, false, true);
+                                group = new SteamGroup(i, false, true);
                                 SteamGroupManager.AddSteamGroup(group);
                             }
                             groups.Add(group);

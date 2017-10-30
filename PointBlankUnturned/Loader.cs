@@ -3,6 +3,7 @@ using SDG.Unturned;
 using PointBlank.API.Server;
 using PointBlank.API;
 using PointBlank.API.Unturned.Server;
+using PointBlank.API.Console;
 
 namespace PointBlank
 {
@@ -51,6 +52,11 @@ namespace PointBlank
             PointBlank.Initialize();
             Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
             ServerEvents.RunServerInitialized();
+
+            PointBlankConsoleEvents.OnConsoleInput += delegate (string text)
+            {
+                CommandWindow.input.onInputText(text);
+            };
         }
         #endregion
     }

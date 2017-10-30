@@ -16,6 +16,6 @@ namespace PointBlank.Framework.Configurations
             { "WebPermissionsInterval", 600 },
         };
 
-        public override Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.APIConfigurations;
+        public override Dictionary<Type, IConfigurable> ConfigurationDictionary => UnturnedEnvironment.APIConfigurations;
     }
 }

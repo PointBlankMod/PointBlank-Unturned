@@ -12,7 +12,7 @@ namespace PointBlank.Services.WebPermissions
     {
         #region Variables
         private DateTime LastUpdate;
-        private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
+        private ConfigurationList Configurations = UnturnedEnvironment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties

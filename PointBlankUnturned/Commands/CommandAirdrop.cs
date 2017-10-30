@@ -11,7 +11,7 @@ namespace PointBlank.Commands
     public class CommandAirdrop : PointBlankCommand
     {
         #region Properties
-        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+        public TranslationList Translations = UnturnedEnvironment.ServiceTranslations[typeof(Translation)].Translations;
 
         public override string[] DefaultCommands => new string[]
         {

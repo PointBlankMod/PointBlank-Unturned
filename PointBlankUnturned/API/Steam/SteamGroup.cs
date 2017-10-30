@@ -63,34 +63,11 @@ namespace PointBlank.API.Steam
         public string[] Suffixes => _Suffixes.ToArray();
 
         /// <summary>
-        /// The group cooldown for commands
-        /// </summary>
-        public int Cooldown { get; set; }
-
-        /// <summary>
         /// Should the group be ignored while saving
         /// </summary>
         public bool Ignore { get; private set; }
         #endregion
 
-        /// <summary>
-        /// The steam group instance using async
-        /// </summary>
-        /// <param name="id">The ID of the steam group</param>
-        /// <param name="cooldown">The default cooldown for the steam group</param>
-        /// <param name="downloadData">Should the information for the steam group be downloaded</param>
-        /// <param name="ignore">Should the group be ignored while saving</param>
-        public SteamGroup(ulong id, int cooldown = -1, bool downloadData = false, bool ignore = true)
-        {
-            // Set the variables
-            this.ID = id;
-            this.Cooldown = cooldown;
-            this.Ignore = ignore;
-
-            // Run the code
-            if (downloadData)
-                DownloadData();
-        }
         /// <summary>
         /// The steam group instance using async
         /// </summary>

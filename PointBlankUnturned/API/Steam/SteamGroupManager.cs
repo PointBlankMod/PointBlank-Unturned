@@ -42,11 +42,11 @@ namespace PointBlank.API.Steam
         /// </summary>
         /// <param name="ID">The ID of the steam group</param>
         /// <param name="cooldown">The command cooldown of the steam group</param>
-        public static void AddSteamGroup(ulong ID, int cooldown)
+        public static void AddSteamGroup(ulong ID)
         {
             if (_Groups.ContainsKey(ID))
                 return;
-            SteamGroup group = new SteamGroup(ID, cooldown);
+            SteamGroup group = new SteamGroup(ID);
 
             _Groups.Add(ID, group);
 

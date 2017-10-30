@@ -17,7 +17,7 @@ namespace PointBlank.Services.APIManager
     internal class InfoManager : PointBlankService
     {
         #region Variables
-        private ConfigurationList Configurations = Enviroment.APIConfigurations[typeof(Config)].Configurations;
+        private ConfigurationList Configurations = UnturnedEnvironment.APIConfigurations[typeof(Config)].Configurations;
         #endregion
 
         #region Properties
@@ -93,7 +93,6 @@ namespace PointBlank.Services.APIManager
                     g.RemovePrefix(g.Prefixes[0]);
                 while (g.Suffixes.Length > 0)
                     g.RemoveSuffix(g.Suffixes[0]);
-                g.Cooldown = (int)obj["Cooldown"];
                 if (obj["Inherits"] is JArray)
                 {
                     foreach(JToken token in (JArray)obj["Inherits"])
@@ -179,7 +178,7 @@ namespace PointBlank.Services.APIManager
             SteamGroupConfig.Document.Add("SteamGroups", new JArray());
 
             // Ceate the groups
-            SteamGroup group = new SteamGroup(103582791437463178, -1, false, false);
+            SteamGroup group = new SteamGroup(103582791437463178, false, false);
 
             // Configure steam group
             group.AddPermission("unturned.commands.noadmin.*");
@@ -206,7 +205,6 @@ namespace PointBlank.Services.APIManager
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
                     obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID.ToString()));
-                    obj["Cooldown"] = g.Cooldown;
                 }
                 else
                 {
@@ -217,7 +215,6 @@ namespace PointBlank.Services.APIManager
                     ((JObject)obj).Add("Prefixes", JToken.FromObject(g.Prefixes));
                     ((JObject)obj).Add("Suffixes", JToken.FromObject(g.Suffixes));
                     ((JObject)obj).Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
-                    ((JObject)obj).Add("Cooldown", g.Cooldown);
 
                     ((JArray)SteamGroupConfig.Document["SteamGroups"]).Add(obj);
                 }
