@@ -232,11 +232,9 @@ namespace PointBlank.Services.APIManager
 
             foreach(UnturnedPlayer player in UnturnedServer.Players)
             {
-                if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
-                    continue;
                 JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
-                if(token != null)
+                if (token != null)
                 {
                     token["Permissions"] = JToken.FromObject(player.Permissions);
                     token["Prefixes"] = JToken.FromObject(player.Prefixes);
@@ -247,6 +245,9 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
+                    if (player.Groups.Count(a => !a.Default) < 1 && player.Prefixes.Length < 1 && player.Suffixes.Length < 1 && player.Permissions.Length < 1)
+                        continue;
+
                     JObject obj = new JObject
                     {
                         {"Steam64", player.SteamID.ToString()},

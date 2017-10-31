@@ -25,7 +25,7 @@ namespace PointBlank.Framework.Overrides
             PointBlankDetourManager.CallOriginal(mi_init, vehicle, new object[0]);
         }
         
-        [Detour(typeof(InteractableVehicle), "askDamageTire", BindingFlags.Public | BindingFlags.Instance)]
+        [Detour(typeof(InteractableVehicle), "askDamageTire", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static)]
         public static void askDamageTire(this InteractableVehicle Vehicle, int index)
         {
             if (index < 0)
@@ -41,7 +41,7 @@ namespace PointBlank.Framework.Overrides
                 PointBlankDetourManager.CallOriginal(mi_askDamageTire, Vehicle, index);
         }
         
-        [Detour(typeof(InteractableVehicle), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
+        [Detour(typeof(InteractableVehicle), "askDamage", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static)]
         public static void askDamage(this InteractableVehicle Vehicle, ushort amount, bool canRepair)
         {
             if (amount == 0) return;
