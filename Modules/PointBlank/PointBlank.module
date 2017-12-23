@@ -5,7 +5,7 @@
 	"Assemblies":
 	[
 		{
-			"Path": "/PointBlankUnturned.dll",
+			"Path": "/PointBlank-Unturned.dll",
 			"Role": "Server"
 		}
 	],
