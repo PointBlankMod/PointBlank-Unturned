@@ -44,9 +44,6 @@ namespace PointBlank_Unturned
             PointBlank.PointBlank.LoadPointBlank();
 
             Dedicator.commandWindow.title = PointBlank.PointBlankInfo.Name + " v" + PointBlank.PointBlankInfo.Version;
-
-            PointBlank.API.Logging.PointBlankLogging.Log("Normal Log!");
-            PointBlank.API.Logging.PointBlankLogging.LogImportant("Important log!");
         }
         #endregion
     }
